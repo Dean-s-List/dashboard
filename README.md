@@ -1,6 +1,6 @@
-# deans-list-web
+# deans-list-dashboard-app
 
-**Dean’s List  - serviceDAO website Spec**
+**Dean’s List  - serviceDAO app Spec**
 
 **Overview:** The website was first started as part a Solana Foundation Grant. On top of this foundation we are building a dedicated landing page/portal for citizens and clients to join and work with the Dean’s List Network State. 
 
