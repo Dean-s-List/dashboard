@@ -49,7 +49,9 @@ const Dashboard: NextPage = () => {
           <>
             <SideBar />
             <MainFrame />
-            <RightPanel />
+            <div className="hidden md:flex">
+              <RightPanel />
+            </div>
           </>
         ) : (
           <div className="flex h-full w-full items-center justify-center text-center">

@@ -116,26 +116,26 @@ const formatter = new Intl.NumberFormat("en-US", {
 const PaymentTable: FC = () => {
   const [myPayments, setMyPayments] = useState(payments);
   return (
-    <table className="w-[100%] rounded-xl bg-[#0d0d0f] shadow-xl">
+    <table className="w-[100%] rounded-xl bg-primary-dark shadow-xl">
       {/* HEADER */}
-      <tr className="flex w-[100%] border-b text-center">
-        <th className="lg:text-md flex w-[80%] items-center justify-center py-1 text-sm">
+      <tr className="flex w-[100%] text-center">
+        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
           Type
         </th>
-        <th className="lg:text-md flex w-[100%] items-center justify-center py-1 text-sm">
+        <th className="lg:text-md flex w-[100%] items-center justify-center py-2 text-sm">
           Description
         </th>
-        <th className="lg:text-md flex w-[80%] items-center justify-center py-1 text-sm">
+        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
           Amount
         </th>
-        <th className="lg:text-md flex w-[80%] items-center justify-center py-1 text-sm">
+        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
           Date
         </th>
       </tr>
       {/* ROWS MAP */}
       {myPayments &&
         myPayments.map(({ id, type, description, amount, date, time }) => (
-          <tr className="flex w-[100%] border-b text-center" key={id}>
+          <tr className="flex w-[100%] border-t text-center" key={id}>
             <td className="flex w-[80%] items-center justify-center py-1">
               {type === PaymentType.Card && (
                 <div className="flex w-[100%] items-center justify-center">

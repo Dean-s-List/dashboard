@@ -30,7 +30,7 @@ const feedbacks: Feedback[] = [
 const FeedbackTable: FC = () => {
   const [feedback, setFeedback] = useState(feedbacks);
   return (
-    <table className="w-[100%] rounded-lg bg-[#0d0d0f] shadow-xl">
+    <table className="w-[100%] rounded-lg">
       <tr className="flex w-[100%] text-center">
         <th className="flex w-[100%] items-center justify-center py-1">
           <span className="mr-2">{drawSVGUser()}</span>Team Member

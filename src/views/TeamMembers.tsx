@@ -39,14 +39,14 @@ const TeamMembers: FC = () => {
 
   return (
     // <div className="mx-auto mt-4  shadow-xl md:mr-4"></div>
-    <div className="mt-4 w-screen rounded-xl border-2 bg-[#0d0d0f] p-3 shadow-xl md:mr-4 md:w-auto">
+    <div className="mt-4 w-screen rounded-xl bg-primary-dark p-4 shadow-xl md:mr-8 md:w-auto">
       <div className="flex font-bold">
         Team Members <span className="pl-3">{drawSVGInfo(6)}</span>
       </div>
       <ul className="w-full">
         {team.map(({ id, avatar, name }) => (
           <li className="ml-0 list-none" key={id}>
-            <div className="flex flex h-[65.7px] w-full items-center justify-center rounded-xl border bg-[#282323]">
+            <div className="flex flex h-[65.7px] w-full items-center justify-center rounded-xl bg-primary-darker shadow-md">
               <div className="ml-[5%] flex w-[25%]">
                 {/* AVATAR */}
                 <div className=" avatar">

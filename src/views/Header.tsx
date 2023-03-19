@@ -8,13 +8,13 @@ const servicePackage = {
 const Header: FC = () => (
   <div className="container flex w-[100%] items-center justify-center space-x-4 text-left">
     {/* PANEL LEFT */}
-    <div className="h-[200px] w-[50%] rounded-xl border-2 bg-[#0d0d0f] shadow-xl">
+    <div className="h-[200px] w-[50%] rounded-xl bg-primary-dark shadow-xl">
       <div className="m-3 font-bold text-stone-600">SERVICE PACKAGE</div>
       <div className="m-3 mt-8 text-xl font-bold">The Main Event</div>
       <div className="m-3 mt-8 text-xl font-bold text-stone-600">$2,500</div>
     </div>
     {/* PANEL RIGHT */}
-    <div className="h-[200px] w-[50%] rounded-xl border-2 bg-[#0d0d0f] shadow-xl">
+    <div className="h-[200px] w-[50%] rounded-xl bg-primary-dark shadow-xl">
       <div className="m-3 font-bold text-stone-600">FEEDBACK PROJECT</div>
       <div className="m-3 mt-8 text-xl font-bold">Backpack</div>
       <div className="m-3 mt-8 flex items-center text-xl font-bold text-stone-600">

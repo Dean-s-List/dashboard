@@ -19,8 +19,8 @@ module.exports = {
         "primary-light-hover": "#dfe2e5",
         "primary-light-active": "#bec3c9",
 
-        "secondary": "#3498db",
-        "secondary-hover": "#2f89c5",
+        "secondary-100": "#3498db",
+        "secondary-200": "#2f89c5",
         "secondary-active": "#2a7aaf",
         "secondary-dark": "#2772a4",
         "secondary-dark-hover": "#1f5b83",
