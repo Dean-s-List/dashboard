@@ -116,9 +116,9 @@ const SideBar: FC = () => (
           <span className="text-sm">JOIN NOW</span>
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 w-[23vh]">
-        <ul className="menu menu bottom-0 w-full bg-black ">
-          <li className="ml-0 w-[100%] p-0 text-xs font-bold uppercase">
+      <div className="absolute bottom-0 left-0 w-[100%] max-w-[23vh]">
+        <ul className="menu menu bottom-0 w-full bg-normal">
+          <li className="ml-0 p-0 text-xs font-bold uppercase">
             <a className="">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
