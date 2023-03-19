@@ -27,6 +27,11 @@ const teamMembers: TeamMember[] = [
       "https://cdn.discordapp.com/avatars/836040289008877578/92b7e6b5c101b3b4949376a288acab76.webp?size=80",
     name: "Nanko.Sol",
   },
+  {
+    id: 3,
+    avatar: "https://cdn.discordapp.com/avatars/845942875678310411/2f2223dccdc6389fb16f677dc2a92740.webp?size=80",
+    name: "Readollar",
+  }
 ];
 
 const TeamMembers: FC = () => {

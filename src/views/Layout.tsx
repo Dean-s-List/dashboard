@@ -18,10 +18,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div
-      className="relative flex min-h-screen w-full flex-col bg-black text-white"
+      className="relative flex min-h-screen w-full flex-col bg-primary-dark text-white"
       data-theme="deanslist"
     >
-      <div className="flex h-[67.5px] w-full items-center justify-between border-b border-[#111] px-4 font-tt text-3xl">
+      <div className="flex h-[67.5px] w-full items-center justify-between px-4 font-tt text-3xl">
         <Link href={"/"}>
           <Image
             src={"/images/logo-dl.png"}

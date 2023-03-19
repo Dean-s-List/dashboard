@@ -3,9 +3,9 @@ import type { FC } from "react";
 
 const SideBar: FC = () => (
   <>
-    <div className="md:max-w-[20vw]-xl bg-normal static ml-0 hidden h-full min-h-[80vh] w-[15vw] self-start border-r md:block">
+    <div className="md:max-w-[20vw]-xl bg-primary-dark static ml-0 hidden h-full min-h-[80vh] w-[15vw] self-start border-r md:block">
       <div className="flex">
-        <ul className="bg-normal menu w-full">
+        <ul className="bg-primary-dark menu w-full">
           <li className="ml-0 p-0 text-xs font-bold uppercase">
             <a className="active">
               <svg
@@ -103,7 +103,7 @@ const SideBar: FC = () => (
           </li>
         </ul>
       </div>
-      <div className="mx-auto flex h-60 w-[88%] flex-col items-center justify-center rounded-xl bg-[#171d25] px-1 text-center">
+      <div className="mx-auto flex h-60 w-[88%] flex-col items-center justify-center rounded-xl bg-primary-dark px-1 text-center">
         <Image
           src="/images/community.png"
           height={100}
