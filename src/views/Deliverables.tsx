@@ -78,7 +78,7 @@ const Deliverables: FC = () => {
                 </div>
               </div>
               <div className="flex w-[100%] text-center flex flex-col justify-center">
-                <div className="w-full text-sm">{`${name}`}</div>
+                <div className="w-full text-md font-bold">{`${name}`}</div>
                 <div className="w-full text-xs">{`${date}`}</div>
               </div>
               <div className="flex w-[25%] gap-4 text-center pr-2">
