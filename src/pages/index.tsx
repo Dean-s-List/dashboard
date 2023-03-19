@@ -34,6 +34,7 @@ const Dashboard: NextPage = () => {
       Hodl({ userPubkey, tokenPubkey: TOKEN_GATE_PUBKEY })
         .then((holder: Holder) => {
           setHolder(holder);
+          console.log(holder)
         })
         .catch((error) => {
           console.log(error);

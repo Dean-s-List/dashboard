@@ -10,11 +10,11 @@ const TREASURY_MINT = new PublicKey(
 
 export { endpoint, connection, USDC_MINT, TREASURY_MINT };
 
-export const RPC_URL = process.env.RPC_URL as string;
+export const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL as string || "https://rpc.ankr.com/solana";
 
 export const TOKEN_GATE_PUBKEY = new PublicKey(
-  (process.env.TOKEN_GATE_ADDRESS as string) ||
-    "6LyW1iUpfTPiMxSLMpKCxeAqXDz7nuWCfCNnEaSmibZ1"
+  (process.env.NEXT_PUBLIC_TOKEN_GATE_ADDRESS as string) ||
+    "8KEXE7rw4T8RYmCkk566efv54aeqG7fR9M7iiM4MUtvW"
 );
 
 export const CANDY_MACHINE_ID = process.env
