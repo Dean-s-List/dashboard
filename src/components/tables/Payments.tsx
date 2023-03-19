@@ -128,7 +128,7 @@ const PaymentTable: FC = () => {
         <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
           Amount
         </th>
-        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
+        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm pr-4">
           Date
         </th>
       </tr>
@@ -169,7 +169,7 @@ const PaymentTable: FC = () => {
                 <div className="text-xs text-stone-600 md:text-sm">{time}</div>
               </div>
 
-              <div>{drawSVGDots()}</div>
+              <div className="pr-4">{drawSVGDots()}</div>
             </td>
           </tr>
         ))}

@@ -3,7 +3,7 @@ import type { FC } from "react";
 
 const SideBar: FC = () => (
   <>
-    <div className="md:max-w-[20vw]-xl bg-primary-dark static ml-0 hidden h-full min-h-[80vh] w-[15vw] self-start md:block">
+    <div className="md:max-w-[20vw]-xl bg-primary-dark static ml-0 hidden h-[100vh] max-h-[100vh] w-[15vw] self-start md:block">
       <div className="flex">
         <ul className="bg-primary-dark menu w-full">
           <li className="ml-0 p-0 text-xs font-bold uppercase">
@@ -116,7 +116,7 @@ const SideBar: FC = () => (
           <span className="text-sm">JOIN NOW</span>
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 w-[100%] max-w-[23vh]">
+      <div className="relative bottom-0 left-0 w-[100%] max-w-[23vh]">
         <ul className="menu menu bottom-0 w-full bg-normal">
           <li className="ml-0 p-0 text-xs font-bold uppercase">
             <a className="">
