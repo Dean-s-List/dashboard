@@ -1,8 +1,6 @@
 import { Toaster } from "react-hot-toast";
 // Components
 import WalletProvider from "@/components/wallet/Provider";
-// Api
-import { api } from "@/tools/api";
 // Stylesheet
 require("@solana/wallet-adapter-react-ui/styles.css");
 import "../styles/globals.css";
@@ -22,16 +20,19 @@ const tt = localFont({
 });
 // Types
 import type { AppType } from "next/dist/shared/lib/utils";
+import { MetaplexProvider } from "@/contexts/MetaplexProvider";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <main className={`${tt.variable} ${space.variable}`}>
       <Toaster />
       <WalletProvider>
-        <Component {...pageProps} />
+        <MetaplexProvider>
+          <Component {...pageProps} />
+        </MetaplexProvider>
       </WalletProvider>
     </main>
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;

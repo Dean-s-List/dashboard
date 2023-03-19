@@ -16,3 +16,6 @@ export const TOKEN_GATE_PUBKEY = new PublicKey(
   (process.env.TOKEN_GATE_ADDRESS as string) ||
     "6LyW1iUpfTPiMxSLMpKCxeAqXDz7nuWCfCNnEaSmibZ1"
 );
+
+export const CANDY_MACHINE_ID = process.env
+  .NEXT_PUBLIC_CANDY_MACHINE_ID as string;

@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 // Solana
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-// Components
+// Hooks
+import { useMetaplex } from "@/contexts/MetaplexContext";
+// Views
 import Layout from "@/views/Layout";
 import SideBar from "@/views/SideBar";
 import MainFrame from "@/views/MainFrame";
@@ -17,14 +19,18 @@ import type { NextPage } from "next";
 import { Holder } from "@/types";
 
 const Dashboard: NextPage = () => {
-  const { publicKey } = useWallet();
+  const { metaplex } = useMetaplex();
+  const wallet = useWallet();
+
   // States
   const [loading, setLoading] = useState(true);
   const [holder, setHolder] = useState<Holder>(Holder.Nay);
 
+  const [nft, setNft] = useState(null);
+
   useEffect(() => {
-    if (publicKey) {
-      const userPubkey = new PublicKey(publicKey);
+    if (wallet.publicKey) {
+      const userPubkey = new PublicKey(wallet.publicKey);
       Hodl({ userPubkey, tokenPubkey: TOKEN_GATE_PUBKEY })
         .then((holder: Holder) => {
           setHolder(holder);
@@ -33,7 +39,8 @@ const Dashboard: NextPage = () => {
           console.log(error);
         });
     }
-  }, [publicKey]);
+  }, [wallet.publicKey]);
+
   return (
     <Layout>
       <div className="max-w-screen flex min-h-[80vh] w-[100%] bg-[#171717]">
