@@ -5,7 +5,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 // Components
 import Wallet from "@/components/wallet";
 // Utils
-import { api } from "@/tools/api";
 import Image from "next/image";
 
 // Default styles that can be overridden by your app

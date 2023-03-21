@@ -12,15 +12,13 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 // Packages
 import { perks, packages } from "../../packages";
-// Api
-import { api } from "@/tools/api";
 // Components
 import Layout from "@/views/Layout";
 import Pay from "@/components/create/Pay";
 // UI
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 // Constants
-import { connection, TREASURY_MINT, USDC_MINT } from "@/constants";
+// import { connection, TREASURY_MINT, USDC_MINT } from "@/constants";
 
 const Create = () => {
   const [selected, setSelected] = useState<number>(1);
@@ -41,42 +39,42 @@ const Create = () => {
     setContact(e.target.value);
   };
 
-  const { data, mutate } = api.client.createProject.useMutation({
-    onError(error) {
-      console.log(error);
-      toast.error("A fatal error occoured, please contact us on Discord");
-    },
-    onSuccess: () => {
-      toast.success("Feedback Request Created");
-      window.location.href = "/dashboard";
-    },
-  });
+  //const { data, mutate } = api.client.createProject.useMutation({
+  //  onError(error: Error) {
+  //    console.log(error);
+  //    toast.error("A fatal error occoured, please contact us on Discord");
+  //  },
+  //  onSuccess: () => {
+  //    toast.success("Feedback Request Created");
+  //    window.location.href = "/dashboard";
+  //  },
+  //});
 
-  const { publicKey } = useWallet();
+  //const { publicKey } = useWallet();
 
-  useEffect(() => {
-    if (transaction && !data) {
-      mutate({
-        publicKey: publicKey!.toBase58(),
-        data: {
-          name: name!,
-          description: description!,
-          contact: contact!,
-          package: packages[selected]!.id,
-          transaction,
-        },
-      });
-    }
-  }, [
-    transaction,
-    data,
-    mutate,
-    publicKey,
-    name,
-    description,
-    contact,
-    selected,
-  ]);
+  //useEffect(() => {
+  //  if (transaction && !data) {
+  //    mutate({
+  //      publicKey: publicKey!.toBase58(),
+  //      data: {
+  //        name: name!,
+  //        description: description!,
+  //        contact: contact!,
+  //        package: packages[selected]!.id,
+  //        transaction,
+  //      },
+  //    });
+  //  }
+  //}, [
+  //  transaction,
+  //  data,
+  //  mutate,
+  //  publicKey,
+  //  name,
+  //  description,
+  //  contact,
+  //  selected,
+  //]);
 
   return (
     <Layout>
@@ -129,9 +127,8 @@ const Create = () => {
 
                       {packages.map((_package, key) => (
                         <th
-                          className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${
-                            selected === key ? "bg-white text-black" : ""
-                          }`}
+                          className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${selected === key ? "bg-white text-black" : ""
+                            }`}
                           key={key}
                           onClick={() => {
                             setSelected(key);
@@ -159,9 +156,8 @@ const Create = () => {
                         </td>
                         {packages.map((_package, index) => (
                           <td
-                            className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${
-                              selected === index ? "bg-white" : ""
-                            }`}
+                            className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${selected === index ? "bg-white" : ""
+                              }`}
                             key={index}
                             onClick={() => {
                               setSelected(index);
