@@ -55,9 +55,9 @@ const FeedbackTable: FC = () => {
                 <div
                   className={`badge badge-sm badge-${
                     category === Category.UxUi
-                      ? "primary"
+                      ? "primary-dark"
                       : category === Category.Docs
-                      ? "secondary"
+                      ? "primary-darker"
                       : category === Category.BizStrat
                       ? "info"
                       : category === Category.Community

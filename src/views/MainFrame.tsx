@@ -5,7 +5,7 @@ import type { FC } from "react";
 import RightPanel from "./RightPanel";
 
 const MainFrame: FC = () => (
-  <div className="max-w-[100vw] lg:max-w-[75vw] bg-primary-darker mx-auto flex w-[100%] lg:w-[90%] md:p-8 p-4 pr-4">
+  <div className="maw-w-[75vw] bg-primary-darker mx-auto flex w-[100%] md:p-8 p-4 pr-4">
     <div className="border-full top-0 flex w-full flex-col items-center">
       <Header />
 

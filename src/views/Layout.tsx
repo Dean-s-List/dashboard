@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-primary-darker text-white">
-      <div className="flex h-[67.5px] w-full items-center justify-between px-8 font-tt text-3xl bg-primary-dark">
+      <div className="flex h-[67.5px] w-full items-center justify-between pl-4 pr-8 font-tt text-3xl bg-primary-dark">
         <Link href={"/"}>
           <Image
             src={"/images/logo-dl.png"}

@@ -1,11 +1,12 @@
 import { Toaster } from "react-hot-toast";
 // Components
 import WalletProvider from "@/components/wallet/Provider";
+import { MetaplexProvider } from "@/contexts/MetaplexProvider";
 // Stylesheet
 require("@solana/wallet-adapter-react-ui/styles.css");
-import "../styles/globals.css";
-import "../styles/custom.css";
-import "../styles/spinner.css";
+import "@/styles/globals.css";
+import "@/styles/custom.css";
+import "@/styles/spinner.css";
 
 // Fonts
 import { Space_Grotesk } from "@next/font/google";
@@ -20,7 +21,6 @@ const tt = localFont({
 });
 // Types
 import type { AppType } from "next/dist/shared/lib/utils";
-import { MetaplexProvider } from "@/contexts/MetaplexProvider";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (

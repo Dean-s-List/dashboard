@@ -45,7 +45,7 @@ const deliverables: Deliverable[] = [
 const Deliverables: FC = () => {
   const [deliverable, setDeliverables] = useState(deliverables);
   return (
-    <div className="mt-8 w-screen rounded-xl bg-primary-dark p-4 shadow-xl md:mr-8 md:w-auto">
+    <div className="mt-8 mx-auto rounded-xl bg-primary-dark p-4 shadow-xl md:mr-8 md:w-[80%] flex flex-col justify-center items-center mx-[5%]">
       <span className="font-bold">Deliverables</span>
       <ul className="w-full">
         {deliverable.map(({ id, value, name, date, category }) => (

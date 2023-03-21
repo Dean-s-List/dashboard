@@ -43,8 +43,8 @@ const TeamMembers: FC = () => {
   const [team, setTeam] = useState(teamMembers);
 
   return (
-    // <div className="mx-auto mt-4  shadow-xl md:mr-4"></div>
-    <div className="mt-4 w-screen rounded-xl bg-primary-dark p-4 shadow-xl md:mr-8 md:w-auto">
+    // <div className="mx-auto mt-4  shadow-xl md:mr-4"></div>    
+    <div className="mt-8 mx-auto rounded-xl bg-primary-dark p-4 shadow-xl md:mr-8 md:w-[80%] flex flex-col justify-center items-center mx-[5%]">
       <div className="flex font-bold">
         Team Members <span className="pl-3">{drawSVGInfo(6)}</span>
       </div>
@@ -63,7 +63,7 @@ const TeamMembers: FC = () => {
               <div className="flex w-[100%] text-center flex flex-col justify-center">
                 <div className="w-full text-md font-bold">{`${name}`}</div>
                 <div className="w-full text-xs">{`${roles}`}</div>
-              </div> 
+              </div>
               <div className="flex w-[25%] gap-4 text-center">
                 <div className="flex w-full items-center justify-center">
                   {drawSVGTalk(6)}
