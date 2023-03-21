@@ -18,7 +18,7 @@ import Pay from "@/components/create/Pay";
 // UI
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 // Constants
-import { connection, TREASURY_MINT, USDC_MINT } from "@/constants";
+// import { connection, TREASURY_MINT, USDC_MINT } from "@/constants";
 
 const Create = () => {
   const [selected, setSelected] = useState<number>(1);

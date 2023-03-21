@@ -13,18 +13,12 @@ import SideBar from "@/views/SideBar";
 import MainFrame from "@/views/MainFrame";
 import RightPanel from "@/views/RightPanel";
 // Constants
-import { TOKEN_GATE_PUBKEY } from "@/constants";
+import { COLLECTION_ADDRESS, RPC_URL } from "@/constants";
 // Types
 import { Holder } from "@/types";
 import type { NextPage } from "next";
 
-export const RPC_URL =
-  (process.env.NEXT_PUBLIC_RPC_URL as string) || "https://rpc.ankr.com/solana";
-
-
 const connection = new Connection(RPC_URL);
-
-const COLLECTION_ADDRESS = "5FusHaKEKjfKsmQwXNrhFcFABGGxu7iYCdbvyVSRe3Ri";
 
 const Dashboard: NextPage = () => {
   const wallet = useWallet();

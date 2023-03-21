@@ -12,10 +12,5 @@ export { endpoint, connection, USDC_MINT, TREASURY_MINT };
 
 export const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL as string || "https://rpc.ankr.com/solana";
 
-export const TOKEN_GATE_PUBKEY = new PublicKey(
-  (process.env.NEXT_PUBLIC_TOKEN_GATE_ADDRESS as string) ||
-    "8KEXE7rw4T8RYmCkk566efv54aeqG7fR9M7iiM4MUtvW"
-);
+export const COLLECTION_ADDRESS = (process.env.NEXT_PUBLIC_TOKEN_GATE_PUBKEY as string) || "5FusHaKEKjfKsmQwXNrhFcFABGGxu7iYCdbvyVSRe3Ri";
 
-export const CANDY_MACHINE_ID = process.env
-  .NEXT_PUBLIC_CANDY_MACHINE_ID as string;
