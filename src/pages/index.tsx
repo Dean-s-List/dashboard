@@ -28,7 +28,9 @@ const Dashboard: NextPage = () => {
 
   useEffect(() => {
     if (wallet.publicKey) {
-      fetchUserNFTs(wallet.publicKey).then(() => setLoading(false));
+      fetchUserNFTs(wallet.publicKey)
+        .then(() => setLoading(false))
+        .catch(error => console.log(error));
     }
   }, [wallet.publicKey]);
 
