@@ -12,8 +12,6 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 // Packages
 import { perks, packages } from "../../packages";
-// Api
-import { api } from "@/tools/api";
 // Components
 import Layout from "@/views/Layout";
 import Pay from "@/components/create/Pay";
@@ -41,42 +39,42 @@ const Create = () => {
     setContact(e.target.value);
   };
 
-  const { data, mutate } = api.client.createProject.useMutation({
-    onError(error: Error) {
-      console.log(error);
-      toast.error("A fatal error occoured, please contact us on Discord");
-    },
-    onSuccess: () => {
-      toast.success("Feedback Request Created");
-      window.location.href = "/dashboard";
-    },
-  });
+  //const { data, mutate } = api.client.createProject.useMutation({
+  //  onError(error: Error) {
+  //    console.log(error);
+  //    toast.error("A fatal error occoured, please contact us on Discord");
+  //  },
+  //  onSuccess: () => {
+  //    toast.success("Feedback Request Created");
+  //    window.location.href = "/dashboard";
+  //  },
+  //});
 
-  const { publicKey } = useWallet();
+  //const { publicKey } = useWallet();
 
-  useEffect(() => {
-    if (transaction && !data) {
-      mutate({
-        publicKey: publicKey!.toBase58(),
-        data: {
-          name: name!,
-          description: description!,
-          contact: contact!,
-          package: packages[selected]!.id,
-          transaction,
-        },
-      });
-    }
-  }, [
-    transaction,
-    data,
-    mutate,
-    publicKey,
-    name,
-    description,
-    contact,
-    selected,
-  ]);
+  //useEffect(() => {
+  //  if (transaction && !data) {
+  //    mutate({
+  //      publicKey: publicKey!.toBase58(),
+  //      data: {
+  //        name: name!,
+  //        description: description!,
+  //        contact: contact!,
+  //        package: packages[selected]!.id,
+  //        transaction,
+  //      },
+  //    });
+  //  }
+  //}, [
+  //  transaction,
+  //  data,
+  //  mutate,
+  //  publicKey,
+  //  name,
+  //  description,
+  //  contact,
+  //  selected,
+  //]);
 
   return (
     <Layout>
