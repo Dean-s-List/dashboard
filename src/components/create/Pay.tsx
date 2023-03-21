@@ -9,7 +9,6 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Transaction } from "@solana/web3.js";
 // Utils
-import { api } from "@/tools/api";
 // Constants
 import { USDC_MINT, TREASURY_MINT, connection } from "@/constants";
 // Types

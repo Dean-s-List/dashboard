@@ -5,16 +5,13 @@ import type { FC } from "react";
 import RightPanel from "./RightPanel";
 
 const MainFrame: FC = () => (
-  <div
-    className="maw-w-[80vw] bg-primary-dark-active mx-auto flex w-[100%] p-2"
-    data-theme="deanslist"
-  >
+  <div className="maw-w-[75vw] bg-primary-darker mx-auto flex w-[100%] md:p-8 p-4 pr-4">
     <div className="border-full top-0 flex w-full flex-col items-center">
       <Header />
 
       <div className="w-full">
-        <div className="w-full p-2 font-bold md:p-4">New feedback received</div>
-        <div className="w-[100%] justify-between rounded-xl border-2 bg-[#0d0d0f]">
+        <div className="w-full p-2 font-bold py-4">New feedback received</div>
+        <div className="w-[100%] justify-between rounded-xl bg-primary-dark py-2 shadow-lg">
           <FeedbackTable />
         </div>
       </div>
@@ -22,7 +19,7 @@ const MainFrame: FC = () => (
         <RightPanel />
       </div>
       <div className="w-full">
-        <div className="w-full p-2 font-bold md:p-4">Payment History</div>
+        <div className="w-full p-2 font-bold py-4">Payment History</div>
         <div className="w-[100%] justify-between ">
           <PaymentTable />
         </div>

@@ -1,13 +1,12 @@
 import { Toaster } from "react-hot-toast";
 // Components
 import WalletProvider from "@/components/wallet/Provider";
-// Api
-import { api } from "@/tools/api";
+import { MetaplexProvider } from "@/contexts/MetaplexProvider";
 // Stylesheet
 require("@solana/wallet-adapter-react-ui/styles.css");
-import "../styles/globals.css";
-import "../styles/custom.css";
-import "../styles/spinner.css";
+import "@/styles/globals.css";
+import "@/styles/custom.css";
+import "@/styles/spinner.css";
 
 // Fonts
 import { Space_Grotesk } from "@next/font/google";
@@ -28,10 +27,12 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <main className={`${tt.variable} ${space.variable}`}>
       <Toaster />
       <WalletProvider>
-        <Component {...pageProps} />
+        <MetaplexProvider>
+          <Component {...pageProps} />
+        </MetaplexProvider>
       </WalletProvider>
     </main>
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;

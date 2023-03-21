@@ -3,9 +3,9 @@ import type { FC } from "react";
 
 const SideBar: FC = () => (
   <>
-    <div className="md:max-w-[20vw]-xl bg-normal static ml-0 hidden h-full min-h-[80vh] w-[15vw] self-start border-r md:block">
+    <div className="md:max-w-[20vw]-xl bg-primary-dark static ml-0 hidden h-[100vh] max-h-[100vh] w-[15vw] self-start md:block">
       <div className="flex">
-        <ul className="bg-normal menu w-full">
+        <ul className="bg-primary-dark menu w-full">
           <li className="ml-0 p-0 text-xs font-bold uppercase">
             <a className="active">
               <svg
@@ -103,7 +103,7 @@ const SideBar: FC = () => (
           </li>
         </ul>
       </div>
-      <div className="mx-auto flex h-60 w-[88%] flex-col items-center justify-center rounded-xl bg-[#171d25] px-1 text-center">
+      <div className="mx-auto flex h-60 w-[88%] flex-col items-center justify-center rounded-xl bg-primary-darker px-1 text-center">
         <Image
           src="/images/community.png"
           height={100}
@@ -112,13 +112,13 @@ const SideBar: FC = () => (
         />
         <div className="text-md w-[100%] font-bold">Join Our Community</div>
         <div className="w-full text-xs">Join Dean&apos;s List on Discord</div>
-        <button className="btn-white bottom btn-md btn mt-2 bg-white  text-sm text-black">
+        <button className="btn-secondary-100 bottom btn-md btn mt-2 bg-white  text-sm text-black">
           <span className="text-sm">JOIN NOW</span>
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 w-[23vh]">
-        <ul className="menu menu bottom-0 w-full bg-black ">
-          <li className="ml-0 w-[100%] p-0 text-xs font-bold uppercase">
+      <div className="relative bottom-0 left-0 w-[100%] max-w-[23vh]">
+        <ul className="menu menu bottom-0 w-full bg-normal">
+          <li className="ml-0 p-0 text-xs font-bold uppercase">
             <a className="">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
