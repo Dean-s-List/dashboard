@@ -6,7 +6,6 @@ import { Connection, PublicKey } from "@solana/web3.js";
 // Metaplex
 import {
   Metaplex,
-  Metadata,
 } from "@metaplex-foundation/js";
 // Views
 import Layout from "@/views/Layout";
