@@ -1,7 +1,6 @@
 import { Toaster } from "react-hot-toast";
 // Components
 import WalletProvider from "@/components/wallet/Provider";
-import { MetaplexProvider } from "@/contexts/MetaplexProvider";
 // Stylesheet
 require("@solana/wallet-adapter-react-ui/styles.css");
 import "@/styles/globals.css";
@@ -27,9 +26,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <main className={`${tt.variable} ${space.variable}`}>
       <Toaster />
       <WalletProvider>
-        <MetaplexProvider>
-          <Component {...pageProps} />
-        </MetaplexProvider>
+        <Component {...pageProps} />
       </WalletProvider>
     </main>
   );
