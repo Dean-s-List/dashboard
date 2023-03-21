@@ -11,7 +11,7 @@ import {
 } from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
 // Packages
-import { perks, packages } from "../../../packages";
+import { perks, packages } from "../../packages";
 // Api
 import { api } from "@/tools/api";
 // Components
@@ -42,7 +42,7 @@ const Create = () => {
   };
 
   const { data, mutate } = api.client.createProject.useMutation({
-    onError(error) {
+    onError(error: Error) {
       console.log(error);
       toast.error("A fatal error occoured, please contact us on Discord");
     },
@@ -129,9 +129,8 @@ const Create = () => {
 
                       {packages.map((_package, key) => (
                         <th
-                          className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${
-                            selected === key ? "bg-white text-black" : ""
-                          }`}
+                          className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${selected === key ? "bg-white text-black" : ""
+                            }`}
                           key={key}
                           onClick={() => {
                             setSelected(key);
@@ -159,9 +158,8 @@ const Create = () => {
                         </td>
                         {packages.map((_package, index) => (
                           <td
-                            className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${
-                              selected === index ? "bg-white" : ""
-                            }`}
+                            className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${selected === index ? "bg-white" : ""
+                              }`}
                             key={index}
                             onClick={() => {
                               setSelected(index);
