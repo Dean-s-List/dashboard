@@ -11,7 +11,7 @@ import {
 } from "@solana/spl-token";
 import { useWallet } from "@solana/wallet-adapter-react";
 // Packages
-import { perks, packages } from "../../../packages";
+import { perks, packages } from "../../packages";
 // Api
 import { api } from "@/tools/api";
 // Components
