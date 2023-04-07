@@ -14,6 +14,7 @@ class MyDocument extends Document {
       <Html
         className="scroll-smooth"
         style={{ scrollBehavior: "smooth" }}
+        data-theme="deanslist"
       >
         <Head>
           <link rel="icon" href="/images/logo.png" />

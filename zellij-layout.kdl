@@ -1,0 +1,22 @@
+layout {
+    tab split_direction="vertical" {
+        pane size="66%" {
+            command "nvim"
+            args "."
+            cwd "."
+        }
+        pane size="33%" {
+            pane {
+                command "pnpm"
+                args "dev"
+                close_on_exit true
+            }
+            pane {
+                command "pnpm"
+                args "storybook"
+                close_on_exit true
+            }
+            pane command="htop" close_on_exit=true
+        }
+    }
+}

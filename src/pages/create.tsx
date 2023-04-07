@@ -13,7 +13,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 // Packages
 import { perks, packages } from "../../packages";
 // Components
-import Layout from "@/views/Layout";
+import Layout from "@/layout";
 import Pay from "@/components/create/Pay";
 // UI
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
@@ -89,7 +89,7 @@ const Create = () => {
               <div className="m-1 mb-1.5">Project Name</div>
               <input
                 type="text"
-                className="h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 text-gray-100 outline-none transition-all hover:border-[#333]"
+                className="text-gray-100 h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 outline-none transition-all hover:border-[#333]"
                 value={name}
                 onChange={nameHandler}
               />
@@ -98,7 +98,7 @@ const Create = () => {
             <div>
               <div className="m-1 mb-1.5">Description</div>
               <textarea
-                className="h-28 w-full rounded border-2 border-[#222] bg-[#111] p-3 text-gray-100 outline-none transition-all hover:border-[#333]"
+                className="text-gray-100 h-28 w-full rounded border-2 border-[#222] bg-[#111] p-3 outline-none transition-all hover:border-[#333]"
                 value={description}
                 onChange={descriptionHandler}
               />
@@ -106,12 +106,12 @@ const Create = () => {
 
             <div>
               <div className="m-1 mb-1.5">
-                Contact <span className="ml-1 text-gray-500"></span>
+                Contact <span className="text-gray-500 ml-1"></span>
               </div>
               <input
                 type="text"
                 placeholder="Dean#1234, Hanko#5678"
-                className="h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 text-gray-100 outline-none transition-all placeholder:text-gray-500 hover:border-[#333]"
+                className="text-gray-100 placeholder:text-gray-500 h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 outline-none transition-all hover:border-[#333]"
                 value={contact}
                 onChange={contactHandler}
               />
@@ -127,15 +127,16 @@ const Create = () => {
 
                       {packages.map((_package, key) => (
                         <th
-                          className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${selected === key ? "bg-white text-black" : ""
-                            }`}
+                          className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${
+                            selected === key ? "bg-white text-black" : ""
+                          }`}
                           key={key}
                           onClick={() => {
                             setSelected(key);
                           }}
                         >
                           {selected === key && (
-                            <div className="absolute -top-10 left-0 flex h-10 w-full items-center justify-center rounded-t border-b-2 border-black bg-white text-sm text-black">
+                            <div className="border-black bg-white text-black absolute -top-10 left-0 flex h-10 w-full items-center justify-center rounded-t border-b-2 text-sm">
                               SELECTED
                             </div>
                           )}
@@ -150,14 +151,15 @@ const Create = () => {
                       <tr className="border-t-2 border-[#333]" key={key}>
                         <td className="border-r-2 border-[#333] px-5 py-3">
                           <div>{perk.name}</div>
-                          <div className="mt-1 max-w-xs text-xs text-gray-300">
+                          <div className="text-gray-300 mt-1 max-w-xs text-xs">
                             {perk?.description}
                           </div>
                         </td>
                         {packages.map((_package, index) => (
                           <td
-                            className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${selected === index ? "bg-white" : ""
-                              }`}
+                            className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${
+                              selected === index ? "bg-white" : ""
+                            }`}
                             key={index}
                             onClick={() => {
                               setSelected(index);
@@ -165,9 +167,9 @@ const Create = () => {
                           >
                             <div className="flex w-full items-center justify-center">
                               {_package.perks[key] === true ? (
-                                <CheckCircleIcon className="h-6 w-6 text-green-500" />
+                                <CheckCircleIcon className="text-green-500 h-6 w-6" />
                               ) : (
-                                <XCircleIcon className="h-6 w-6 text-red-500" />
+                                <XCircleIcon className="text-red-500 h-6 w-6" />
                               )}
                             </div>
                           </td>

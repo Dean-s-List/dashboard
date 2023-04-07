@@ -16,18 +16,17 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const { publicKey } = useWallet();
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-primary-darker text-white">
-      <div className="flex h-[67.5px] w-full items-center justify-between pl-4 pr-8 font-tt text-3xl bg-primary-dark">
-        <Link href={"/"}>
-          <Image
-            src={"/images/logo-dl.png"}
-            width={150}
-            height={150}
-            alt="Dean's List Logo"
-          />
-        </Link>
+    <div className="text-white relative flex min-h-screen w-full flex-col bg-primary-darker">
+      <div className="flex h-[67.5px] w-[100vw] items-center justify-between self-end bg-primary-dark pl-4 pr-8">
+        <label htmlFor="my-drawer" className="relative w-[150px]">
+          {/* <Link href={"/"}> */}
+
+          {/* </Link> */}
+        </label>
+
         {publicKey && <Wallet />}
       </div>
+
       {!publicKey ? (
         <div className="flex w-full flex-grow items-center justify-center">
           <Wallet />
