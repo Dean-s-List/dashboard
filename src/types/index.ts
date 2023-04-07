@@ -1,18 +1,39 @@
-export enum Holder {
-  Yay,
-  Nay,
-}
+import type {
+  CategoryEnum,
+  PaymentTypeEnum,
+  PackagesEnum,
+  TransactionEnum,
+} from "@/constants";
 
-export enum Category {
-  UxUi,
-  Docs,
-  BizStrat,
-  Community,
-}
-
-export type Feedback = {
+export type FeedbackItem = {
   id: number;
   teamMember: string;
   avatar?: string;
-  category: Category;
+  category: CategoryEnum;
+};
+
+export type DeliverableItem = {
+  id: number;
+  value: number;
+  name: string;
+  date: string;
+  category: CategoryEnum;
+};
+
+export type TeamMemberItem = {
+  id: number;
+  avatar: string;
+  name: string;
+  roles: string;
+};
+
+export type PaymentsItem = {
+  id: number;
+  type: PaymentTypeEnum;
+  packageType: PackagesEnum;
+  transaction: TransactionEnum;
+  description: string;
+  amount: number;
+  date: string;
+  time: string;
 };

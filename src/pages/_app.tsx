@@ -20,13 +20,16 @@ const tt = localFont({
 });
 // Types
 import type { AppType } from "next/dist/shared/lib/utils";
+import { ContentContainer } from "@/components/content-container/content-container";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <main className={`${tt.variable} ${space.variable}`}>
       <Toaster />
       <WalletProvider>
-        <Component {...pageProps} />
+        <ContentContainer>
+          <Component {...pageProps} />
+        </ContentContainer>
       </WalletProvider>
     </main>
   );

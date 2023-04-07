@@ -10,7 +10,39 @@ const TREASURY_MINT = new PublicKey(
 
 export { endpoint, connection, USDC_MINT, TREASURY_MINT };
 
-export const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL as string || "https://rpc.ankr.com/solana";
+export const RPC_URL =
+  (process.env.NEXT_PUBLIC_RPC_URL as string) || "https://rpc.ankr.com/solana";
 
-export const COLLECTION_ADDRESS = (process.env.NEXT_PUBLIC_TOKEN_GATE_PUBKEY as string) || "5FusHaKEKjfKsmQwXNrhFcFABGGxu7iYCdbvyVSRe3Ri";
+export const COLLECTION_ADDRESS =
+  (process.env.NEXT_PUBLIC_TOKEN_GATE_PUBKEY as string) ||
+  "5FusHaKEKjfKsmQwXNrhFcFABGGxu7iYCdbvyVSRe3Ri";
 
+export enum HolderEnum {
+  Yay,
+  Nay,
+}
+
+export enum CategoryEnum {
+  UXUI,
+  Docs,
+  Strategy,
+  Community,
+}
+
+export enum TransactionEnum {
+  Activated,
+  Refused,
+  Cancelled,
+  Delivered,
+}
+
+export enum PaymentTypeEnum {
+  Card,
+  Paypal,
+  Sol,
+}
+
+export enum PackagesEnum {
+  Starter,
+  Main,
+}

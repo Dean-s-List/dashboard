@@ -1,34 +1,15 @@
 import { useState } from "react";
+
 import { drawSVGUser, drawSVGTicket, drawSVGDots } from "@/tools/svg";
-import { Category } from "@/types";
-import type { Feedback } from "@/types";
+import { CategoryEnum } from "@/constants";
+
+import type { FeedbackItem } from "@/types";
 import type { FC } from "react";
 
-const feedbacks: Feedback[] = [
-  {
-    id: 0,
-    teamMember: "Alfreds Futterkiste",
-    category: Category.UxUi,
-  },
-  {
-    id: 1,
-    teamMember: "Alfreds Futterkiste",
-    category: Category.Docs,
-  },
-  {
-    id: 2,
-    teamMember: "Alfreds Futterkiste",
-    category: Category.BizStrat,
-  },
-  {
-    id: 3,
-    teamMember: "Alfreds Futterkiste",
-    category: Category.Community,
-  },
-];
+import { _FEEDBACK_ } from "@/mock/feedback";
 
 const FeedbackTable: FC = () => {
-  const [feedback, setFeedback] = useState(feedbacks);
+  const [feedback, setFeedback] = useState(_FEEDBACK_);
   return (
     <table className="w-[100%] rounded-lg">
       <tr className="flex w-[100%] text-center">
@@ -40,7 +21,7 @@ const FeedbackTable: FC = () => {
         </th>
       </tr>
       {feedback &&
-        feedback.map(({ id, teamMember, category }) => (
+        feedback.map(({ id, teamMember, category }: FeedbackItem) => (
           <tr className="flex w-[100%]" key={id}>
             <td className="flex w-[90%] items-center justify-center py-1">
               <div className="placeholder avatar">
@@ -54,24 +35,24 @@ const FeedbackTable: FC = () => {
               <div className="flex w-[90%] items-center justify-center">
                 <div
                   className={`badge badge-sm badge-${
-                    category === Category.UxUi
+                    category === CategoryEnum.UXUI
                       ? "primary-dark"
-                      : category === Category.Docs
+                      : category === CategoryEnum.Docs
                       ? "primary-darker"
-                      : category === Category.BizStrat
+                      : category === CategoryEnum.Strategy
                       ? "info"
-                      : category === Category.Community
+                      : category === CategoryEnum.Community
                       ? "warning"
                       : "error"
                   }`}
                 >
-                  {category === Category.UxUi
+                  {category === CategoryEnum.UXUI
                     ? "UX/UI"
-                    : category === Category.Docs
+                    : category === CategoryEnum.Docs
                     ? "Documentation"
-                    : category === Category.BizStrat
+                    : category === CategoryEnum.Strategy
                     ? "Business/Strategy"
-                    : category === Category.Community
+                    : category === CategoryEnum.Community
                     ? "Community"
                     : "Error"}
                 </div>
