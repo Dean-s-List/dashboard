@@ -50,7 +50,7 @@ const Dashboard: NextPage = () => {
 
   return (
     <Layout>
-      {!loading && holder === HolderEnum.Nay ? (
+      {!loading && holder === HolderEnum.Yay ? (
         <HomeView />
       ) : (
         <div className="flex h-full w-full items-center justify-center text-center">
