@@ -1,5 +1,5 @@
 import { RadialProgress } from "@/components/radial-progress/radial-progress.component";
-import { drawSVGInfo } from "@/tools/svg";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import type { FC, PropsWithChildren } from "react";
 import type { CategoryEnum } from "@/constants";
 
@@ -30,7 +30,7 @@ export const Deliverable: FC<PropsWithChildren<DeliverableProps>> = ({
       </div>
       <div className="flex w-[25%] gap-4 pr-2 text-center">
         <div className="flex w-full items-center justify-center">
-          {drawSVGInfo(6)}
+          <InformationCircleIcon className="h-6 w-6" />
         </div>
       </div>
       {children}
