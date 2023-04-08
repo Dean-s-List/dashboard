@@ -1,7 +1,5 @@
 import { useState } from "react";
-
-import { drawSVGUser, drawSVGTicket, drawSVGDots } from "@/tools/svg";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { UserIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 
 import { CategoryEnum } from "@/constants";
 
@@ -9,6 +7,7 @@ import type { FeedbackItem } from "@/types";
 import type { FC } from "react";
 
 import { _FEEDBACK_ } from "@/mock/feedback";
+import { TicketIcon } from "@heroicons/react/24/outline";
 
 const FeedbackTable: FC = () => {
   const [feedback, setFeedback] = useState(_FEEDBACK_);
@@ -18,12 +17,15 @@ const FeedbackTable: FC = () => {
         <tr className="flex w-[100%] items-center justify-center py-1">
           <th className="flex w-[100%] items-center justify-center py-1">
             <span className="mr-2">
-              <UserIcon />
+              <UserIcon className="h-6 w-6" />
             </span>
             Team Member
           </th>
           <th className="flex w-[100%] items-center justify-center py-1">
-            <span className="mr-2">{drawSVGTicket()}</span>Category
+            <span className="mr-2">
+              <TicketIcon className="h-6 w-6" />
+            </span>
+            Category
           </th>
         </tr>
       </thead>
@@ -65,7 +67,9 @@ const FeedbackTable: FC = () => {
                       : "Error"}
                   </div>
                 </div>
-                <div className="">{drawSVGDots()}</div>
+                <div className="">
+                  <EllipsisHorizontalIcon className="h-6 w-6" />
+                </div>
               </td>
             </tr>
           ))}

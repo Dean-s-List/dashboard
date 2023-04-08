@@ -1,4 +1,4 @@
-import { drawSVGTalk } from "@/tools/svg";
+import { ChatBubbleLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import type { FC, PropsWithChildren } from "react";
 
 type TeamMember = {
@@ -41,7 +41,7 @@ export const TeamMember: FC<PropsWithChildren<TeamMemberProps>> = ({
       </div>
       <div className="flex w-[25%] gap-4 text-center">
         <div className="flex w-full items-center justify-center">
-          {drawSVGTalk(6)}
+          <ChatBubbleLeftEllipsisIcon className="h-6 w-6" />
         </div>
       </div>
       {children}
