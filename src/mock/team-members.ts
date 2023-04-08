@@ -11,7 +11,7 @@ export const _TEAM_MEMBERS_: TeamMemberItem[] = [
   {
     id: 1,
     avatar:
-      "https://cdn.discordapp.com/avatars/454357166485143554/f10a2b5c96a614d2e512ec3affe351c4.webp?size=80",
+      "https://cdn.discordapp.com/avatars/454357166485143554/0bc3980ea6b41cd02b307055e33f6a0f.webp?size=80",
     name: "DeanMachine",
     roles: "Hardcore, Feedback",
   },
@@ -25,7 +25,7 @@ export const _TEAM_MEMBERS_: TeamMemberItem[] = [
   {
     id: 3,
     avatar:
-      "https://cdn.discordapp.com/avatars/845942875678310411/2f2223dccdc6389fb16f677dc2a92740.webp",
+      "https://cdn.discordapp.com/avatars/845942875678310411/e22e5ec5f157a0044c0e152db2e0e557.webp?size=80",
     name: "Readollar",
     roles: "Feedback",
   },

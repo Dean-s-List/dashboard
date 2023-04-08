@@ -30,49 +30,48 @@ const FeedbackTable: FC = () => {
         </tr>
       </thead>
       <tbody>
-        {feedback &&
-          feedback.map(({ id, teamMember, category }: FeedbackItem) => (
-            <tr className="flex w-[100%]" key={id}>
-              <td className="flex w-[90%] items-center justify-center py-1">
-                <div className="placeholder avatar">
-                  <div className="w-12 rounded-full bg-neutral-focus text-neutral-content">
-                    <span>AF</span>
-                  </div>
+        {feedback.map(({ id, teamMember, category }: FeedbackItem) => (
+          <tr className="flex w-[100%]" key={id}>
+            <td className="flex w-[90%] items-center justify-center py-1">
+              <div className="placeholder avatar">
+                <div className="w-12 rounded-full bg-neutral-focus text-neutral-content">
+                  <span>AF</span>
                 </div>
-                <div className="pl-2 text-xs md:text-sm">{`${teamMember}`}</div>
-              </td>
-              <td className="static flex w-[90%] items-center justify-center py-1">
-                <div className="flex w-[90%] items-center justify-center">
-                  <div
-                    className={`badge badge-sm badge-${
-                      category === CategoryEnum.UXUI
-                        ? "primary-dark"
-                        : category === CategoryEnum.Docs
-                        ? "primary-darker"
-                        : category === CategoryEnum.Strategy
-                        ? "info"
-                        : category === CategoryEnum.Community
-                        ? "warning"
-                        : "error"
-                    }`}
-                  >
-                    {category === CategoryEnum.UXUI
-                      ? "UX/UI"
-                      : category === CategoryEnum.Docs
-                      ? "Documentation"
-                      : category === CategoryEnum.Strategy
-                      ? "Business/Strategy"
-                      : category === CategoryEnum.Community
-                      ? "Community"
-                      : "Error"}
-                  </div>
+              </div>
+              <div className="pl-2 text-xs md:text-sm">{`${teamMember}`}</div>
+            </td>
+            <td className="static flex w-[90%] items-center justify-center py-1">
+              <div className="flex w-[90%] items-center justify-center">
+                <div
+                  className={`badge badge-md ${
+                    category == CategoryEnum.UXUI
+                      ? `uxui`
+                      : category == CategoryEnum.Docs
+                      ? `docs`
+                      : category == CategoryEnum.Strategy
+                      ? `strategy`
+                      : category == CategoryEnum.Community
+                      ? `community`
+                      : `error`
+                  }`}
+                >
+                  {category === CategoryEnum.UXUI
+                    ? "UX/UI"
+                    : category === CategoryEnum.Docs
+                    ? "Documentation"
+                    : category === CategoryEnum.Strategy
+                    ? "Business/Strategy"
+                    : category === CategoryEnum.Community
+                    ? "Community"
+                    : "Error"}
                 </div>
-                <div className="">
-                  <EllipsisHorizontalIcon className="h-6 w-6" />
-                </div>
-              </td>
-            </tr>
-          ))}
+              </div>
+              <div className="">
+                <EllipsisHorizontalIcon className="h-6 w-6" />
+              </div>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

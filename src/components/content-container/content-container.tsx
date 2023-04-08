@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/solid";
 
 import type { ReactNode } from "react";
+import CTA from "../cta";
 
 export const ContentContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -73,6 +74,7 @@ export const ContentContainer = ({ children }: { children: ReactNode }) => {
               Reports
             </a>
           </li>
+          <CTA />
           {/* SIDEBAR BOTTOM */}
           <ul className="menu absolute bottom-0 w-full">
             <li className="ml-0 p-0 text-xs font-bold uppercase">
