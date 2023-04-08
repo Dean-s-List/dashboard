@@ -39,3 +39,85 @@ body {
 .community {
   background-color: #806b00;
 }
+
+.svg-indicator {
+  width: 100px;
+  height: 100px;
+}
+
+.svg-indicator-track,
+.svg-indicator-indication {
+  cx: 50px;
+  cy: 50px;
+  r: 40px;
+  fill: transparent;
+  stroke-width: 10px;
+}
+
+.svg-indicator-track {
+  stroke: #ddd;
+}
+
+.svg-indicator-indication {
+  stroke: #07c;
+  stroke-dasharray: 20px;
+  stroke-dashoffset: 20px;
+  stroke-linecap: round;
+}
+
+/*
+ * SVG Progress Indicator
+ *
+ * Set-up the indicator using SVG attributes that are 
+ * supported as properties in CSS.
+ *
+ * @since 07/07/22
+ * @link  https://codepen.io/_rahul/pen/BarobwE
+ */
+
+.svg-pi-wrapper {
+  position: relative;
+}
+
+.svg-pi {
+  transform: rotate(-90deg); /* Fix the orientation */
+}
+
+/* Animated spinner version */
+.svg-pi-indicator--spinner {
+  animation: spinner 0.75s linear infinite;
+  transform-origin: center;
+}
+
+.svg-pi-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.svg-pi-label__loading {
+  opacity: 0.5;
+  font-size: 0.75em;
+}
+
+.svg-pi-label__progress {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.svg-pi-label__loading,
+.svg-pi-label__progress {
+  display: block;
+}
+
+/* Spinner animation */
+@keyframes spinner {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

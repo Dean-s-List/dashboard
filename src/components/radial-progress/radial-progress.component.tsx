@@ -1,45 +1,85 @@
-import { CategoryEnum } from "@/constants";
-import type { FC, PropsWithChildren } from "react";
+import { FC } from "react";
 
-type RadialProgress = {
-  category: CategoryEnum;
-  value: number;
+type ProgressType = {
+  progress: number;
+  trackColor: string;
+  indicatorColor: string;
+  indicatorCap: string;
+  labelColor: string;
+  spinnerMode: boolean;
+  spinnerSpeed: number;
 };
 
-interface RadialProgressProps {
-  rd: RadialProgress;
+interface ProgressProps {
+  props: ProgressType;
 }
 
-export const RadialProgress: FC<PropsWithChildren<RadialProgressProps>> = (
-  children,
-  rd: RadialProgress
-): JSX.Element => {
-  const { category, value } = rd;
+export const RadialProgress = (props: ProgressType) => {
+  const {
+    progress,
+    trackColor,
+    indicatorColor,
+    labelColor = `#333`,
+    spinnerMode = false,
+    spinnerSpeed = 1,
+  } = props;
+
+  const size = 50;
+  const trackWidth = 5;
+  const indicatorWidth = 5;
+
+  const center = size / 2,
+    radius =
+      center - (trackWidth > indicatorWidth ? trackWidth : indicatorWidth),
+    dashArray = 2 * Math.PI * radius,
+    dashOffset = dashArray * ((100 - progress) / 100);
+
+  //   const hideLabel = size < 100 || !label.length || spinnerMode ? true : false;
+
   return (
-    <div className="ml-[5%] flex h-[61.72px]">
-      <div
-        className={`radial-progress text-${
-          category === CategoryEnum.UXUI
-            ? "primary"
-            : category === CategoryEnum.Docs
-            ? "secondary"
-            : category === CategoryEnum.Strategy
-            ? "info"
-            : category === CategoryEnum.Community
-            ? "warning"
-            : "white"
-        } `}
-        style={{
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          "--value": value,
-          "--size": "3rem",
-          "--thickness": "4px",
-        }}
-      >
-        <div className="">
-          <span className="text-white text-xs">{`${value}`}%</span>
-        </div>
+    <div className="ml-[5%] flex">
+      <div className="svg-pi-wrapper" style={{ width: size, height: size }}>
+        <svg className="svg-pi" style={{ width: size, height: size }}>
+          <circle
+            className="svg-pi-track"
+            cx={center}
+            cy={center}
+            fill="transparent"
+            r={radius}
+            stroke={trackColor}
+            strokeWidth={trackWidth}
+          />
+          <circle
+            className={`svg-pi-indicator ${
+              spinnerMode ? "svg-pi-indicator--spinner" : ""
+            }`}
+            style={{ animationDuration: `${spinnerSpeed * 1000}` }}
+            cx={center}
+            cy={center}
+            fill="transparent"
+            r={radius}
+            stroke={indicatorColor}
+            strokeWidth={indicatorWidth}
+            strokeDasharray={dashArray}
+            strokeDashoffset={dashOffset}
+            strokeLinecap="round"
+          />
+        </svg>
+
+        {
+          <div
+            className="svg-pi-label"
+            style={{ color: labelColor, fontSize: "0.5rem" }}
+          >
+            {/* <span className="svg-pi-label__loading">{label}</span> */}
+
+            {!spinnerMode && (
+              <span className="svg-pi-label__progress">
+                {`${progress > 100 ? 100 : progress}%`}
+              </span>
+            )}
+          </div>
+        }
       </div>
     </div>
   );
