@@ -21,7 +21,7 @@ export const Hodl = async ({
 
   // console.log(balance);
 
-  // if user holds >= 1 token, Yay!
+  // if user has 1 token acc, Yay!
   if (balance.value.length == 1) {
     return HolderEnum.Yay;
     // else, Nay.
