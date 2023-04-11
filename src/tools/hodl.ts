@@ -1,8 +1,6 @@
 import { Connection, PublicKey } from "@solana/web3.js";
 
-import { RPC_URL } from "../constants";
-
-import { Holder } from "@/types";
+import { RPC_URL, HolderEnum } from "@/constants";
 
 export const Hodl = async ({
   userPubkey,
@@ -10,7 +8,7 @@ export const Hodl = async ({
 }: {
   userPubkey: PublicKey;
   tokenPubkey: PublicKey;
-}): Promise<Holder> => {
+}): Promise<HolderEnum> => {
   const connection = new Connection(RPC_URL, "confirmed");
   const ownerPublicKey = new PublicKey(userPubkey);
 
@@ -23,9 +21,9 @@ export const Hodl = async ({
 
   // console.log(balance);
 
-  // if user holds >= 1 token, Yay!
+  // if user has 1 token acc, Yay!
   if (balance.value.length == 1) {
-    return Holder.Yay;
+    return HolderEnum.Yay;
     // else, Nay.
-  } else return Holder.Nay;
+  } else return HolderEnum.Nay;
 };

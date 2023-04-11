@@ -1,27 +1,36 @@
 import { useState } from "react";
+import { UserIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 
-import { drawSVGUser, drawSVGTicket, drawSVGDots } from "@/tools/svg";
 import { CategoryEnum } from "@/constants";
 
 import type { FeedbackItem } from "@/types";
 import type { FC } from "react";
 
 import { _FEEDBACK_ } from "@/mock/feedback";
+import { TicketIcon } from "@heroicons/react/24/outline";
 
 const FeedbackTable: FC = () => {
   const [feedback, setFeedback] = useState(_FEEDBACK_);
   return (
     <table className="w-[100%] rounded-lg">
-      <tr className="flex w-[100%] text-center">
-        <th className="flex w-[100%] items-center justify-center py-1">
-          <span className="mr-2">{drawSVGUser()}</span>Team Member
-        </th>
-        <th className="flex w-[100%] items-center justify-center py-1">
-          <span className="mr-2">{drawSVGTicket()}</span>Category
-        </th>
-      </tr>
-      {feedback &&
-        feedback.map(({ id, teamMember, category }: FeedbackItem) => (
+      <thead className="flex w-[100%] text-center">
+        <tr className="flex w-[100%] items-center justify-center py-1">
+          <th className="flex w-[100%] items-center justify-center py-1">
+            <span className="mr-2">
+              <UserIcon className="h-6 w-6" />
+            </span>
+            Team Member
+          </th>
+          <th className="flex w-[100%] items-center justify-center py-1">
+            <span className="mr-2">
+              <TicketIcon className="h-6 w-6" />
+            </span>
+            Category
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {feedback.map(({ id, teamMember, category }: FeedbackItem) => (
           <tr className="flex w-[100%]" key={id}>
             <td className="flex w-[90%] items-center justify-center py-1">
               <div className="placeholder avatar">
@@ -34,16 +43,16 @@ const FeedbackTable: FC = () => {
             <td className="static flex w-[90%] items-center justify-center py-1">
               <div className="flex w-[90%] items-center justify-center">
                 <div
-                  className={`badge badge-sm badge-${
-                    category === CategoryEnum.UXUI
-                      ? "primary-dark"
-                      : category === CategoryEnum.Docs
-                      ? "primary-darker"
-                      : category === CategoryEnum.Strategy
-                      ? "info"
-                      : category === CategoryEnum.Community
-                      ? "warning"
-                      : "error"
+                  className={`badge badge-md ${
+                    category == CategoryEnum.UXUI
+                      ? `uxui`
+                      : category == CategoryEnum.Docs
+                      ? `docs`
+                      : category == CategoryEnum.Strategy
+                      ? `strategy`
+                      : category == CategoryEnum.Community
+                      ? `community`
+                      : `error`
                   }`}
                 >
                   {category === CategoryEnum.UXUI
@@ -57,10 +66,13 @@ const FeedbackTable: FC = () => {
                     : "Error"}
                 </div>
               </div>
-              <div className="">{drawSVGDots()}</div>
+              <div className="">
+                <EllipsisHorizontalIcon className="h-6 w-6" />
+              </div>
             </td>
           </tr>
         ))}
+      </tbody>
     </table>
   );
 };

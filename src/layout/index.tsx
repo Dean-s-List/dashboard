@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="text-white relative flex min-h-screen w-full flex-col bg-primary-darker">
-      <div className="flex h-[67.5px] w-[100vw] items-center justify-between self-end bg-primary-dark pl-4 pr-8">
+      <div className="navbar flex h-[88px] w-[100vw] items-center justify-between self-end bg-primary-dark pl-4 pr-8">
         <label htmlFor="my-drawer" className="relative w-[150px]">
           {/* <Link href={"/"}> */}
 

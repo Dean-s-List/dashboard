@@ -1,41 +1,42 @@
 import Image from "next/image";
 import { useState } from "react";
-import { drawSVGCard, drawSVGDots } from "@/tools/svg";
+import { CreditCardIcon } from "@heroicons/react/24/outline";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 import { formatter } from "@/tools/core/currency";
-
 import { PaymentTypeEnum } from "@/constants";
-
 import type { FC } from "react";
 
 import { _PAYMENTS_ } from "@/mock/payments";
 
-const PaymentTable: FC = () => {
+const PaymentTable: FC = (): JSX.Element => {
   const [payments, setPayments] = useState(_PAYMENTS_);
   return (
     <table className="w-[100%] rounded-xl bg-primary-dark shadow-xl">
-      {/* HEADER */}
-      <tr className="flex w-[100%] text-center">
-        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
-          Type
-        </th>
-        <th className="lg:text-md flex w-[100%] items-center justify-center py-2 text-sm">
-          Description
-        </th>
-        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
-          Amount
-        </th>
-        <th className="lg:text-md flex w-[80%] items-center justify-center py-2 pr-4 text-sm">
-          Date
-        </th>
-      </tr>
-      {/* ROWS MAP */}
-      {payments &&
-        payments.map(({ id, type, description, amount, date, time }) => (
+      <thead>
+        <tr className="flex w-[100%] text-center">
+          <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
+            Type
+          </th>
+          <th className="lg:text-md flex w-[100%] items-center justify-center py-2 text-sm">
+            Description
+          </th>
+          <th className="lg:text-md flex w-[80%] items-center justify-center py-2 text-sm">
+            Amount
+          </th>
+          <th className="lg:text-md flex w-[80%] items-center justify-center py-2 pr-4 text-sm">
+            Date
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {payments.map(({ id, type, description, amount, date, time }) => (
           <tr className="flex w-[100%] border-t text-center" key={id}>
             <td className="flex w-[80%] items-center justify-center py-1">
               {type === PaymentTypeEnum.Card && (
                 <div className="flex w-[100%] items-center justify-center">
-                  <span className="mr-2">{drawSVGCard()}</span>{" "}
+                  <span className="mr-2">
+                    <CreditCardIcon className="h-6 w-6" />
+                  </span>{" "}
                   <span className="md:text-md text-sm">Card</span>
                 </div>
               )}
@@ -65,10 +66,13 @@ const PaymentTable: FC = () => {
                 <div className="text-stone-600 text-xs md:text-sm">{time}</div>
               </div>
 
-              <div className="pr-4">{drawSVGDots()}</div>
+              <div className="pr-4">
+                <EllipsisHorizontalIcon className="h-6 w-6" />
+              </div>
             </td>
           </tr>
         ))}
+      </tbody>
     </table>
   );
 };

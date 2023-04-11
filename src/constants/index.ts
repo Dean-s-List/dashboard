@@ -14,7 +14,7 @@ export const RPC_URL =
   (process.env.NEXT_PUBLIC_RPC_URL as string) || "https://rpc.ankr.com/solana";
 
 export const COLLECTION_ADDRESS =
-  (process.env.NEXT_PUBLIC_TOKEN_GATE_PUBKEY as string) ||
+  (process.env.NEXT_PUBLIC_COLLECTION_ADDRESS as string) ||
   "5FusHaKEKjfKsmQwXNrhFcFABGGxu7iYCdbvyVSRe3Ri";
 
 export enum HolderEnum {
