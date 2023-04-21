@@ -38,7 +38,7 @@ const FeedbackTable: FC = () => {
                   <span>AF</span>
                 </div>
               </div>
-              <div className="pl-2 text-xs md:text-sm">{`${id}`}</div>
+              <div className="pl-2 text-xs md:text-sm">{`${id!}`}</div>
             </td>
             <td className="static flex w-[90%] items-center justify-center py-1">
               <div className="flex w-[90%] items-center justify-center">

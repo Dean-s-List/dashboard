@@ -1,4 +1,5 @@
-import React, { FC, SetStateAction } from "react";
+import React from "react";
+import type { FC } from "react";
 
 interface Props {
   stars: number;

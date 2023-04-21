@@ -37,10 +37,6 @@ const Navbar: FC<Props> = ({
           {wallet.publicKey ? (
             <div className="mr-4 flex">
               <Wallet />
-              {/* <div className="flex flex-col">
-                <span>0</span>
-                <span>{ellipsis(wallet.publicKey.toString())}</span>
-              </div> */}
             </div>
           ) : (
             <Wallet />
