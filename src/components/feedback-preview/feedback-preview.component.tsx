@@ -12,16 +12,16 @@ interface Props {
 }
 
 const FeedbackPreview: FC<Props> = ({ project, feedback }) => (
-  <div className="h-[227px] w-[379px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl">
+  <div className="mx-auto h-[227px] w-[100%] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl">
     <Link href={`/feedback/${feedback.id!}`} className="h-[50%] max-h-[50%] ">
       {feedback.content ? (
-        <div className="h-[50%] max-h-[50%] overflow-y-hidden">
+        <div className="h-[50%] max-h-[50%] w-full overflow-y-hidden">
           <Blocks
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             data={JSON.parse(feedback.content as string)}
             config={{
               paragraph: {
-                className: "text-opacity-75 prose prose-sm",
+                className: "text-opacity-75 prose prose-sm w-full",
                 actionsClassNames: {
                   alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
                 },
