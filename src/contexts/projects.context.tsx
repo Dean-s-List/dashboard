@@ -34,28 +34,22 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    // const unsubscribe = onAuthStateChangeListener(user => {
-    //   console.log(user)
-    // })
-    if (user) {
-      async function loadAllProject() {
-        const { data } = await getAllProjects();
-        console.log(data);
-        return data;
-      }
-      // Only run query once user is logged in.
-      if (currentProject) {
-        loadAllProject()
-          .then((projects) => {
-            console.log(projects);
-            if (projects) setProjects(projects);
-          })
-          .catch((error) => console.log(error));
-      } else {
-        setCurrentProject(null);
-      }
+    async function loadAllProject() {
+      const { data } = await getAllProjects();
+      return data;
     }
-  }, [user]);
+
+    loadAllProject()
+      .then((projects) => {
+        if (projects) {
+          console.log("projects from context : ", projects);
+          setProjects(projects);
+        } else {
+          setCurrentProject(null);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   useEffect(() => {
     // const unsubscribe = onAuthStateChangeListener(user => {
@@ -82,7 +76,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
         setCurrentProject(null);
       }
     }
-  }, [currentProject]);
+  }, [currentProject, supabase]);
 
   useEffect(() => {
     if (user) {

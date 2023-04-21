@@ -6,6 +6,7 @@ import type { Profiles } from "@/types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { WalletContextState } from "@solana/wallet-adapter-react";
 import type { FC, SetStateAction } from "react";
+import Image from "next/image";
 
 type Props = {
   currentUser: Profiles;
@@ -51,15 +52,18 @@ const Navbar: FC<Props> = ({
                 <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
                   <div className="bg-base-800">
                     <div className="w-10 rounded-full">
-                      <img
+                      <Image
                         src={`${
                           currentUser.avatar_url.startsWith("https://")
                             ? currentUser.avatar_url
                             : (process.env.NEXT_PUBLIC_SUPABASE_URL as string) +
-                              "/storage/v1/object/sign/avatars/" +
+                              "/storage/v1/object/public/avatars/" +
                               currentUser.avatar_url
                         }`}
                         className="rounded-full"
+                        width={42}
+                        height={42}
+                        alt={currentUser.full_name}
                       />
                     </div>
                   </div>

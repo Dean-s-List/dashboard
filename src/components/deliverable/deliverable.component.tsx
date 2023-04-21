@@ -12,7 +12,7 @@ export const Deliverable: FC<PropsWithChildren<DeliverableProps>> = ({
   children,
   deliverable,
 }): JSX.Element => {
-  const { id, value, name, due_date, category } = deliverable;
+  const { value, name, due_date, category } = deliverable;
   const { trackColor, indicatorColor } = radialColors(category);
   return (
     <div className="mx-auto mt-1 flex flex h-[92px] w-full max-w-[331px] list-none items-center justify-center rounded-xl bg-primary-darker shadow-md">

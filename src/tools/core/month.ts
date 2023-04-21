@@ -1,5 +1,5 @@
 export const numericalToString = (date: string) => {
-  const [month] = date.split("-")[2]!;
+  const month = date.split("-")[1]!;
   if (month)
     switch (parseInt(month)) {
       case 1:

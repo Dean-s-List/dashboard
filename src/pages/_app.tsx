@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 // Supabase
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -10,7 +10,7 @@ import { ContentContainer } from "@/components/content-container/content-contain
 // import { HolderProvider } from "@/contexts/holder.context";
 import { UserProvider } from "@/contexts/user.context";
 import { UserAgentProvider } from "@/contexts/agent.context";
-import { ProjectsProvider } from "@/contexts/projects.context";
+import { ProjectsContext, ProjectsProvider } from "@/contexts/projects.context";
 
 // Stylesheet
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -42,25 +42,13 @@ const MyApp = ({
   const [supabaseClient] = useState(() =>
     createBrowserSupabaseClient<Database>()
   );
-  const [projects, setProjects] = useState<Projects[] | null>(null);
+  const { projects } = useContext(ProjectsContext);
 
   const [ua, setUa] = useState<string>("");
   useEffect(() => {
     if (window.navigator.userAgent) setUa(window.navigator.userAgent);
   }, []);
-  useEffect(() => {
-    const fetchProjects = async () => {
-      return await getAllProjects();
-    };
-    fetchProjects()
-      .then(({ data }) => {
-        if (data) {
-          setProjects(data);
-          console.log(data);
-        }
-      })
-      .catch((error) => console.log(error));
-  }, []);
+
   return (
     <main className={`${tt.variable} ${space.variable}`}>
       <Toaster />
@@ -71,13 +59,13 @@ const MyApp = ({
           initialSession={pageProps.initialSession}
         >
           <UserProvider>
-            <ContentContainer projects={projects}>
-              <UserAgentProvider userAgent={ua}>
-                <ProjectsProvider>
+            <ProjectsProvider>
+              <ContentContainer projects={projects}>
+                <UserAgentProvider userAgent={ua}>
                   <Component {...pageProps} />
-                </ProjectsProvider>
-              </UserAgentProvider>
-            </ContentContainer>
+                </UserAgentProvider>
+              </ContentContainer>
+            </ProjectsProvider>
           </UserProvider>
         </SessionContextProvider>
         {/* </HolderProvider> */}

@@ -26,48 +26,45 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const value = { currentUser, setCurrentUser, supabase, isAdmin };
 
   useEffect(() => {
-    if (user) {
-      async function loadProfile(userId: string) {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", userId)
-          .single();
-        if (data) return data;
-        if (error) console.log(error);
-      }
-      if (user) {
-        loadProfile(user.id)
-          .then((profile) => {
-            if (profile) setCurrentUser(profile);
-          })
-          .catch((error) => console.log(error));
-      } else {
-        setCurrentUser(null);
-      }
+    async function getProfile() {
+      if (!user) throw new Error("No user");
+
+      return await supabase
+        .from("profiles")
+        .select(`*`)
+        .eq("id", user.id)
+        .single();
     }
-  }, [user]);
+    if (user)
+      getProfile()
+        .then(({ data }) => {
+          if (data) {
+            setCurrentUser(data);
+            console.log("avatar_url from context :", data.avatar_url);
+          }
+        })
+        .catch((error) => console.log(error));
+  }, [user, supabase]);
 
   useEffect(() => {
-    if (user) {
-      async function checkPriviledges(userId: string) {
-        const { data, error } = await supabase
-          .from("admins")
-          .select("*")
-          .eq("id", userId)
-          .single();
-        if (data) return data;
-        if (error) console.log(error);
-      }
-      if (user) {
-        checkPriviledges(user.id)
-          .then((admin) => {
-            if (admin) setAdmin(admin);
-          })
-          .catch((error) => console.log(error));
-      }
+    async function checkPriviledges(userId: string) {
+      if (!user) throw new Error("No user");
+
+      const { data, error } = await supabase
+        .from("admins")
+        .select("*")
+        .eq("id", userId)
+        .single();
+      if (data) return data;
+      if (error) console.log(error);
     }
-  }, [user]);
+    if (user)
+      checkPriviledges(user.id)
+        .then((admin) => {
+          if (admin) setAdmin(admin);
+        })
+        .catch((error) => console.log(error));
+  }, [user, supabase]);
 
   useEffect(() => {
     if (admin) {

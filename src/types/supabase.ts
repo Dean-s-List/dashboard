@@ -68,46 +68,40 @@ export interface Database {
       };
       feedbacks: {
         Row: {
-          id: string;
+          id: string | null;
           user_id: string;
-          title: string;
+          title: string | null;
           project: string;
-          created_at: string;
+          created_at: string | null;
           published: boolean;
           category: CategoryEnum;
           content: Json | OutputData | null;
-          user_agent: string | null;
-          upvotes: number;
-          downvotes: number;
-          avatar_url: string | null;
+          user_agent: string;
+          avatar_url: string;
         };
         Insert: {
-          id?: string;
+          id?: string | null;
           user_id?: string;
-          title: string;
+          title: string | null;
           project?: string;
-          created_at?: string;
+          created_at?: string | null;
           published?: boolean;
           category?: CategoryEnum;
           content?: Json | OutputData | null;
-          user_agent?: string | null;
-          upvotes?: number;
-          downvotes?: number;
-          avatar_url?: string | null;
+          user_agent?: string;
+          avatar_url?: string;
         };
         Update: {
-          id?: string;
+          id?: string | null;
           user_id?: string;
-          title?: string;
+          title?: string | null;
           project?: string;
           created_at?: string;
           published?: boolean;
           category?: CategoryEnum;
           content?: Json | OutputData | null;
-          user_agent?: string | null;
-          upvotes?: number;
-          downvotes?: number;
-          avatar_url?: string | null;
+          user_agent?: string;
+          avatar_url?: string;
         };
       };
       projects: {
@@ -118,7 +112,7 @@ export interface Database {
           starts_at: string;
           ends_at: string;
           description: string | null;
-          focus: CategoryEnum | null;
+          focus: CategoryEnum;
           logo: string | null;
           image: string | null;
         };
@@ -129,7 +123,7 @@ export interface Database {
           starts_at?: string;
           ends_at?: string;
           description?: string | null;
-          focus?: CategoryEnum | null;
+          focus?: CategoryEnum;
           logo?: string | null;
           image?: string | null;
         };
@@ -214,6 +208,29 @@ export interface Database {
           due_date?: string;
           value?: number;
           category?: CategoryEnum;
+          created_at?: string;
+        };
+      };
+      comments: {
+        Row: {
+          id: string;
+          user_id: string;
+          value: number;
+          content: string | null;
+          created_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          value?: number;
+          content?: string | null;
+          created_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          value?: number;
+          content?: string;
           created_at?: string;
         };
       };

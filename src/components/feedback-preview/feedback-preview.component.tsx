@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import Blocks from "editorjs-blocks-react-renderer";
-import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
-import { CategoryEnum } from "@/constants";
 import type { Feedbacks, Projects, Profiles } from "@/types";
 import type { FC } from "react";
+// import Rating from "../rating/rating.component";
+import { Badge } from "../badge/badge.component";
 
 interface Props {
   project: Projects;
@@ -12,10 +12,10 @@ interface Props {
   currentUser: Profiles;
 }
 
-const FeedbackPreview: FC<Props> = ({ project, feedback, currentUser }) => (
+const FeedbackPreview: FC<Props> = ({ project, feedback }) => (
   <div className="h-[227px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl">
-    <Link href={`/feedback/${feedback.id}`} className="h-[50%] max-h-[50%]">
-      {feedback.content && (
+    <Link href={`/feedback/${feedback.id}`} className="h-[50%] max-h-[50%] ">
+      {feedback.content ? (
         <div className="h-[50%] max-h-[50%] overflow-y-hidden">
           <Blocks
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -30,59 +30,37 @@ const FeedbackPreview: FC<Props> = ({ project, feedback, currentUser }) => (
             }}
           />
         </div>
+      ) : (
+        <div className="h-[50%] max-h-[50%] " />
       )}
-      {!feedback.content && <div className="h-[50%] max-h-[50%]" />}
     </Link>
 
-    <hr />
-    <div className="mt-1 flex h-[50%] w-[100%] items-end">
+    <hr className="text-primary" />
+    <div className="mt-1 flex h-[42%] w-[100%] items-end">
       <div className="flex w-[50%] flex-col">
         <span className="text-sm">Project : {project.name}</span>
-        <div
-          className={`badge badge-md mt-2 w-[100%] text-xs ${
-            feedback.category == CategoryEnum.UXUI
-              ? `uxui`
-              : feedback.category == CategoryEnum.Docs
-              ? `docs`
-              : feedback.category == CategoryEnum.Strategy
-              ? `strategy`
-              : feedback.category == CategoryEnum.Community
-              ? `community`
-              : `error`
-          }`}
-        >
-          {feedback.category === CategoryEnum.UXUI
-            ? "UX/UI"
-            : feedback.category === CategoryEnum.Docs
-            ? "Documentation"
-            : feedback.category === CategoryEnum.Strategy
-            ? "Business/Strategy"
-            : feedback.category === CategoryEnum.Community
-            ? "Community"
-            : "Error"}
-        </div>
+        <Badge category={feedback.category} />
         <div className="mt-2 flex ">
-          <span className="ml-4 flex items-center">
-            <HandThumbUpIcon className="mr-2 h-4 w-4 text-[#ff0000] hover:text-[#ff000088]" />{" "}
-            {feedback.upvotes}
-          </span>
-          <span className="ml-4 flex items-center">
-            <HandThumbDownIcon className="mr-2 h-4 w-4 text-[#00ff00] hover:text-[#00ff0088]" />{" "}
-            {feedback.downvotes}
-          </span>
+          {/* <Rating stars={feedback.avg || 0} /> */}
         </div>
       </div>
       <div className="mt-1 mr-0 flex h-[50%] w-[50%] items-center justify-end self-end">
         <span className="text-xs">{feedback.created_at.split("T")[0]}</span>
         <div className="btn-ghost btn-circle avatar btn">
           <div className="bg-base-800">
-            <div className="w-8 rounded-full">
+            <div className="w-10 rounded-full">
               <Image
-                src={currentUser.avatar_url}
-                width={22}
-                height={22}
-                alt={currentUser.full_name}
+                src={`${
+                  feedback.avatar_url.startsWith("https://")
+                    ? feedback.avatar_url
+                    : (process.env.NEXT_PUBLIC_SUPABASE_URL as string) +
+                      "/storage/v1/object/public/avatars/" +
+                      feedback.avatar_url
+                }`}
                 className="rounded-full"
+                width={42}
+                height={42}
+                alt="author"
               />
             </div>
           </div>

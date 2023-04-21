@@ -53,3 +53,4 @@ export type Projects = Database["public"]["Tables"]["projects"]["Row"];
 export type Links = Database["public"]["Tables"]["links"]["Row"];
 export type Documents = Database["public"]["Tables"]["documents"]["Row"];
 export type Admin = Database["public"]["Tables"]["admins"]["Row"];
+export type Comments = Database["public"]["Tables"]["comments"]["Row"];

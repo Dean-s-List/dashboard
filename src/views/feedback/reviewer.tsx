@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
@@ -8,7 +8,8 @@ import { numericalToString } from "@/tools/core/month";
 import { CategoryEnum } from "@/constants";
 import type { OutputData } from "@editorjs/editorjs";
 import type { Links, Projects } from "@/types";
-import type { FC, FormEvent } from "react";
+import type { FC } from "react";
+import { Badge } from "@/components/badge/badge.component";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -74,17 +75,20 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
     }
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (currentUser && targetProject && data && feedbackCategory && userAgent) {
       addFeedback({
+        id: null,
+        title: null,
         user_id: currentUser.id,
-        title: "",
         project: targetProject.id,
         content: JSON.stringify(data),
         category: feedbackCategory,
         published: true,
         user_agent: userAgent,
+        avatar_url: currentUser.avatar_url,
+        created_at: null,
       })
         .then((res) => console.log(res))
         .catch((error) => console.log(error));
@@ -130,30 +134,7 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
           {targetProject && (
             <li className="mt-8 flex w-96 flex-col px-1">
               <span className="text-sm">
-                Project Focus :{" "}
-                <div
-                  className={`badge badge-md mx-auto w-[50%] ${
-                    targetProject.focus == CategoryEnum.UXUI
-                      ? `uxui`
-                      : targetProject.focus == CategoryEnum.Docs
-                      ? `docs`
-                      : targetProject.focus == CategoryEnum.Strategy
-                      ? `strategy`
-                      : targetProject.focus == CategoryEnum.Community
-                      ? `community`
-                      : `error`
-                  }`}
-                >
-                  {targetProject.focus === CategoryEnum.UXUI
-                    ? "UX/UI"
-                    : targetProject.focus === CategoryEnum.Docs
-                    ? "Documentation"
-                    : targetProject.focus === CategoryEnum.Strategy
-                    ? "Business/Strategy"
-                    : targetProject.focus === CategoryEnum.Community
-                    ? "Community"
-                    : "Error"}
-                </div>
+                Project Focus : <Badge category={targetProject.focus} />
               </span>
             </li>
           )}

@@ -82,7 +82,8 @@ export default function Avatar({
           src={`${avatarUrl ? avatarUrl : currentUser?.avatar_url}`}
           alt="Avatar"
           className="image avatar mx-auto rounded-md border border-primary shadow-xl"
-          style={{ height: size, width: size }}
+          width={150}
+          height={150}
         />
       ) : (
         <div

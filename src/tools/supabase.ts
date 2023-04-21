@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 
 import type { Database } from "@/types/supabase";
 import type { CategoryEnum } from "@/constants";
-import type { Profiles, Projects } from "@/types";
+import type { Feedbacks, Profiles, Projects, Comments } from "@/types";
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -51,15 +51,8 @@ export const addFeedback = async ({
   category,
   published,
   user_agent,
-}: {
-  user_id: string;
-  title: string;
-  project: string;
-  content: string;
-  category: CategoryEnum;
-  published: boolean;
-  user_agent: string;
-}) => {
+  avatar_url,
+}: Feedbacks) => {
   const { error } = await supabase.from("feedbacks").insert({
     user_id,
     title,
@@ -68,6 +61,17 @@ export const addFeedback = async ({
     category,
     published,
     user_agent,
+    avatar_url,
+  });
+  if (error) console.log(error);
+};
+
+export const addComment = async ({ id, user_id, value, content }: Comments) => {
+  const { error } = await supabase.from("comments").insert({
+    id,
+    user_id,
+    value,
+    content,
   });
   if (error) console.log(error);
 };

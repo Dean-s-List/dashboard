@@ -92,7 +92,7 @@ export default function Account({ session }: { session: Session }) {
             type="text"
             placeholder="info@site.com"
             id="email"
-            className="input-bordered input w-full  text-xs"
+            className="input-bordered input w-full text-center text-xs"
             value={session.user.email}
             disabled
           />
@@ -107,7 +107,7 @@ export default function Account({ session }: { session: Session }) {
             placeholder="ex : d4rks4suk3"
             id="username"
             value={currentUser?.full_name || ""}
-            className="input-bordered input w-full text-xs"
+            className="input-bordered input w-full text-center text-xs"
             disabled
           />
         </label>
@@ -128,7 +128,7 @@ export default function Account({ session }: { session: Session }) {
           >
             {/* {currentUser?.discord_id || ( */}
             <>
-              <Image src={discord as string} alt="discord" className="mr-2" />{" "}
+              <Image src={discord as string} alt="discord" className="mr-4" />{" "}
               connect discord
             </>
             {/* )} */}
@@ -151,7 +151,7 @@ export default function Account({ session }: { session: Session }) {
           >
             {/* {currentUser?.discord_id || ( */}
             <>
-              <Image src={twitter as string} alt="discord" className="mr-2" />{" "}
+              <Image src={twitter as string} alt="discord" className="mr-4" />{" "}
               connect twitter
             </>
             {/* )} */}
@@ -174,7 +174,7 @@ export default function Account({ session }: { session: Session }) {
           >
             {/* {currentUser?.discord_id || ( */}
             <>
-              <Image src={github as string} alt="discord" className="mr-2" />{" "}
+              <Image src={github as string} alt="discord" className="mr-4" />{" "}
               connect github
             </>
             {/* )} */}
