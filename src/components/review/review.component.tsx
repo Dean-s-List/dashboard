@@ -20,7 +20,7 @@ const Review: FC<Props> = ({ feedback }) => {
           onSubmit={(e) => {
             e.preventDefault();
             addComment({
-              id: feedback.id,
+              id: feedback.id!,
               user_id: currentUser.id,
               value: stars,
               content: data,
