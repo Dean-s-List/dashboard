@@ -52,7 +52,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
               },
             }}
             supabaseClient={supabase}
-            providers={["discord", "twitter", "github"]}
+            // providers={["discord", "twitter", "github"]}
+            providers={["discord"]}
             socialLayout="horizontal"
           />
         ) : (
