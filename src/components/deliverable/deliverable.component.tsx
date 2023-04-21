@@ -17,8 +17,8 @@ export const Deliverable: FC<PropsWithChildren<DeliverableProps>> = ({
   return (
     <div className="mx-auto mt-1 flex flex h-[92px] w-full max-w-[331px] list-none items-center justify-center rounded-xl bg-primary-darker shadow-md">
       <RadialProgress
-        trackColor={trackColor}
-        indicatorColor={indicatorColor}
+        trackColor={indicatorColor}
+        indicatorColor={trackColor}
         indicatorCap=""
         labelColor=""
         progress={value}
