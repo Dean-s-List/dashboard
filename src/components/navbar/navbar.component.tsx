@@ -1,10 +1,11 @@
-import React, { FC, SetStateAction } from "react";
+import React from "react";
 import Link from "next/link";
 
 import Wallet from "../wallet";
-import type { CurrentUser, Profiles } from "@/types";
+import type { Profiles } from "@/types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { WalletContextState } from "@solana/wallet-adapter-react";
+import type { FC, SetStateAction } from "react";
 
 type Props = {
   currentUser: Profiles;
@@ -80,7 +81,9 @@ const Navbar: FC<Props> = ({
                 <li>
                   <a
                     onClick={() => {
-                      supabase.auth.signOut();
+                      supabase.auth
+                        .signOut()
+                        .catch((error) => console.log(error));
                       setCurrentUser(null);
                     }}
                   >

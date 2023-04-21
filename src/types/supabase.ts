@@ -1,4 +1,4 @@
-import { CategoryEnum } from "@/constants";
+import type { CategoryEnum } from "@/constants";
 import type { OutputData } from "@editorjs/editorjs";
 
 export type Json =
