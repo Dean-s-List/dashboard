@@ -6,11 +6,11 @@ import { CategoryEnum } from "@/constants";
 import type { Feedbacks } from "@/types";
 import type { FC } from "react";
 
-import { _FEEDBACK_ } from "@/mock/feedback";
+// import { _FEEDBACK_ } from "@/mock/feedback";
 import { TicketIcon } from "@heroicons/react/24/outline";
 
 const FeedbackTable: FC = () => {
-  const [feedback, setFeedback] = useState<Feedbacks[] | null>(_FEEDBACK_);
+  const [feedback, setFeedback] = useState<Feedbacks[] | null>(null);
   return (
     <table className="w-[100%] rounded-lg">
       <thead className="flex w-[100%] text-center">
