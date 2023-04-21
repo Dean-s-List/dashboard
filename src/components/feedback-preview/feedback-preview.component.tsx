@@ -13,7 +13,7 @@ interface Props {
 }
 
 const FeedbackPreview: FC<Props> = ({ project, feedback, currentUser }) => (
-  <div className="h-[227px] max-w-[379px] rounded-md border-primary bg-primary-dark p-4 shadow-xl">
+  <div className="h-[227px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl">
     <Link href={`/feedback/${feedback.id}`} className="h-[50%] max-h-[50%]">
       {feedback.content && (
         <div className="h-[50%] max-h-[50%] overflow-y-hidden">
@@ -22,7 +22,7 @@ const FeedbackPreview: FC<Props> = ({ project, feedback, currentUser }) => (
             data={JSON.parse(feedback.content as string)}
             config={{
               paragraph: {
-                className: "text-base text-opacity-75",
+                className: "text-opacity-75 prose prose-sm",
                 actionsClassNames: {
                   alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
                 },

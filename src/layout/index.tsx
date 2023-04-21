@@ -37,7 +37,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <div className="flex w-full flex-grow items-center justify-center">
         {!currentUser ? (
           <Auth
-            redirectTo={`${process.env.NEXT_PUBLIC_URL as string}`}
+            redirectTo={`${
+              (process.env.NEXT_PUBLIC_URL as string) || "http://localhost:3000"
+            }`}
             appearance={{
               theme: ThemeSupa,
               variables: {
