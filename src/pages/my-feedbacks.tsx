@@ -8,7 +8,6 @@ import type { Projects, Feedbacks } from "@/types";
 import type { NextPage } from "next";
 
 const MyFeedbackPage: NextPage = () => {
-  const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<Projects[]>();
   const { currentUser } = useContext(UserContext);
   const [userFeedbacks, setUserFeedbacks] = useState<Feedbacks[]>();
@@ -42,12 +41,6 @@ const MyFeedbackPage: NextPage = () => {
         .catch((error) => console.log(error));
     }
   }, [currentUser]);
-
-  useEffect(() => {
-    if (currentUser && projects) {
-      setLoading(false);
-    }
-  }, [projects, currentUser]);
 
   return (
     <Layout>
