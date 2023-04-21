@@ -159,12 +159,14 @@ export const ContentContainer: FC<PropsWithChildren<Props>> = ({
 
           {/* SIDEBAR BOTTOM */}
           <ul className="menu absolute bottom-0 w-full">
-            <li className="ml-0 p-0 text-xs font-bold uppercase">
-              <a className="mx-[12px]">
-                <Cog6ToothIcon className="h-6 w-6" />
-                Settings
-              </a>
-            </li>
+            {currentUser && (
+              <li className="ml-0 p-0 text-xs font-bold uppercase">
+                <a className="mx-[12px]">
+                  <Cog6ToothIcon className="h-6 w-6" />
+                  Settings
+                </a>
+              </li>
+            )}
             <li className="ml-0 p-0 text-xs font-bold uppercase">
               <Link
                 href="https://github.com/Deans-List/dashboard/issues/new"
@@ -175,12 +177,12 @@ export const ContentContainer: FC<PropsWithChildren<Props>> = ({
                 Bug Report
               </Link>
             </li>
-            <li className="ml-0 p-0 text-xs font-bold uppercase">
+            {/* <li className="ml-0 p-0 text-xs font-bold uppercase">
               <a className="mx-[12px]">
                 <QuestionMarkCircleIcon className="h-6 w-6" />
                 Support
               </a>
-            </li>
+            </li> */}
           </ul>
         </ul>
       </div>

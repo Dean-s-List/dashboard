@@ -1,5 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { getDeliverables, getProjectFeedbacks } from "@/tools/supabase";
+import {
+  getDeliverables,
+  getProjectFeedbacks,
+  getProjectLinks,
+} from "@/tools/supabase";
 import { UserContext } from "@/contexts/user.context";
 import ProjectCard from "@/components/project-card/project-card.component";
 import ProjectDetails from "@/components/project-details/project-details.component";
@@ -39,6 +43,25 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
         .then(({ data }) => {
           if (data) {
             setDeliverables(data);
+            console.log(data);
+          }
+        })
+        .finally(() => {
+          setTimeout(() => setLoading(false), 1000);
+        });
+    }
+  }, [selectedProject]);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchLinks = async (project: Projects) => {
+      return await getProjectLinks(project);
+    };
+    if (selectedProject) {
+      fetchLinks(selectedProject)
+        .then(({ data }) => {
+          if (data) {
+            setLinks(data);
             console.log(data);
           }
         })
@@ -115,13 +138,15 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
         {" "}
         {selectedProject ? (
           <div className="static flex flex-col">
-            <div className="relative top-0 flex w-full items-center justify-center space-x-96">
-              <h2 className="text-2xl font-bold">{selectedProject.name}</h2>
-              <button className="btn-secondary btn-sm btn capitalize">
+            <div className="justify- relative top-0 mx-auto flex w-[95%] items-center">
+              <h2 className="w-[100%] text-2xl font-bold">
+                {selectedProject.name}
+              </h2>
+              <button className="btn-secondary btn-sm btn capitalize ">
                 Add Feedback
               </button>
             </div>
-            <div className="mx-auto mt-8 min-h-[150px] w-[95%] rounded-xl bg-primary-dark p-4 pb-8">
+            <div className="mx-auto mt-8 min-h-[150px] w-[100%] rounded-xl bg-primary-dark p-4 pb-8">
               <h3 className="p-1 font-bold">Deliverables</h3>
               <div className="grid grid-cols-2 gap-4">
                 {deliverables ? (
@@ -138,27 +163,30 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                 )}
               </div>
             </div>
-            <div className="mx-auto mt-8 min-h-[200px] w-[95%] rounded-xl bg-primary-dark">
-              <h3 className="p-4 font-bold">Team Members</h3>
-              {/* {selectedProject.deliverables ? (
-                selectedProject.deliverables.map((deliverable) => (
-                  <div
-                    className="mx-auto flex flex h-[92px] w-full max-w-[331px] list-none items-center justify-center rounded-xl bg-primary-darker shadow-md"
-                    key={deliverable.id}
-                  >
-                    <Deliverable deliverable={deliverable} />
+            <div className="mx-auto mt-8 min-h-[150px] w-[100%] rounded-xl bg-primary-dark p-4 pb-8">
+              <h3 className="p-1 font-bold">Team Members</h3>
+              {/* <div className="grid grid-cols-2 gap-4">
+                {deliverables ? (
+                  deliverables.map((deliverable) => (
+                    <Deliverable
+                      deliverable={deliverable}
+                      key={deliverable.id}
+                    />
+                  ))
+                ) : (
+                  <div className="w-full text-center">
+                    this project has no deliverables yet !
                   </div>
-                ))
-              ) : (
-                <div>Nobody works on this yet !</div>
-              )} */}
+                )}
+              </div> */}
             </div>
-            <div className="mt-8 flex w-full items-center px-8">
-              <span className="w-full">Feedback</span>
-              <div className="flex w-full space-x-4">
-                <div className="form-control w-[50%] max-w-[50%]">
+            <div className="mx-auto mt-8 flex items-center justify-center space-x-8">
+              <span className="w-full text-xl font-bold">Feedbacks</span>
+
+              <div className="mx-auto flex w-full">
+                <div className="form-control">
                   <select
-                    className="select-bordered select"
+                    className="select-bordered select select-sm"
                     onChange={(e) => {
                       switch (e.target.value) {
                         case "UX/UI":
@@ -185,9 +213,9 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                     <option>Community</option>
                   </select>
                 </div>
-                <div className="form-control w-[50%] max-w-[50%]">
+                <div className="form-control">
                   <select
-                    className="select-bordered select"
+                    className="select-bordered select select-sm"
                     onChange={(e) => {
                       switch (e.target.value) {
                         case "UX/UI":
@@ -217,6 +245,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                 </div>
               </div>
             </div>
+
             <div className="my-4 mx-auto grid w-[95%] grid-cols-2 gap-4">
               {feedbacks &&
                 currentUser &&

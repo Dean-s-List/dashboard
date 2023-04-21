@@ -14,7 +14,7 @@ interface Props {
 
 const FeedbackPreview: FC<Props> = ({ project, feedback }) => (
   <div className="h-[227px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl">
-    <Link href={`/feedback/${feedback.id}`} className="h-[50%] max-h-[50%] ">
+    <Link href={`/feedback/${feedback.id!}`} className="h-[50%] max-h-[50%] ">
       {feedback.content ? (
         <div className="h-[50%] max-h-[50%] overflow-y-hidden">
           <Blocks
@@ -45,7 +45,7 @@ const FeedbackPreview: FC<Props> = ({ project, feedback }) => (
         </div>
       </div>
       <div className="mt-1 mr-0 flex h-[50%] w-[50%] items-center justify-end self-end">
-        <span className="text-xs">{feedback.created_at.split("T")[0]}</span>
+        <span className="text-xs">{feedback.created_at!.split("T")[0]}</span>
         <div className="btn-ghost btn-circle avatar btn">
           <div className="bg-base-800">
             <div className="w-10 rounded-full">

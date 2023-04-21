@@ -15,7 +15,7 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => (
   >
     <div className="card-body">
       <h2 className="card-title">{project.name}</h2>
-      <hr />
+      <hr className="pb-1 text-primary" />
       <div className="mx-auto flex w-[88%] items-center justify-center space-x-8">
         <Badge category={project.focus} />
         <span className="badge badge-md mx-auto flex w-[100%] border border-primary bg-[#fff] font-bold text-success">

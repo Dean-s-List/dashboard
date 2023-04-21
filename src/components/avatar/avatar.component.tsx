@@ -79,11 +79,17 @@ export default function Avatar({
     <div className="flex w-full flex-col items-center justify-center bg-primary-dark py-8 md:rounded-t-lg">
       {currentUser ? (
         <Image
-          src={`${avatarUrl ? avatarUrl : currentUser?.avatar_url}`}
-          alt="Avatar"
+          src={`${
+            currentUser.avatar_url.startsWith("https://")
+              ? currentUser.avatar_url
+              : (process.env.NEXT_PUBLIC_SUPABASE_URL as string) +
+                "/storage/v1/object/public/avatars/" +
+                currentUser.avatar_url
+          }`}
           className="image avatar mx-auto rounded-md border border-primary shadow-xl"
           width={150}
           height={150}
+          alt="Avatar"
         />
       ) : (
         <div

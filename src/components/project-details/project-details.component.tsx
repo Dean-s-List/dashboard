@@ -28,11 +28,11 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
         width={420}
         height={150}
         alt={`${project.name}`}
-        className="mt-2 rounded-md border"
+        className="my-4 rounded-md border border-primary shadow-xl"
       />
-      <span className="mt-8 text-sm">Description :</span>
+      <span className="text-xs">Description :</span>
       <p className="mt-2 text-justify text-xs">{project.description}</p>
-      <span className="mt-8 flex items-center text-xs">
+      <span className="mt-4 flex items-center text-xs">
         <ClockIcon className="mr-1 h-6 w-6" /> Started
       </span>
       <span className="flex w-[100%] text-sm font-bold">
@@ -48,20 +48,24 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
           "-"
         )[2]!} ${project.ends_at.split("-")[0]!}`}
       </span>
-      <ul className="mt-8">
-        <span className="text-sm">Links :</span>
+      <ul className="mt-4">
+        <span className="text-xs">Links :</span>
         {links ? (
           links.map((link) => (
             <li key={link.id}>
-              <Link href={link.link}>{link.text}</Link>
+              <Link href={link.link}>
+                <span className="text-sm font-bold text-secondary-dark">
+                  {link.text}
+                </span>
+              </Link>
             </li>
           ))
         ) : (
           <div className="mt-2 text-xs">this project has no links yet.</div>
         )}
       </ul>
-      <ul className="mt-8">
-        <span className="text-sm">Documents :</span>
+      <ul className="mt-4">
+        <span className="text-xs">Documents :</span>
         {documents ? (
           documents.map((document) => (
             <li key={document.id}>
