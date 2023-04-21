@@ -21,7 +21,6 @@ const MyFeedback: FC<Props> = ({ currentUser, projects, userFeedbacks }) => (
               (project: Projects) => project.id == feedback.project
             )[0]!
           }
-          currentUser={currentUser}
           key={feedback.id}
         />
       ))}
