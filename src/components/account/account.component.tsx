@@ -16,14 +16,11 @@ import type { Profiles } from "@/types";
 export default function Account({ session }: { session: Session }) {
   const supabase = useSupabaseClient<Database>();
   const user = useUser();
-  const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState<Profiles["username"]>(null);
   const [avatar_url, setAvatarUrl] = useState<Profiles["avatar_url"]>();
   const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
-    setLoading(true);
-
     async function getProfile() {
       if (!user) throw new Error("No user");
 
@@ -40,7 +37,6 @@ export default function Account({ session }: { session: Session }) {
           setUsername(data.username);
           setAvatarUrl(data.avatar_url);
         }
-        setLoading(false);
       })
       .catch((error) => console.log(error));
   }, [session, user, supabase]);
@@ -72,7 +68,6 @@ export default function Account({ session }: { session: Session }) {
           url={avatar_url}
           size={150}
           onUpload={(url) => {
-            setLoading(true);
             setAvatarUrl(url);
             updateProfile({ username, avatar_url: url })
               .then(({ data }) => {
