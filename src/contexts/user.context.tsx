@@ -1,14 +1,9 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  SetStateAction,
-} from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { onAuthStateChangeListener } from "@/tools/supabase";
+// import { onAuthStateChangeListener } from "@/tools/supabase";
 import type { Database } from "@/types/supabase";
 import type { Profiles, Admin } from "@/types";
-import type { ReactNode } from "react";
+import type { SetStateAction, ReactNode } from "react";
 
 interface UserContext {
   currentUser: Profiles | null;
@@ -42,9 +37,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (error) console.log(error);
       }
       if (user) {
-        loadProfile(user.id).then((profile) => {
-          if (profile) setCurrentUser(profile);
-        });
+        loadProfile(user.id)
+          .then((profile) => {
+            if (profile) setCurrentUser(profile);
+          })
+          .catch((error) => console.log(error));
       } else {
         setCurrentUser(null);
       }
@@ -63,9 +60,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (error) console.log(error);
       }
       if (user) {
-        checkPriviledges(user.id).then((admin) => {
-          if (admin) setAdmin(admin);
-        });
+        checkPriviledges(user.id)
+          .then((admin) => {
+            if (admin) setAdmin(admin);
+          })
+          .catch((error) => console.log(error));
       }
     }
   }, [user]);

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // React
-import { ChangeEvent, useEffect, useState, useContext } from "react";
-import { toast } from "react-hot-toast";
+import { useEffect, useState, useContext } from "react";
+// import { toast } from "react-hot-toast";
 // Solana SDK
-import { Transaction } from "@solana/web3.js";
-import {
-  getAssociatedTokenAddressSync,
-  getMint,
-  createTransferCheckedInstruction,
-} from "@solana/spl-token";
-import { useWallet } from "@solana/wallet-adapter-react";
+// import { Transaction } from "@solana/web3.js";
+// import {
+//   getAssociatedTokenAddressSync,
+//   getMint,
+//   createTransferCheckedInstruction,
+// } from "@solana/spl-token";
+// import { useWallet } from "@solana/wallet-adapter-react";
 // Packages
 import { perks, packages } from "../../packages";
 // Layout
@@ -24,6 +24,7 @@ import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 // import { connection, TREASURY_MINT, USDC_MINT } from "@/constants";
 import { HolderEnum } from "@/constants";
 import { WIP } from "@/components/wip";
+import type { ChangeEvent } from "react";
 
 const Create = () => {
   const [selected, setSelected] = useState<number>(1);

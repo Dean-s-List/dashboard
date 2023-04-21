@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
-import { Database } from "@/types/supabase";
-import { CategoryEnum } from "@/constants";
-import { CurrentUser, Profiles, Projects } from "@/types";
+import type { Database } from "@/types/supabase";
+import type { CategoryEnum } from "@/constants";
+import type { Profiles, Projects } from "@/types";
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -104,6 +104,10 @@ export const getProjectFeedbacks = async (project: Projects) => {
 
 export const getProjectLinks = async (project: Projects) => {
   return await supabase.from("links").select("*").eq("project", project.id);
+};
+
+export const getProjectDocuments = async (project: Projects) => {
+  return await supabase.from("documents").select("*").eq("project", project.id);
 };
 
 export const getAvatar = async (user_id: string) => {

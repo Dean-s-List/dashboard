@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { UserContext } from "@/contexts/user.context";
@@ -38,7 +40,7 @@ export default function Avatar({
       }
     }
 
-    if (url) downloadImage(url);
+    if (url) downloadImage(url).catch((error) => console.log(error));
   }, [url, supabase.storage]);
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (
@@ -53,10 +55,10 @@ export default function Avatar({
 
       const file = event.target.files[0]!;
       const fileExt = file.name.split(".").pop();
-      const fileName = `${uid}.${fileExt}`;
+      const fileName = `${uid}.${fileExt!}`;
       const filePath = `${fileName}`;
 
-      let { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("avatars")
         .upload(filePath, file, { upsert: true });
 
@@ -76,7 +78,7 @@ export default function Avatar({
   return (
     <div className="flex w-full flex-col items-center justify-center bg-primary-dark py-8 md:rounded-t-lg">
       {currentUser ? (
-        <img
+        <Image
           src={`${avatarUrl ? avatarUrl : currentUser?.avatar_url}`}
           alt="Avatar"
           className="image avatar mx-auto rounded-md border border-primary shadow-xl"

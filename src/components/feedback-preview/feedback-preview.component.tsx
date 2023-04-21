@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Blocks from "editorjs-blocks-react-renderer";
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
@@ -17,6 +18,7 @@ const FeedbackPreview: FC<Props> = ({ project, feedback, currentUser }) => (
       {feedback.content && (
         <div className="h-[50%] max-h-[50%] overflow-y-hidden">
           <Blocks
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             data={JSON.parse(feedback.content as string)}
             config={{
               paragraph: {
@@ -75,7 +77,13 @@ const FeedbackPreview: FC<Props> = ({ project, feedback, currentUser }) => (
         <div className="btn-ghost btn-circle avatar btn">
           <div className="bg-base-800">
             <div className="w-8 rounded-full">
-              <img src={currentUser.avatar_url} className="rounded-full" />
+              <Image
+                src={currentUser.avatar_url}
+                width={22}
+                height={22}
+                alt={currentUser.full_name}
+                className="rounded-full"
+              />
             </div>
           </div>
         </div>

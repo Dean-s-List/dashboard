@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from "react";
 import { RadialProgress } from "@/components/radial-progress/radial-progress.component";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { radialColors } from "@/tools/core/colors";
-import { Deliverables } from "@/types";
+import type { Deliverables } from "@/types";
 
 interface DeliverableProps {
   deliverable: Deliverables;

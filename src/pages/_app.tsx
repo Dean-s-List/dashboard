@@ -52,12 +52,14 @@ const MyApp = ({
     const fetchProjects = async () => {
       return await getAllProjects();
     };
-    fetchProjects().then(({ data }) => {
-      if (data) {
-        setProjects(data);
-        console.log(data);
-      }
-    });
+    fetchProjects()
+      .then(({ data }) => {
+        if (data) {
+          setProjects(data);
+          console.log(data);
+        }
+      })
+      .catch((error) => console.log(error));
   }, []);
   return (
     <main className={`${tt.variable} ${space.variable}`}>

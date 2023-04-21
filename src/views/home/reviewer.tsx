@@ -1,17 +1,18 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  getAllProjects,
-  getDeliverables,
-  getProjectFeedbacks,
-} from "@/tools/supabase";
+import { getDeliverables, getProjectFeedbacks } from "@/tools/supabase";
 import { UserContext } from "@/contexts/user.context";
-import Spinner from "@/components/spinner/Spinner";
 import ProjectCard from "@/components/project-card/project-card.component";
 import ProjectDetails from "@/components/project-details/project-details.component";
 import { Deliverable } from "@/components/deliverable/deliverable.component";
 import FeedbackPreview from "@/components/feedback-preview/feedback-preview.component";
 import { CategoryEnum } from "@/constants";
-import type { Projects, Deliverables, Feedbacks } from "@/types";
+import type {
+  Projects,
+  Deliverables,
+  Feedbacks,
+  Links,
+  Documents,
+} from "@/types";
 import type { FC } from "react";
 
 interface Props {
@@ -25,6 +26,8 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
   const [deliverables, setDeliverables] = useState<Deliverables[]>();
   const [feedbacks, setFeedbacks] = useState<Feedbacks[]>([]);
   const [filterCategory, setFilterCategory] = useState<CategoryEnum>();
+  const [links, setLinks] = useState<Links[] | null>(null);
+  const [documents, setDocuments] = useState<Documents[] | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -35,7 +38,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
       fetchDeliverables(selectedProject.id)
         .then(({ data }) => {
           if (data) {
-            setDeliverables(data as any);
+            setDeliverables(data);
             console.log(data);
           }
         })
@@ -238,7 +241,13 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
           </div>
         )}
       </div>
-      {selectedProject && <ProjectDetails project={selectedProject} />}
+      {selectedProject && (
+        <ProjectDetails
+          project={selectedProject}
+          links={links}
+          documents={documents}
+        />
+      )}
     </div>
   );
 };

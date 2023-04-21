@@ -1,14 +1,14 @@
 import Image from "next/image";
-import { ClockIcon } from "@heroicons/react/24/solid";
-import { numericalToString } from "@/tools/core/month";
-import { Documents, Projects } from "@/types";
-import type { FC } from "react";
 import Link from "next/link";
+import { numericalToString } from "@/tools/core/month";
+import { ClockIcon } from "@heroicons/react/24/solid";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+import type { Documents, Links, Projects } from "@/types";
+import type { FC } from "react";
 
 interface ProjectDetailsProps {
   project: Projects;
-  links: string[] | null;
+  links: Links[] | null;
   documents: Documents[] | null;
 }
 
@@ -36,24 +36,24 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
         <ClockIcon className="mr-1 h-6 w-6" /> Started
       </span>
       <span className="flex w-[100%] text-sm font-bold">
-        {`${numericalToString(project.starts_at)} ${
-          project.starts_at.split("-")[2]
-        } ${project.starts_at.split("-")[0]}`}
+        {`${numericalToString(project.starts_at)!} ${project.starts_at.split(
+          "-"
+        )[2]!} ${project.starts_at.split("-")[0]!}`}
       </span>
       <span className="mt-4 flex items-center text-xs">
         <ClockIcon className="mr-1 h-6 w-6" /> Due Date
       </span>
       <span className="flex w-[100%] text-sm font-bold">
-        {`${numericalToString(project.ends_at)} ${
-          project.ends_at.split("-")[2]
-        } ${project.ends_at.split("-")[0]}`}
+        {`${numericalToString(project.ends_at)!} ${project.ends_at.split(
+          "-"
+        )[2]!} ${project.ends_at.split("-")[0]!}`}
       </span>
       <ul className="mt-8">
         <span className="text-sm">Links :</span>
         {links ? (
           links.map((link) => (
-            <li key={link}>
-              <Link href={link} />
+            <li key={link.id}>
+              <Link href={link.link}>{link.text}</Link>
             </li>
           ))
         ) : (

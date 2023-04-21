@@ -1,13 +1,18 @@
-import { FC, useState, useEffect } from "react";
-import { CategoryEnum } from "@/constants";
+import { useState, useEffect } from "react";
 import { Deliverable } from "@/components/deliverable/deliverable.component";
-import { addProject, getAllProjects, getDeliverables } from "@/tools/supabase";
-import { addDeliverable } from "@/tools/supabase";
-import { ClockIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
 import ProjectDetails from "@/components/project-details/project-details.component";
 
-import type { Deliverables, Projects } from "@/types";
+import {
+  addProject,
+  getDeliverables,
+  getProjectDocuments,
+  getProjectLinks,
+} from "@/tools/supabase";
+import { addDeliverable } from "@/tools/supabase";
+import { CategoryEnum } from "@/constants";
+
+import type { Deliverables, Projects, Links, Documents } from "@/types";
+import type { FC } from "react";
 
 interface Props {
   projects: Projects[];
@@ -27,18 +32,58 @@ export const AdminView: FC<Props> = ({ projects }) => {
   const [sessionStart, setSessionStart] = useState<string | null>(null);
   const [sessionEnd, setSessionEnd] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<Projects | null>(null);
+  const [links, setLinks] = useState<Links[] | null>(null);
+  const [documents, setDocuments] = useState<Documents[] | null>(null);
 
   useEffect(() => {
     const fetchDeliverables = async (projectId: string) => {
       return await getDeliverables(projectId);
     };
     if (selectedProject) {
-      fetchDeliverables(selectedProject.id).then(({ data }) => {
-        if (data) {
-          setDeliverables(data as any);
-          console.log(data);
-        }
-      });
+      fetchDeliverables(selectedProject.id)
+        .then(({ data }) => {
+          if (data) {
+            setDeliverables(data);
+            console.log(data);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [selectedProject]);
+
+  useEffect(() => {
+    if (selectedProject) {
+      const fetchLinks = async (project: Projects) => {
+        return await getProjectLinks(project);
+      };
+      if (selectedProject) {
+        fetchLinks(selectedProject)
+          .then(({ data }) => {
+            if (data) {
+              setLinks(data);
+              console.log(data);
+            }
+          })
+          .catch((error) => console.log(error));
+      }
+    }
+  }, [selectedProject]);
+
+  useEffect(() => {
+    if (selectedProject) {
+      const fetchLinks = async (project: Projects) => {
+        return await getProjectDocuments(project);
+      };
+      if (selectedProject) {
+        fetchLinks(selectedProject)
+          .then(({ data }) => {
+            if (data) {
+              setDocuments(data);
+              console.log(data);
+            }
+          })
+          .catch((error) => console.log(error));
+      }
     }
   }, [selectedProject]);
 
@@ -60,7 +105,7 @@ export const AdminView: FC<Props> = ({ projects }) => {
                 name: sessionName,
                 starts_at: sessionStart,
                 ends_at: sessionEnd,
-              });
+              }).catch((error) => console.log(error));
             }
           }}
         >
@@ -120,7 +165,7 @@ export const AdminView: FC<Props> = ({ projects }) => {
                   name: deliverableName,
                   category: deliverableCategory,
                   due_date: deliverableDate,
-                });
+                }).catch((error) => console.log(error));
               }
               setDeliverableName("");
               setDeliverableDate("");
@@ -138,7 +183,7 @@ export const AdminView: FC<Props> = ({ projects }) => {
             </option>
             {projects &&
               projects.map((project) => {
-                return <option>{project.name}</option>;
+                return <option key={project.id}>{project.name}</option>;
               })}
           </select>
           <label className="input-group mt-1" htmlFor="deliverable_name">
@@ -200,46 +245,42 @@ export const AdminView: FC<Props> = ({ projects }) => {
       </div>
       <div className="bg-black h-[calc(100vh-67.5px)] w-[25vw] border-t bg-[#000]">
         <ul className="mt-0 w-full pt-8">
-          {projects?.map((project) => {
-            const startSplit = project.starts_at.split("-");
-            const endSplit = project.ends_at.split("-");
-            const [yearStart, monthStart, dayStart] = startSplit;
-            const [yearEnd, monthEnd, dayEnd] = endSplit;
-            return (
-              <li className="ml-0 list-none" key={project.id}>
-                <div
-                  className="card mx-8 w-96 cursor-pointer bg-base-100 shadow-xl"
-                  onClick={() => {
-                    setSelectedProject(project);
-                  }}
-                >
-                  <div className="card-body">
-                    <h2 className="card-title">{project.name}</h2>
-                    <hr />
+          {projects?.map((project) => (
+            <li className="ml-0 list-none" key={project.id}>
+              <div
+                className="card mx-8 w-96 cursor-pointer bg-base-100 shadow-xl"
+                onClick={() => {
+                  setSelectedProject(project);
+                }}
+              >
+                <div className="card-body">
+                  <h2 className="card-title">{project.name}</h2>
+                  <hr />
+                  <div className="flex w-full">
+                    <span className="w-[50%] text-left">UX/UI</span>{" "}
+                    <span className="badge badge-md w-[50%] font-bold text-success">
+                      Active
+                    </span>
+                  </div>
+                  <div className="card-actions justify-end">
                     <div className="flex w-full">
-                      <span className="w-[50%] text-left">UX/UI</span>{" "}
-                      <span className="badge badge-md w-[50%] font-bold text-success">
-                        Active
-                      </span>
-                    </div>
-                    <div className="card-actions justify-end">
-                      <div className="flex w-full">
-                        <span className="w-[50%] text-left">Timeframe :</span>{" "}
-                        <span className="flex w-[50%] justify-end space-x-10 font-bold">
-                          <span>
-                            {dayStart}-{monthStart}
-                          </span>
-                          <span>
-                            {dayEnd}-{monthEnd}
-                          </span>
+                      <span className="w-[50%] text-left">Timeframe :</span>{" "}
+                      <span className="flex w-[50%] justify-end space-x-10 font-bold">
+                        <span>
+                          {project.starts_at.split("-")[2]}-
+                          {project.starts_at.split("-")[1]}
                         </span>
-                      </div>
+                        <span>
+                          {project.ends_at.split("-")[2]}-
+                          {project.ends_at.split("-")[1]}
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
-              </li>
-            );
-          })}
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="h-[calc(100vh-67.5px)] w-[25vw] bg-[#fff] text-[#000]">
@@ -264,7 +305,11 @@ export const AdminView: FC<Props> = ({ projects }) => {
           Project Details
         </div>
         {selectedProject ? (
-          <ProjectDetails project={selectedProject} />
+          <ProjectDetails
+            project={selectedProject}
+            links={links}
+            documents={documents}
+          />
         ) : (
           <div>Please select a project !</div>
         )}

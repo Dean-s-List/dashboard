@@ -1,18 +1,9 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  SetStateAction,
-} from "react";
-import {
-  useUser,
-  useSupabaseClient,
-  SupabaseClient,
-} from "@supabase/auth-helpers-react";
-import { onAuthStateChangeListener, getAllProjects } from "@/tools/supabase";
+import React, { createContext, useState, useEffect } from "react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { getAllProjects } from "@/tools/supabase";
 import type { Database } from "@/types/supabase";
 import type { Projects } from "@/types";
-import type { ReactNode } from "react";
+import type { SetStateAction, ReactNode } from "react";
 
 interface ProjectsContext {
   projects: Projects[] | null;
@@ -54,10 +45,12 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
       }
       // Only run query once user is logged in.
       if (currentProject) {
-        loadAllProject().then((projects) => {
-          console.log(projects);
-          if (projects) setProjects(projects);
-        });
+        loadAllProject()
+          .then((projects) => {
+            console.log(projects);
+            if (projects) setProjects(projects);
+          })
+          .catch((error) => console.log(error));
       } else {
         setCurrentProject(null);
       }
@@ -80,9 +73,11 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
       }
       // Only run query once user is logged in.
       if (currentProject) {
-        loadSingleProject(currentProject.id).then((project) => {
-          if (project) setCurrentProject(project);
-        });
+        loadSingleProject(currentProject.id)
+          .then((project) => {
+            if (project) setCurrentProject(project);
+          })
+          .catch((error) => console.log(error));
       } else {
         setCurrentProject(null);
       }
@@ -99,9 +94,11 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
         if (data) return data[0];
       }
       if (user) {
-        checkPriviledges(user.id).then((admin) => {
-          if (admin) setIsOwner(true);
-        });
+        checkPriviledges(user.id)
+          .then((admin) => {
+            if (admin) setIsOwner(true);
+          })
+          .catch((error) => console.log(error));
       }
     }
   }, []);

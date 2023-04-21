@@ -105,9 +105,6 @@ devDependencies:
   '@swc/helpers':
     specifier: ^0.4.14
     version: 0.4.14
-  '@types/draft-js':
-    specifier: ^0.11.10
-    version: 0.11.10
   '@types/node':
     specifier: ^18.11.18
     version: 18.11.18
@@ -4142,13 +4139,6 @@ packages:
       '@types/node': 18.11.18
     dev: false
 
-  /@types/draft-js@0.11.10:
-    resolution: {integrity: sha512-o/DST8x0wNerwhRiaE577UHFIXb6HCywaZOZfj9TF2vU3CONvsCGoQmdOsKqERdXp+3ZNlSvFUH0B8lEEYOT4A==}
-    dependencies:
-      '@types/react': 18.0.27
-      immutable: 3.7.6
-    dev: true
-
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
@@ -7814,11 +7804,6 @@ packages:
     engines: {node: '>=4.0'}
     hasBin: true
     dev: false
-
-  /immutable@3.7.6:
-    resolution: {integrity: sha512-AizQPcaofEtO11RZhPPHBOJRdo/20MKQF9mBLnVkBoyHi1/zXK8fzVdnEpSV9gxqtnh6Qomfp3F0xT5qP/vThw==}
-    engines: {node: '>=0.8.0'}
-    dev: true
 
   /import-fresh@2.0.0:
     resolution: {integrity: sha512-eZ5H8rcgYazHbKC3PG4ClHNykCSxtAhxSSEM+2mb+7evD2CKF5V7c0dNum7AdpDh0ZdICwZY9sRSn8f+KH96sg==}

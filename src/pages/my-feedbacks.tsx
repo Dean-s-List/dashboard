@@ -17,12 +17,14 @@ const MyFeedbackPage: NextPage = () => {
     const fetchProjects = async () => {
       return await getAllProjects();
     };
-    fetchProjects().then(({ data }) => {
-      if (data) {
-        console.log(data);
-        setProjects(data);
-      }
-    });
+    fetchProjects()
+      .then(({ data }) => {
+        if (data) {
+          console.log(data);
+          setProjects(data);
+        }
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
@@ -30,12 +32,14 @@ const MyFeedbackPage: NextPage = () => {
       const fetchUserFeedbacks = async () => {
         return await getCurrentUserFeedbacks(currentUser);
       };
-      fetchUserFeedbacks().then(({ data }) => {
-        if (data) {
-          console.log(data);
-          setUserFeedbacks(data);
-        }
-      });
+      fetchUserFeedbacks()
+        .then(({ data }) => {
+          if (data) {
+            console.log(data);
+            setUserFeedbacks(data);
+          }
+        })
+        .catch((error) => console.log(error));
     }
   }, [currentUser]);
 

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 
 type ProgressType = {
   progress: number;
@@ -10,20 +10,14 @@ type ProgressType = {
   spinnerSpeed: number;
 };
 
-interface ProgressProps {
-  props: ProgressType;
-}
-
-export const RadialProgress = (props: ProgressType) => {
-  const {
-    progress,
-    trackColor,
-    indicatorColor,
-    labelColor = `#333`,
-    spinnerMode = false,
-    spinnerSpeed = 1,
-  } = props;
-
+export const RadialProgress: FC<ProgressType> = ({
+  progress,
+  trackColor,
+  indicatorColor,
+  labelColor = `#333`,
+  spinnerMode = false,
+  spinnerSpeed = 1,
+}: ProgressType) => {
   const size = 50;
   const trackWidth = 5;
   const indicatorWidth = 5;

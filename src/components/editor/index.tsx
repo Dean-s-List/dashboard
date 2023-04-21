@@ -1,7 +1,8 @@
 //./components/Editor
 import React, { memo, useEffect, useRef } from "react";
-import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS } from "./editor.tools";
+import EditorJS from "@editorjs/editorjs";
+import type { OutputData } from "@editorjs/editorjs";
 
 //props
 type Props = {
@@ -36,7 +37,7 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
         ref.current.destroy();
       }
     };
-  }, []);
+  }, [data, holder, onChange]);
 
   return <div id={holder} />;
 };

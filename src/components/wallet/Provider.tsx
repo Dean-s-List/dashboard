@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -7,6 +7,7 @@ import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 import { endpoint } from "@/constants";
+import type { FC } from "react";
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");

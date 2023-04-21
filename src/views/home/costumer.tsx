@@ -4,7 +4,7 @@ import PaymentTable from "@/components/tables/Payments";
 import { Deliverable } from "@/components/deliverable/deliverable.component";
 import { TeamMember } from "@/components/team-member/team-member.component";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import type { Deliverables, Profiles, TeamMemberItem } from "@/types";
+import type { Deliverables, Profiles } from "@/types";
 import type { FC } from "react";
 
 interface Props {

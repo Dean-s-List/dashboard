@@ -1,7 +1,7 @@
-import React, { FC, SetStateAction } from "react";
 import { numericalToString } from "@/tools/core/month";
 import { CategoryEnum } from "@/constants";
 import type { Projects } from "@/types";
+import type { FC } from "react";
 
 interface Props {
   project: Projects;
@@ -50,15 +50,15 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => (
           <span className="w-[50%] text-left text-sm">Timeframe :</span>{" "}
           <span className="flex w-[75%] justify-end space-x-4 font-bold">
             <span className="w-[100%] text-sm">
-              {`${project.starts_at.split("-")[2]} ${
-                project.starts_at.split("-")[1] &&
-                numericalToString(project.starts_at)
+              {`${project.starts_at.split("-")[2]!} ${
+                project.starts_at.split("-")[1]! &&
+                numericalToString(project.starts_at)!
               }`}
             </span>
             <span className="flex w-[100%] text-sm">
-              {`${project.ends_at.split("-")[2]}  ${
-                project.ends_at.split("-")[1] &&
-                numericalToString(project.ends_at)
+              {`${project.ends_at.split("-")[2]!}  ${
+                project.ends_at.split("-")[1]! &&
+                numericalToString(project.ends_at)!
               }`}
             </span>
           </span>

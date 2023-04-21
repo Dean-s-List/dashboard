@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext, FormEvent } from "react";
-import { OutputData } from "@editorjs/editorjs";
+import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
+import { UserContext } from "@/contexts/user.context";
 import { addFeedback, getProjectLinks } from "@/tools/supabase";
 import { numericalToString } from "@/tools/core/month";
-import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import { CategoryEnum } from "@/constants";
-import { Links, Projects } from "@/types";
-import type { FC } from "react";
-import { UserContext } from "@/contexts/user.context";
+import type { OutputData } from "@editorjs/editorjs";
+import type { Links, Projects } from "@/types";
+import type { FC, FormEvent } from "react";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -36,12 +36,14 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
       const fetchProjectLinks = async () => {
         return await getProjectLinks(targetProject);
       };
-      fetchProjectLinks().then(({ data }) => {
-        if (data) {
-          setTargetProjectsLinks(data as any);
-          console.log(data);
-        }
-      });
+      fetchProjectLinks()
+        .then(({ data }) => {
+          if (data) {
+            setTargetProjectsLinks(data);
+            console.log(data);
+          }
+        })
+        .catch((error) => console.log(error));
       // .finally(() => setLoading(false));
     }
   }, [targetProject]);
@@ -72,33 +74,27 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
     }
   };
 
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (currentUser && targetProject && data && feedbackCategory && userAgent) {
+      addFeedback({
+        user_id: currentUser.id,
+        title: "",
+        project: targetProject.id,
+        content: JSON.stringify(data),
+        category: feedbackCategory,
+        published: true,
+        user_agent: userAgent,
+      })
+        .then((res) => console.log(res))
+        .catch((error) => console.log(error));
+    }
+  };
+
   return (
     <form
       className="static flex max-w-[100%] overflow-x-hidden"
-      onSubmit={(e: FormEvent) => {
-        e.preventDefault();
-        if (
-          currentUser &&
-          targetProject &&
-          data &&
-          feedbackCategory &&
-          userAgent
-        ) {
-          try {
-            addFeedback({
-              user_id: currentUser.id,
-              title: "",
-              project: targetProject.id,
-              content: JSON.stringify(data),
-              category: feedbackCategory,
-              published: true,
-              user_agent: userAgent,
-            });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      }}
+      onSubmit={onSubmit}
     >
       <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col border-r border-t border-l border-primary">
         <div className="flex w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
@@ -165,11 +161,15 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
           {targetProject?.ends_at && (
             <li className="mt-8 flex w-96 flex-col px-1">
               <span className="text-sm">Submission ends :</span>
-              <span className="flex w-[100%] text-sm font-bold">
-                {`${numericalToString(targetProject.ends_at)} ${
-                  targetProject.ends_at.split("-")[2]
-                } ${targetProject.ends_at.split("-")[0]}`}
-              </span>
+              {targetProject && (
+                <span className="flex w-[100%] text-sm font-bold">
+                  {`${numericalToString(
+                    targetProject.ends_at
+                  )!} ${targetProject.ends_at.split(
+                    "-"
+                  )[2]!} ${targetProject.ends_at.split("-")[0]!}`}
+                </span>
+              )}
             </li>
           )}
 

@@ -66,6 +66,7 @@ const FeedbackPage: NextPage<Props> = ({ data }) => (
           <p className="text-white mx-auto mt-8 flex w-[88%] flex-col items-center justify-center">
             {data.content && (
               <Blocks
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 data={JSON.parse(data.content as string)}
                 config={{
                   paragraph: {

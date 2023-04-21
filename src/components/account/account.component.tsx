@@ -1,11 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 
-import {
-  useUser,
-  useSupabaseClient,
-  Session,
-} from "@supabase/auth-helpers-react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { UserContext } from "@/contexts/user.context";
 
 import Avatar from "@/components/avatar/avatar.component";
@@ -13,7 +9,7 @@ import Avatar from "@/components/avatar/avatar.component";
 import discord from "../../assets/img/discord.svg";
 import twitter from "../../assets/img/twitter.svg";
 import github from "../../assets/img/github.svg";
-
+import type { Session } from "@supabase/auth-helpers-react";
 import type { Database } from "@/types/supabase";
 import type { Profiles } from "@/types";
 
@@ -26,33 +22,27 @@ export default function Account({ session }: { session: Session }) {
   const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
+    setLoading(true);
+
     async function getProfile() {
-      try {
-        setLoading(true);
-        if (!user) throw new Error("No user");
+      if (!user) throw new Error("No user");
 
-        let { data, error, status } = await supabase
-          .from("profiles")
-          .select(`username, avatar_url`)
-          .eq("id", user.id)
-          .single();
+      return await supabase
+        .from("profiles")
+        .select(`username, avatar_url`)
+        .eq("id", user.id)
+        .single();
+    }
 
-        if (error && status !== 406) {
-          throw error;
-        }
-
+    getProfile()
+      .then(({ data }) => {
         if (data) {
           setUsername(data.username);
           setAvatarUrl(data.avatar_url);
         }
-      } catch (error) {
-        console.log(error);
-      } finally {
         setLoading(false);
-      }
-    }
-
-    getProfile();
+      })
+      .catch((error) => console.log(error));
   }, [session, user, supabase]);
 
   async function updateProfile({
@@ -62,39 +52,36 @@ export default function Account({ session }: { session: Session }) {
     username: Profiles["username"];
     avatar_url: Profiles["avatar_url"];
   }) {
-    try {
-      setLoading(true);
-      if (!user) throw new Error("No user");
+    if (!user) throw new Error("No user");
 
-      const updates = {
-        id: user.id,
-        username,
-        avatar_url,
-        updated_at: new Date().toISOString(),
-      };
+    const updates = {
+      id: user.id,
+      username,
+      avatar_url,
+      updated_at: new Date().toISOString(),
+    };
 
-      let { error } = await supabase.from("profiles").upsert(updates);
-      if (error) throw error;
-      alert("Profile updated!");
-    } catch (error) {
-      alert("Error updating the data!");
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    return await supabase.from("profiles").upsert(updates);
   }
 
   return (
     <div className="form-widget bg-primary-dark pb-8">
-      <Avatar
-        uid={user!.id}
-        url={avatar_url!}
-        size={150}
-        onUpload={(url) => {
-          setAvatarUrl(url);
-          updateProfile({ username, avatar_url: url });
-        }}
-      />
+      {user && avatar_url && (
+        <Avatar
+          uid={user.id}
+          url={avatar_url}
+          size={150}
+          onUpload={(url) => {
+            setLoading(true);
+            setAvatarUrl(url);
+            updateProfile({ username, avatar_url: url })
+              .then(({ data }) => {
+                console.log(data);
+              })
+              .catch((error) => console.log(error));
+          }}
+        />
+      )}
       <div className="flex w-full items-center justify-center">
         <span>Feedbacks : {currentUser?.feedback_count}</span>
       </div>
@@ -131,18 +118,18 @@ export default function Account({ session }: { session: Session }) {
           <button
             id="discord"
             className="input-bordered input flex w-full items-center justify-center text-xs"
-            onClick={() => {
-              supabase.auth.signInWithOAuth({
-                provider: "discord",
-              });
-            }}
+            // onClick={async () => {
+            //   await supabase.auth.signInWithOAuth({
+            //     provider: "discord",
+            //   });
+            // }}
             disabled={true}
             // disabled={currentUser?.discord_id ? true : false}
           >
             {/* {currentUser?.discord_id || ( */}
             <>
-              <Image src={discord} alt="discord" className="mr-2" /> connect
-              discord
+              <Image src={discord as string} alt="discord" className="mr-2" />{" "}
+              connect discord
             </>
             {/* )} */}
           </button>
@@ -154,18 +141,18 @@ export default function Account({ session }: { session: Session }) {
           <button
             id="twitter"
             className="input-bordered input flex w-full items-center justify-center text-xs"
-            onClick={() => {
-              supabase.auth.signInWithOAuth({
-                provider: "twitter",
-              });
-            }}
+            // onClick={() => {
+            //   supabase.auth.signInWithOAuth({
+            //     provider: "twitter",
+            //   });
+            // }}
             disabled={true}
             // disabled={currentUser?.twitter_id ? true : false}
           >
             {/* {currentUser?.discord_id || ( */}
             <>
-              <Image src={twitter} alt="discord" className="mr-2" /> connect
-              twitter
+              <Image src={twitter as string} alt="discord" className="mr-2" />{" "}
+              connect twitter
             </>
             {/* )} */}
           </button>
@@ -177,18 +164,18 @@ export default function Account({ session }: { session: Session }) {
           <button
             id="github"
             className="input-bordered input flex w-full items-center justify-center text-xs"
-            onClick={() => {
-              supabase.auth.signInWithOAuth({
-                provider: "github",
-              });
-            }}
+            // onClick={() => {
+            //   supabase.auth.signInWithOAuth({
+            //     provider: "github",
+            //   });
+            // }}
             disabled={true}
             // disabled={currentUser?.github_id ? true : false}
           >
             {/* {currentUser?.discord_id || ( */}
             <>
-              <Image src={github} alt="discord" className="mr-2" /> connect
-              github
+              <Image src={github as string} alt="discord" className="mr-2" />{" "}
+              connect github
             </>
             {/* )} */}
           </button>

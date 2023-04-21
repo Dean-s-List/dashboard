@@ -6,10 +6,9 @@ import Layout from "@/layout";
 import CostumerView from "@/views/home/costumer";
 import { ReviewerView } from "@/views/home/reviewer";
 import type { NextPage } from "next";
-import { Deliverables, Profiles, Projects } from "@/types";
+import type { Deliverables, Profiles, Projects } from "@/types";
 
 const Dashboard: NextPage = () => {
-  const [loading, setLoading] = useState(true);
   const { currentUser } = useContext(UserContext);
   const [projects, setProjects] = useState<Projects[] | null>(null);
   const [deliverables, setDeliverables] = useState<Deliverables[] | null>(null);
@@ -22,17 +21,17 @@ const Dashboard: NextPage = () => {
     fetchProjects()
       .then(({ data }) => {
         if (data) {
-          setProjects(data as any);
+          setProjects(data);
           console.log(data);
         }
       })
-      .finally(() => setLoading(false));
+      .catch((error) => console.log(error));
   }, []);
 
   return (
     <>
       <Head>
-        <title>Dean's List | Home</title>
+        <title>Dean&apos;s List | Home</title>
         <meta property="og:title" content="Dean's List | Dashboard" />
         <meta property="og:site_name" content="Dean's List" />
         <meta property="og:url" content="https://app.deanslist.services/" />
@@ -47,8 +46,8 @@ const Dashboard: NextPage = () => {
         {currentUser?.account_enum == 0 && (
           <CostumerView deliverables={deliverables} team={team} />
         )}
-        {currentUser?.account_enum == 1 && projects && (
-          <ReviewerView projects={projects} />
+        {currentUser?.account_enum == 1 && (
+          <ReviewerView projects={projects!} />
         )}
       </Layout>
     </>
