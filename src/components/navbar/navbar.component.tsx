@@ -52,7 +52,13 @@ const Navbar: FC<Props> = ({
                   <div className="bg-base-800">
                     <div className="w-10 rounded-full">
                       <img
-                        src={currentUser.avatar_url}
+                        src={`${
+                          currentUser.avatar_url.startsWith("https://")
+                            ? currentUser.avatar_url
+                            : (process.env.NEXT_PUBLIC_SUPABASE_URL as string) +
+                              "/storage/v1/object/sign/avatars/" +
+                              currentUser.avatar_url
+                        }`}
                         className="rounded-full"
                       />
                     </div>
