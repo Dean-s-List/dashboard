@@ -215,21 +215,18 @@ export interface Database {
         Row: {
           id: string;
           user_id: string;
-          value: number;
           content: string | null;
           created_at: string | null;
         };
         Insert: {
           id?: string;
           user_id?: string;
-          value?: number;
           content?: string | null;
           created_at?: string | null;
         };
         Update: {
           id?: string;
           user_id?: string;
-          value?: number;
           content?: string;
           created_at?: string;
         };

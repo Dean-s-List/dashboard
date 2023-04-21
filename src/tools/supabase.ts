@@ -66,11 +66,10 @@ export const addFeedback = async ({
   if (error) console.log(error);
 };
 
-export const addComment = async ({ id, user_id, value, content }: Comments) => {
+export const addComment = async ({ id, user_id, content }: Comments) => {
   const { error } = await supabase.from("comments").insert({
     id,
     user_id,
-    value,
     content,
   });
   if (error) console.log(error);

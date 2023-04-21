@@ -22,7 +22,6 @@ const Review: FC<Props> = ({ feedback }) => {
             addComment({
               id: feedback.id!,
               user_id: currentUser.id,
-              value: stars,
               content: data,
               created_at: "",
             }).catch((error) => console.log(error));
