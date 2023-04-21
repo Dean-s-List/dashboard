@@ -1,44 +1,25 @@
-import { useState, useEffect } from "react";
 import Layout from "@/layout";
 import { ReviewerFeedback } from "@/views/feedback/reviewer";
-import { getAllProjects } from "@/tools/supabase";
-import type { Deliverables, Profiles, Projects } from "@/types";
-import type { NextPage } from "next";
-import Spinner from "@/components/spinner/Spinner";
+import type { Projects } from "@/types";
+import type { NextPage, NextPageContext } from "next";
+import { getSingleProject } from "@/tools/supabase";
 
 interface Props {
-  projects: Projects[] | null;
-  currentUser: Profiles | null;
-  deliverables: Deliverables[] | null;
-  team: [] | null;
+  data: Projects | null;
 }
 
-const FeedbackPage: NextPage<Props> = ({ currentUser, deliverables, team }) => {
-  const [loading, setLoading] = useState(true);
-  const [projects, setProjects] = useState<Projects[] | null>(null);
-  useEffect(() => {
-    async function loadAllProject() {
-      const { data } = await getAllProjects();
-      console.log(data);
-      return data;
-    }
+const FeedbackPage: NextPage<Props> = ({ data }) => (
+  <Layout>
+    <ReviewerFeedback currentProject={data} />
+  </Layout>
+);
 
-    loadAllProject()
-      .then((projects) => {
-        console.log(projects);
-        if (projects) {
-          setProjects(projects);
-        } else {
-          setProjects(null);
-        }
-      })
-      .finally(() => setLoading(false));
-  }, []);
-  return (
-    <Layout>
-      {loading ? <Spinner /> : <ReviewerFeedback projects={projects} />}
-    </Layout>
-  );
+FeedbackPage.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
+  const { id } = ctx.query;
+  console.log("welcome on the page for feedback ", id);
+  const { data } = await getSingleProject(id as string);
+  console.log(data);
+  return { data };
 };
 
 export default FeedbackPage;

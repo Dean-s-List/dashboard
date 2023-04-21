@@ -3,27 +3,36 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import { UserContext } from "@/contexts/user.context";
-import { addFeedback, getProjectLinks } from "@/tools/supabase";
+import {
+  addFeedback,
+  getProjectDocuments,
+  getProjectLinks,
+} from "@/tools/supabase";
 import { numericalToString } from "@/tools/core/month";
 import { CategoryEnum } from "@/constants";
 import type { OutputData } from "@editorjs/editorjs";
-import type { Links, Projects } from "@/types";
+import type { Documents, Links, Projects } from "@/types";
 import type { FC } from "react";
 import { Badge } from "@/components/badge/badge.component";
+import { cp } from "fs";
+import { ProjectsContext } from "@/contexts/projects.context";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 
 interface Props {
-  projects: Projects[] | null;
+  currentProject: Projects | null;
 }
 
-export const ReviewerFeedback: FC<Props> = ({ projects }) => {
+export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
   const [data, setData] = useState<OutputData>();
   const { currentUser } = useContext(UserContext);
+  const { projects } = useContext(ProjectsContext);
   const [userAgent, setUserAgent] = useState<string>();
-  const [targetProject, setTargetProject] = useState<Projects | null>(null);
+  const [targetProject, setTargetProject] = useState<Projects | null>(
+    currentProject
+  );
   const [targetProjectName, setTargetProjectName] = useState<string | null>(
     null
   );
@@ -31,6 +40,9 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
   const [targetProjectLinks, setTargetProjectsLinks] = useState<Links[] | null>(
     null
   );
+  const [targetProjectDocuments, setTargetProjectDocuments] = useState<
+    Documents[] | null
+  >(null);
 
   useEffect(() => {
     if (targetProject) {
@@ -41,6 +53,23 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
         .then(({ data }) => {
           if (data) {
             setTargetProjectsLinks(data);
+            console.log(data);
+          }
+        })
+        .catch((error) => console.log(error));
+      // .finally(() => setLoading(false));
+    }
+  }, [targetProject]);
+
+  useEffect(() => {
+    if (targetProject) {
+      const fetchProjectDocuments = async () => {
+        return await getProjectDocuments(targetProject);
+      };
+      fetchProjectDocuments()
+        .then(({ data }) => {
+          if (data) {
+            setTargetProjectDocuments(data);
             console.log(data);
           }
         })
@@ -122,19 +151,29 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
                 }}
                 required
               >
-                <option disabled selected>
-                  Target Project
-                </option>
+                <option disabled>Target Project</option>
                 {projects?.map((project) => {
-                  return <option key={project.id}>{project.name}</option>;
+                  return (
+                    <option
+                      key={project.id}
+                      selected={
+                        currentProject && project.id == currentProject.id
+                          ? true
+                          : false
+                      }
+                    >
+                      {project.name}
+                    </option>
+                  );
                 })}
               </select>
             </div>
           </li>
           {targetProject && (
-            <li className="mt-8 flex w-96 flex-col px-1">
-              <span className="text-sm">
-                Project Focus : <Badge category={targetProject.focus} />
+            <li className="mt-8 flex w-96 items-center px-1">
+              <span className="text-sm">Project Focus :</span>
+              <span className="ml-4 w-[50%]">
+                <Badge category={targetProject.focus} />
               </span>
             </li>
           )}
@@ -191,11 +230,15 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
           {targetProject && (
             <>
               <ul className="mt-8">
-                <span className="text-sm">Links :</span>
-                {targetProjectLinks && targetProjectLinks.length > 0 ? (
+                <span className="text-xs">Links :</span>
+                {targetProjectLinks ? (
                   targetProjectLinks.map((link) => (
                     <li key={link.id}>
-                      <Link href={link.link} />
+                      <Link href={link.link}>
+                        <span className="text-sm font-bold text-secondary-dark">
+                          {link.text}
+                        </span>
+                      </Link>
                     </li>
                   ))
                 ) : (
@@ -205,14 +248,17 @@ export const ReviewerFeedback: FC<Props> = ({ projects }) => {
                 )}
               </ul>
               <ul className="mt-8">
-                <span className="text-sm">Documents :</span>
-                {targetProjectLinks && targetProjectLinks.length > 0 ? (
-                  targetProjectLinks.map((link) => (
-                    <li key={link.id}>
+                <span className="text-xs">Documents :</span>
+                {targetProjectDocuments ? (
+                  targetProjectDocuments.map((document) => (
+                    <li key={document.id}>
                       <DocumentIcon className="h-6 w-6" />
-                      <Link href={link.link}>
-                        <span className="font-bold text-info">{link.text}</span>
+                      <Link href={document.name}>
+                        <span className="font-bold text-info">
+                          {document.name}
+                        </span>
                       </Link>
+                      <span>{document.created_at}</span>
                     </li>
                   ))
                 ) : (

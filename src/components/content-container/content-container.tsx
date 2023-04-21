@@ -125,11 +125,11 @@ export const ContentContainer: FC<PropsWithChildren<Props>> = ({
                   Feedback Focus
                 </Link>
               </li>
-              <li className="ml-0 text-xs font-bold uppercase">
+              {/* <li className="ml-0 text-xs font-bold uppercase">
                 <a className="mx-[12px]">
                   <ClockIcon className="h-6 w-6" /> History
                 </a>
-              </li>
+              </li> */}
               <li className="ml-0 text-xs font-bold uppercase">
                 <Link
                   href="/my-feedbacks"

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Blocks from "editorjs-blocks-react-renderer";
-import type { Feedbacks, Projects, Profiles } from "@/types";
+import type { Feedbacks, Projects } from "@/types";
 import type { FC } from "react";
 // import Rating from "../rating/rating.component";
 import { Badge } from "../badge/badge.component";
@@ -9,7 +9,6 @@ import { Badge } from "../badge/badge.component";
 interface Props {
   project: Projects;
   feedback: Feedbacks;
-  currentUser: Profiles;
 }
 
 const FeedbackPreview: FC<Props> = ({ project, feedback }) => (

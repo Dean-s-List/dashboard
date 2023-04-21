@@ -98,10 +98,6 @@ const Review: FC<Props> = ({ feedback }) => {
               value={data}
               onChange={() => setData(data)}
             ></textarea>
-            {/* <label className="label">
-            <span className="label-text">Your bio</span>
-            <span className="label-text-alt">Alt label</span>
-          </label> */}
           </div>
           <button className="btn-secondary btn-wide btn mx-auto capitalize">
             Send

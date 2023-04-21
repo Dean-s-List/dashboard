@@ -18,6 +18,7 @@ import type {
   Documents,
 } from "@/types";
 import type { FC } from "react";
+import { Router, useRouter } from "next/router";
 
 interface Props {
   projects: Projects[];
@@ -32,7 +33,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
   const [filterCategory, setFilterCategory] = useState<CategoryEnum>();
   const [links, setLinks] = useState<Links[] | null>(null);
   const [documents, setDocuments] = useState<Documents[] | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     setLoading(true);
     const fetchDeliverables = async (projectId: string) => {
@@ -142,11 +143,24 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
               <h2 className="w-[100%] text-2xl font-bold">
                 {selectedProject.name}
               </h2>
-              <button className="btn-secondary btn-sm btn capitalize ">
+              <button
+                className="btn-secondary btn-sm btn capitalize "
+                onClick={() => {
+                  router
+                    .push(
+                      {
+                        pathname: "/feedback",
+                        query: { id: selectedProject.id },
+                      },
+                      "/feedback"
+                    )
+                    .catch((error) => console.log(error));
+                }}
+              >
                 Add Feedback
               </button>
             </div>
-            <div className="mx-auto mt-8 min-h-[150px] w-[100%] rounded-xl bg-primary-dark p-4 pb-8">
+            <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[88%] rounded-xl bg-primary-dark p-4 pb-8">
               <h3 className="p-1 font-bold">Deliverables</h3>
               <div className="grid grid-cols-2 gap-4">
                 {deliverables ? (
@@ -163,7 +177,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                 )}
               </div>
             </div>
-            <div className="mx-auto mt-8 min-h-[150px] w-[100%] rounded-xl bg-primary-dark p-4 pb-8">
+            <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[88%] rounded-xl bg-primary-dark p-4 pb-8">
               <h3 className="p-1 font-bold">Team Members</h3>
               {/* <div className="grid grid-cols-2 gap-4">
                 {deliverables ? (
@@ -180,7 +194,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                 )}
               </div> */}
             </div>
-            <div className="mx-auto mt-8 flex items-center justify-center space-x-8">
+            <div className="mx-auto mt-8 flex w-[88%] items-center justify-center space-x-8">
               <span className="w-full text-xl font-bold">Feedbacks</span>
 
               <div className="mx-auto flex w-full">
@@ -247,16 +261,20 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
             </div>
 
             <div className="my-4 mx-auto grid w-[95%] grid-cols-2 gap-4">
-              {feedbacks &&
-                currentUser &&
+              {feedbacks ? (
                 feedbacks.map((feedback) => (
                   <FeedbackPreview
                     feedback={feedback}
                     project={selectedProject}
                     key={feedback.id}
-                    currentUser={currentUser}
                   />
-                ))}
+                ))
+              ) : (
+                <>
+                  <div className="h-[227px] w-[379px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl"></div>
+                  <div className="h-[227px] w-[379px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl"></div>
+                </>
+              )}
             </div>
           </div>
         ) : (
