@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useContext } from "react";
+import { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -10,7 +10,6 @@ import {
   UserCircleIcon,
   PresentationChartLineIcon,
   Cog6ToothIcon,
-  QuestionMarkCircleIcon,
   ClockIcon,
   HeartIcon,
   ChatBubbleBottomCenterTextIcon,
@@ -22,7 +21,8 @@ import CTA from "@/components/cta";
 import Admin from "@/components/admin/admin.component";
 
 import type { ReactNode } from "react";
-import { Projects } from "@/types";
+import type { Projects } from "@/types";
+import type { FC, PropsWithChildren } from "react";
 
 interface Props {
   children: ReactNode;
