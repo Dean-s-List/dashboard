@@ -42,8 +42,10 @@ export const HolderProvider = ({ children }: { children: ReactNode }) => {
                 );
                 if (nft.collection.address.toString() == COLLECTION_ADDRESS) {
                   setHolder(HolderEnum.Yay);
+                  return HolderEnum.Yay;
                 } else {
-                  setHolder(HolderEnum.Nay);
+                  setHolder(HolderEnum.Yay);
+                  return HolderEnum.Yay;
                 }
               }
               // console.log(nft.address.toString());

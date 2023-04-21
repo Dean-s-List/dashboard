@@ -5,18 +5,13 @@ import type {
   TransactionEnum,
 } from "@/constants";
 
-export type FeedbackItem = {
-  id: number;
-  teamMember: string;
-  avatar?: string;
-  category: CategoryEnum;
-};
+import { Database } from "./supabase";
 
 export type DeliverableItem = {
   id: number;
   value: number;
   name: string;
-  date: string;
+  due_date: string;
   category: CategoryEnum;
 };
 
@@ -37,3 +32,24 @@ export type PaymentsItem = {
   date: string;
   time: string;
 };
+
+export type CurrentUser = {
+  account_enum: number;
+  avatar_url: string;
+  full_name: string;
+  id: string;
+  updated_at?: string | null;
+  username?: string | null;
+  wallets?: string | null;
+  discord_id?: string | null;
+  twitter_id?: string | null;
+  github_id?: string | null;
+};
+
+export type Profiles = Database["public"]["Tables"]["profiles"]["Row"];
+export type Feedbacks = Database["public"]["Tables"]["feedbacks"]["Row"];
+export type Deliverables = Database["public"]["Tables"]["deliverables"]["Row"];
+export type Projects = Database["public"]["Tables"]["projects"]["Row"];
+export type Links = Database["public"]["Tables"]["links"]["Row"];
+export type Documents = Database["public"]["Tables"]["documents"]["Row"];
+export type Admin = Database["public"]["Tables"]["admins"]["Row"];

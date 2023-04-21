@@ -69,7 +69,7 @@ export const RadialProgress = (props: ProgressType) => {
         {
           <div
             className="svg-pi-label"
-            style={{ color: labelColor, fontSize: "0.5rem" }}
+            style={{ color: "#fff", fontSize: "0.5rem" }}
           >
             {/* <span className="svg-pi-label__loading">{label}</span> */}
 
