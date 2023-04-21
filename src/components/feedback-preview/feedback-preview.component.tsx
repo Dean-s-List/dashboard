@@ -12,7 +12,7 @@ interface Props {
 }
 
 const FeedbackPreview: FC<Props> = ({ project, feedback }) => (
-  <div className="h-[227px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl">
+  <div className="h-[227px] w-[379px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl">
     <Link href={`/feedback/${feedback.id!}`} className="h-[50%] max-h-[50%] ">
       {feedback.content ? (
         <div className="h-[50%] max-h-[50%] overflow-y-hidden">
@@ -37,7 +37,7 @@ const FeedbackPreview: FC<Props> = ({ project, feedback }) => (
     <hr className="text-primary" />
     <div className="mt-1 flex h-[42%] w-[100%] items-end">
       <div className="flex w-[50%] flex-col">
-        <span className="text-sm">Project : {project.name}</span>
+        <span className="mb-1 text-sm">Project : {project.name}</span>
         <Badge category={feedback.category} />
         <div className="mt-2 flex ">
           {/* <Rating stars={feedback.avg || 0} /> */}

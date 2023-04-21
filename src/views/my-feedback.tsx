@@ -9,7 +9,7 @@ type Props = {
   userFeedbacks: Feedbacks[];
 };
 
-const MyFeedback: FC<Props> = ({ currentUser, projects, userFeedbacks }) => (
+const MyFeedback: FC<Props> = ({ projects, userFeedbacks }) => (
   <div className="flex min-h-[calc(100vh-67.5px)] w-[100vw] flex-col border-t border-l border-primary p-8 md:h-[calc(100vh-67.5px)]">
     <h1>My Feedback</h1>
     <div className="mx-auto mt-8 grid w-[88%] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

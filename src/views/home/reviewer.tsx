@@ -260,7 +260,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
               </div>
             </div>
 
-            <div className="my-4 mx-auto grid w-[95%] grid-cols-2 gap-4">
+            <div className="my-4 mx-auto grid w-[100%] grid-cols-2 gap-4">
               {feedbacks ? (
                 feedbacks.map((feedback) => (
                   <FeedbackPreview
