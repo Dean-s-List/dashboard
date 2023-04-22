@@ -3,6 +3,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { UserContext } from "@/contexts/user.context";
 import { ProjectsContext } from "@/contexts/projects.context";
+import { EditorContext } from "@/contexts/editor.context";
 import { Badge } from "@/components/badge/badge.component";
 import { CategoryEnum } from "@/constants";
 import {
@@ -15,7 +16,6 @@ import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import type { Documents, Links, Projects } from "@/types";
 import type { OutputData } from "@editorjs/editorjs";
 import type { FC } from "react";
-import { EditorContext } from "@/contexts/editor.context";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -97,24 +97,24 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
     }
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement> | null) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
-    if (currentUser && project && data && category && userAgent) {
-      addFeedback({
-        id: null,
-        title: null,
-        user_id: currentUser.id,
-        project: project.id,
-        content: JSON.stringify(editorData),
-        category: category,
-        published: true,
-        user_agent: userAgent,
-        avatar_url: currentUser.avatar_url,
-        created_at: null,
-      })
-        .then((res) => console.log(res))
-        .catch((error) => console.log(error));
-    }
+    // if (currentUser && project && data && category && userAgent) {
+    addFeedback({
+      id: null,
+      title: null,
+      user_id: currentUser!.id,
+      project: project!.id,
+      content: JSON.stringify(editorData),
+      category: category!,
+      published: true,
+      user_agent: userAgent!,
+      avatar_url: currentUser!.avatar_url,
+      created_at: null,
+    })
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+    // }
   };
 
   return (
