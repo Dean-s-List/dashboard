@@ -1,8 +1,8 @@
 //./components/Editor
 import React, { memo, useContext, useEffect, useRef } from "react";
-import { EDITOR_TOOLS } from "./editor.tools";
 import EditorJS from "@editorjs/editorjs";
 import { EditorContext } from "@/contexts/editor.context";
+import { EDITOR_TOOLS } from "./editor.tools";
 import type {
   ToolConfig,
   ToolConstructable,
@@ -18,7 +18,7 @@ type Props = {
 };
 
 interface Tools {
-  tools: ToolConfig | ToolConstructable | ToolSettings;
+  tools: ToolConfig | ToolSettings;
 }
 
 const EditorBlock = ({ data, onChange, holder }: Props) => {
@@ -31,6 +31,8 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
     //initialize editor if we don't have a reference
     if (!ref.current) {
       const editor = new EditorJS({
+        // inlineToolbar: ["link", "marker", "bold", "italic"],
+        autofocus: true,
         holder: holder,
         tools: EDITOR_TOOLS,
         data,
