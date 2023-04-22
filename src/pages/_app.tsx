@@ -37,6 +37,7 @@ import type { Database } from "@/types/supabase";
 
 import type { Projects } from "@/types";
 import type { AppProps } from "next/app";
+import { EditorProvider } from "@/contexts/editor.context";
 
 const MyApp = ({
   Component,
@@ -69,7 +70,9 @@ const MyApp = ({
             <ProjectsProvider>
               <ContentContainer projects={projects}>
                 <UserAgentProvider userAgent={ua}>
-                  <Component {...pageProps} />
+                  <EditorProvider>
+                    <Component {...pageProps} />
+                  </EditorProvider>
                 </UserAgentProvider>
               </ContentContainer>
             </ProjectsProvider>

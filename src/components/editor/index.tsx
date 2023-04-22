@@ -1,14 +1,14 @@
 //./components/Editor
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useContext, useEffect, useRef } from "react";
 import { EDITOR_TOOLS } from "./editor.tools";
 import EditorJS from "@editorjs/editorjs";
-import type { OutputData } from "@editorjs/editorjs";
-
+import { EditorContext } from "@/contexts/editor.context";
 import type {
   ToolConfig,
   ToolConstructable,
   ToolSettings,
 } from "@editorjs/editorjs";
+import type { OutputData } from "@editorjs/editorjs";
 
 //props
 type Props = {
@@ -17,7 +17,12 @@ type Props = {
   holder: string;
 };
 
+interface Tools {
+  tools: ToolConfig | ToolConstructable | ToolSettings;
+}
+
 const EditorBlock = ({ data, onChange, holder }: Props) => {
+  const { setEditorData } = useContext(EditorContext);
   //add a reference to editor
   const ref = useRef<EditorJS>();
 
@@ -30,8 +35,11 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
         tools: EDITOR_TOOLS,
         data,
         async onChange(api, event) {
-          // const data = await api.saver.save();
+          const data = await api.saver.save();
           // onChange(data);
+          console.log(event);
+          console.log(data);
+          if (data) setEditorData(data);
         },
       });
       ref.current = editor;
@@ -43,7 +51,7 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
         ref.current.destroy();
       }
     };
-  }, [data, holder, onChange]);
+  }, [data, holder, onChange, setEditorData]);
 
   return <div id={holder} className="prose max-w-full text-[#000]" />;
 };

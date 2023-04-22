@@ -15,6 +15,7 @@ import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import type { Documents, Links, Projects } from "@/types";
 import type { OutputData } from "@editorjs/editorjs";
 import type { FC } from "react";
+import { EditorContext } from "@/contexts/editor.context";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -27,6 +28,7 @@ interface Props {
 export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
   const [data, setData] = useState<OutputData>();
   const { currentUser } = useContext(UserContext);
+  const { editorData } = useContext(EditorContext);
   const { projects } = useContext(ProjectsContext);
   const [userAgent, setUserAgent] = useState<string>();
   const [project, setTargetProject] = useState<Projects | null>(currentProject);
@@ -95,15 +97,15 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
     }
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = (e: React.FormEvent<HTMLFormElement> | null) => {
+    if (e) e.preventDefault();
     if (currentUser && project && data && category && userAgent) {
       addFeedback({
         id: null,
         title: null,
         user_id: currentUser.id,
         project: project.id,
-        content: JSON.stringify(data),
+        content: JSON.stringify(editorData),
         category: category,
         published: true,
         user_agent: userAgent,
