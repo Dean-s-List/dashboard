@@ -290,7 +290,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
           )}
         </ul>
       </div>
-      <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col border-t border-primary bg-[#000]">
+      <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col items-center justify-center border-t border-primary bg-[#fff]">
         <div className="flex h-[64px] w-full items-center justify-end bg-primary-dark py-2 pl-8 text-xl font-bold">
           <button
             className="btn-secondary btn-sm btn mr-4 capitalize"
@@ -299,11 +299,13 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
             Add Feedback
           </button>
         </div>
-        <EditorBlock
-          data={data}
-          onChange={setData}
-          holder="editorjs-container"
-        />
+        <div className="h-full w-full">
+          <EditorBlock
+            data={data}
+            onChange={setData}
+            holder="editorjs-container"
+          />
+        </div>
       </div>
     </form>
   );

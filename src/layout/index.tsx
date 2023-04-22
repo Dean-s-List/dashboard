@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 // Solana SDK
 import { useWallet } from "@solana/wallet-adapter-react";
 // Supabase
@@ -6,14 +6,13 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 // Contexts
-import { HolderContext } from "@/contexts/holder.context";
 import { UserContext } from "@/contexts/user.context";
 // Components
 import Navbar from "@/components/navbar/navbar.component";
 import type { ReactNode } from "react";
 
 import type { Database } from "@/types/supabase";
-import type { Profiles } from "@/types";
+import Spinner from "@/components/spinner/Spinner";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 
@@ -21,11 +20,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const wallet = useWallet();
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const supabase = useSupabaseClient<Database>();
-  const [avatarUrl] = useState<Profiles["avatar_url"]>();
+
+  if (!supabase) return <Spinner />;
 
   return (
     <div className="text-white relative flex min-h-screen w-full flex-col bg-primary-darker">
-      {supabase && currentUser && setCurrentUser && (
+      {currentUser && setCurrentUser && (
         <Navbar
           wallet={wallet}
           currentUser={currentUser}

@@ -39,6 +39,7 @@ const MyApp = ({
   Component,
   pageProps,
 }: AppProps<{ initialSession: Session }>) => {
+  const [loading, setLoading] = useState(true);
   const [supabaseClient] = useState(() =>
     createBrowserSupabaseClient<Database>()
   );
@@ -48,6 +49,9 @@ const MyApp = ({
   useEffect(() => {
     if (window.navigator.userAgent) setUa(window.navigator.userAgent);
   }, []);
+  useEffect(() => {
+    if (projects) setLoading(false);
+  }, [projects]);
 
   return (
     <main className={`${tt.variable} ${space.variable}`}>

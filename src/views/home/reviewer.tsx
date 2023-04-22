@@ -19,6 +19,7 @@ import type {
 } from "@/types";
 import type { FC } from "react";
 import { Router, useRouter } from "next/router";
+import Spinner from "@/components/spinner/Spinner";
 
 interface Props {
   projects: Projects[];
@@ -35,11 +36,11 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
   const [documents, setDocuments] = useState<Documents[] | null>(null);
   const router = useRouter();
   useEffect(() => {
-    setLoading(true);
     const fetchDeliverables = async (projectId: string) => {
       return await getDeliverables(projectId);
     };
     if (selectedProject) {
+      setLoading(true);
       fetchDeliverables(selectedProject.id)
         .then(({ data }) => {
           if (data) {
@@ -54,11 +55,11 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
   }, [selectedProject]);
 
   useEffect(() => {
-    setLoading(true);
     const fetchLinks = async (project: Projects) => {
       return await getProjectLinks(project);
     };
     if (selectedProject) {
+      setLoading(true);
       fetchLinks(selectedProject)
         .then(({ data }) => {
           if (data) {
@@ -73,8 +74,9 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
   }, [selectedProject]);
 
   useEffect(() => {
-    setLoading(true);
     if (selectedProject) {
+      setLoading(true);
+
       getProjectFeedbacks(selectedProject)
         .then(({ data }) => {
           console.log(data);
@@ -123,7 +125,6 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
               <ProjectCard
                 project={project}
                 onClick={() => {
-                  setLoading(true);
                   setSelectedProject(project);
                 }}
               />
@@ -131,13 +132,14 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
           ))}
         </ul>
       </div>
+
       <div
         className={`bg-black flex h-[calc(100vh-67.5px)] flex-col w-[${
           !selectedProject ? "100%" : "100%"
         }] items-center overflow-y-scroll border-t border-primary bg-[#000] pt-8`}
       >
         {" "}
-        {selectedProject ? (
+        {!loading && selectedProject ? (
           <div className="static flex flex-col">
             <div className="justify- relative top-0 mx-auto flex w-[95%] items-center">
               <h2 className="w-[100%] text-2xl font-bold">
@@ -261,33 +263,34 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
             </div>
 
             <div className="my-4 mx-auto grid w-[100%] grid-cols-2 gap-4">
-              {feedbacks ? (
+              {feedbacks &&
                 feedbacks.map((feedback) => (
                   <FeedbackPreview
                     feedback={feedback}
                     project={selectedProject}
                     key={feedback.id}
                   />
-                ))
-              ) : (
-                <>
-                  <div className="h-[227px] w-[379px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl"></div>
-                  <div className="h-[227px] w-[379px] max-w-[379px] rounded-md border border-primary bg-primary-dark p-4 shadow-xl"></div>
-                </>
-              )}
+                ))}
             </div>
           </div>
         ) : (
           <div className="flex h-[calc(100vh-67.5px)] w-full flex-col items-center justify-center">
-            <span className="mb-8 text-5xl font-bold">
-              👋 hello {currentUser?.full_name}{" "}
-            </span>
-            <span className="lowercase">
-              start by picking a project on the left
-            </span>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                <span className="mb-8 text-5xl font-bold">
+                  👋 hello {currentUser?.full_name}{" "}
+                </span>
+                <span className="lowercase">
+                  start by picking a project on the left
+                </span>
+              </>
+            )}
           </div>
         )}
       </div>
+
       {selectedProject && (
         <ProjectDetails
           project={selectedProject}

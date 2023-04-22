@@ -4,6 +4,12 @@ import { EDITOR_TOOLS } from "./editor.tools";
 import EditorJS from "@editorjs/editorjs";
 import type { OutputData } from "@editorjs/editorjs";
 
+import type {
+  ToolConfig,
+  ToolConstructable,
+  ToolSettings,
+} from "@editorjs/editorjs";
+
 //props
 type Props = {
   data?: OutputData;
@@ -39,7 +45,7 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
     };
   }, [data, holder, onChange]);
 
-  return <div id={holder} />;
+  return <div id={holder} className="prose max-w-full" />;
 };
 
 export default memo(EditorBlock);

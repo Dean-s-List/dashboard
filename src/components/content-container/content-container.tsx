@@ -155,7 +155,7 @@ export const ContentContainer: FC<PropsWithChildren<Props>> = ({
             </>
           )}
           {currentUser?.account_enum == 0 && <CTA />}
-          {isAdmin && projects && <Admin projects={projects} />}
+          {isAdmin && <Admin projects={projects!} />}
 
           {/* SIDEBAR BOTTOM */}
           <ul className="menu absolute bottom-0 w-full">
