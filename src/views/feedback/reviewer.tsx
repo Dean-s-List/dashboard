@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import { UserContext } from "@/contexts/user.context";
+import { ProjectsContext } from "@/contexts/projects.context";
+import { Badge } from "@/components/badge/badge.component";
+import { CategoryEnum } from "@/constants";
 import {
   addFeedback,
   getProjectDocuments,
   getProjectLinks,
 } from "@/tools/supabase";
 import { numericalToString } from "@/tools/core/month";
-import { CategoryEnum } from "@/constants";
-import type { OutputData } from "@editorjs/editorjs";
+import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import type { Documents, Links, Projects } from "@/types";
+import type { OutputData } from "@editorjs/editorjs";
 import type { FC } from "react";
-import { Badge } from "@/components/badge/badge.component";
-import { ProjectsContext } from "@/contexts/projects.context";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -29,63 +29,55 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
   const { currentUser } = useContext(UserContext);
   const { projects } = useContext(ProjectsContext);
   const [userAgent, setUserAgent] = useState<string>();
-  const [targetProject, setTargetProject] = useState<Projects | null>(
-    currentProject
-  );
-  const [targetProjectName, setTargetProjectName] = useState<string | null>(
-    null
-  );
-  const [feedbackCategory, setFeedbackCategory] = useState<CategoryEnum>();
-  const [targetProjectLinks, setTargetProjectsLinks] = useState<Links[] | null>(
-    null
-  );
-  const [targetProjectDocuments, setTargetProjectDocuments] = useState<
-    Documents[] | null
-  >(null);
+  const [project, setTargetProject] = useState<Projects | null>(currentProject);
+  const [projectName] = useState<string | null>(null);
+  const [category, setCategory] = useState<CategoryEnum>();
+  const [links, setLinks] = useState<Links[] | null>(null);
+  const [documents, setDocuments] = useState<Documents[] | null>(null);
 
   useEffect(() => {
-    if (targetProject) {
+    if (project) {
       const fetchProjectLinks = async () => {
-        return await getProjectLinks(targetProject);
+        return await getProjectLinks(project);
       };
       fetchProjectLinks()
         .then(({ data }) => {
           if (data) {
-            setTargetProjectsLinks(data);
+            setLinks(data);
             console.log(data);
           }
         })
         .catch((error) => console.log(error));
       // .finally(() => setLoading(false));
     }
-  }, [targetProject]);
+  }, [project]);
 
   useEffect(() => {
-    if (targetProject) {
+    if (project) {
       const fetchProjectDocuments = async () => {
-        return await getProjectDocuments(targetProject);
+        return await getProjectDocuments(project);
       };
       fetchProjectDocuments()
         .then(({ data }) => {
           if (data) {
-            setTargetProjectDocuments(data);
+            setDocuments(data);
             console.log(data);
           }
         })
         .catch((error) => console.log(error));
       // .finally(() => setLoading(false));
     }
-  }, [targetProject]);
+  }, [project]);
 
   useEffect(() => {
-    if (projects && targetProjectName) {
+    if (projects && projectName) {
       console.log("projects :", projects);
-      const project = nameToProject(projects, targetProjectName);
+      const project = nameToProject(projects, projectName);
       if (project) {
         setTargetProject(project);
       }
     }
-  }, [projects, targetProjectName]);
+  }, [projects, projectName]);
 
   useEffect(() => {
     if (window.navigator.userAgent) {
@@ -105,14 +97,14 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (currentUser && targetProject && data && feedbackCategory && userAgent) {
+    if (currentUser && project && data && category && userAgent) {
       addFeedback({
         id: null,
         title: null,
         user_id: currentUser.id,
-        project: targetProject.id,
+        project: project.id,
         content: JSON.stringify(data),
-        category: feedbackCategory,
+        category: category,
         published: true,
         user_agent: userAgent,
         avatar_url: currentUser.avatar_url,
@@ -168,30 +160,28 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </select>
             </div>
           </li>
-          {targetProject && (
-            <li className="mt-8 flex w-96 items-center px-1">
-              <span className="text-sm">Project Focus :</span>
-              <span className="ml-4 w-[50%]">
-                <Badge category={targetProject.focus} />
-              </span>
-            </li>
-          )}
-
-          {targetProject?.ends_at && (
-            <li className="mt-8 flex w-96 flex-col px-1">
-              <span className="text-sm">Submission ends :</span>
-              {targetProject && (
-                <span className="flex w-[100%] text-sm font-bold">
-                  {`${numericalToString(
-                    targetProject.ends_at
-                  )!} ${targetProject.ends_at.split(
-                    "-"
-                  )[2]!} ${targetProject.ends_at.split("-")[0]!}`}
+          {project && (
+            <>
+              <li className="mt-8 flex w-96 items-center px-1">
+                <span className="text-sm">Project Focus :</span>
+                <span className="ml-4 w-[50%]">
+                  <Badge category={project.focus} />
                 </span>
-              )}
-            </li>
+              </li>
+              <li className="mt-8 flex w-96 flex-col px-1">
+                <span className="text-sm">Submission ends :</span>
+                {project && (
+                  <span className="flex w-[100%] text-sm font-bold">
+                    {`${numericalToString(
+                      project.ends_at
+                    )!} ${project.ends_at.split(
+                      "-"
+                    )[2]!} ${project.ends_at.split("-")[0]!}`}
+                  </span>
+                )}
+              </li>
+            </>
           )}
-
           <li className="mt-8 flex flex-col">
             <div className="form-control w-full max-w-full">
               <label className="label">
@@ -202,16 +192,16 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
                 onChange={(e) => {
                   switch (e.target.value) {
                     case "UX/UI":
-                      setFeedbackCategory(CategoryEnum.UXUI);
+                      setCategory(CategoryEnum.UXUI);
                       break;
                     case "Documentation":
-                      setFeedbackCategory(CategoryEnum.Docs);
+                      setCategory(CategoryEnum.Docs);
                       break;
                     case "Business/Strategy":
-                      setFeedbackCategory(CategoryEnum.Strategy);
+                      setCategory(CategoryEnum.Strategy);
                       break;
                     case "Community":
-                      setFeedbackCategory(CategoryEnum.Community);
+                      setCategory(CategoryEnum.Community);
                       break;
                   }
                 }}
@@ -226,12 +216,12 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </select>
             </div>
           </li>
-          {targetProject && (
+          {project && (
             <>
               <ul className="mt-8">
                 <span className="text-xs">Links :</span>
-                {targetProjectLinks ? (
-                  targetProjectLinks.map((link) => (
+                {links ? (
+                  links.map((link) => (
                     <li key={link.id}>
                       <Link href={link.link}>
                         <span className="text-sm font-bold text-secondary-dark">
@@ -248,8 +238,8 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </ul>
               <ul className="mt-8">
                 <span className="text-xs">Documents :</span>
-                {targetProjectDocuments ? (
-                  targetProjectDocuments.map((document) => (
+                {documents ? (
+                  documents.map((document) => (
                     <li key={document.id}>
                       <DocumentIcon className="h-6 w-6" />
                       <Link href={document.name}>
