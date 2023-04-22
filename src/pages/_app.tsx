@@ -16,6 +16,8 @@ import { ProjectsContext, ProjectsProvider } from "@/contexts/projects.context";
 require("@solana/wallet-adapter-react-ui/styles.css");
 import "@/styles/globals.css";
 import "@/styles/spinner.css";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
 
 // Fonts
 import { Space_Grotesk } from "@next/font/google";
@@ -30,6 +32,7 @@ const tt = localFont({
 });
 // Types
 // import type { AppType } from "next/dist/shared/lib/utils";
+
 import type { Database } from "@/types/supabase";
 
 import type { Projects } from "@/types";

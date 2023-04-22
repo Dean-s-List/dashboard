@@ -1,5 +1,5 @@
 {
-  "name": "deans-list-1",
+  "name": "app.deanslist.services",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,6 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "-": "^0.0.1",
     "@editorjs/code": "^2.8.0",
     "@editorjs/editorjs": "^2.26.5",
     "@editorjs/header": "^2.7.0",
@@ -32,9 +31,11 @@
     "@supabase/supabase-js": "^2.20.0",
     "@tanstack/react-query": "^4.20.0",
     "@tinymce/tinymce-react": "^4.3.0",
+    "@uiw/react-md-editor": "v3.6.0",
     "daisyui": "^2.51.1",
     "editorjs-blocks-react-renderer": "^1.3.0",
     "next": "^13.2.4",
+    "next-remove-imports": "^1.0.11",
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

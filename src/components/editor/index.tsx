@@ -30,8 +30,8 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
         tools: EDITOR_TOOLS,
         data,
         async onChange(api, event) {
-          const data = await api.saver.save();
-          onChange(data);
+          // const data = await api.saver.save();
+          // onChange(data);
         },
       });
       ref.current = editor;
@@ -45,7 +45,7 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
     };
   }, [data, holder, onChange]);
 
-  return <div id={holder} className="prose max-w-full" />;
+  return <div id={holder} className="prose max-w-full text-[#000]" />;
 };
 
 export default memo(EditorBlock);

@@ -14,7 +14,6 @@ import type { OutputData } from "@editorjs/editorjs";
 import type { Documents, Links, Projects } from "@/types";
 import type { FC } from "react";
 import { Badge } from "@/components/badge/badge.component";
-import { cp } from "fs";
 import { ProjectsContext } from "@/contexts/projects.context";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
