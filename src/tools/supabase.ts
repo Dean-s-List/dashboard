@@ -111,9 +111,9 @@ export const getAllFeedback = async () => {
   return await supabase.from("feedbacks").select("*");
 };
 
-export const getTeamMembers = async (id: string) => {
+export const getTeamMembers = async (project_id: string) => {
   const { data, error } = await supabase.rpc("get_profiles_with_feedback", {
-    id,
+    project_id,
   });
 
   if (error) console.error(error);
@@ -126,9 +126,14 @@ export const getSingleFeedback = async (id: string) => {
   return await supabase.from("feedbacks").select("*").eq("id", id).single();
 };
 
-export const getSingleProject = async (id: string) => {
-  console.log("querying project with id : ", id);
-  return await supabase.from("projects").select("*").eq("id", id).single();
+export const loadSingleProject = async (id: string) => {
+  const { data } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("id", id)
+    .single();
+  console.log(data);
+  if (data) return data;
 };
 
 export const getAllUsers = async () => {
@@ -164,6 +169,15 @@ export const getDeliverables = async (projectId: string) => {
     .from("deliverables")
     .select("*")
     .eq("project", projectId);
+};
+
+export const checkPriviledges = async (userId: string) => {
+  const { data } = await supabase
+    .from("admins")
+    .select("*")
+    .eq("id", userId)
+    .single();
+  if (data) return data;
 };
 
 export const onAuthStateChangeListener = () => {

@@ -249,15 +249,13 @@ export interface Database {
     Functions: {
       get_profiles_with_feedback: {
         Args: {
-          id: string;
+          project_id: string;
         };
         Returns: {
-          Row: {
-            id?: string;
-            full_name?: string;
-            avatar_url?: string | null;
-          };
-        };
+          id?: string;
+          full_name?: string;
+          avatar_url?: string | null;
+        }[];
       };
     };
     Enums: {

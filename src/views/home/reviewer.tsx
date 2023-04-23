@@ -3,6 +3,7 @@ import {
   getDeliverables,
   getProjectFeedbacks,
   getProjectLinks,
+  getTeamMembers,
 } from "@/tools/supabase";
 import { UserContext } from "@/contexts/user.context";
 import ProjectCard from "@/components/project-card/project-card.component";
@@ -16,10 +17,12 @@ import type {
   Feedbacks,
   Links,
   Documents,
+  Team,
 } from "@/types";
 import type { FC } from "react";
 import { Router, useRouter } from "next/router";
 import Spinner from "@/components/spinner/Spinner";
+import { TeamMember } from "@/components/team-member/team-member.component";
 
 interface Props {
   projects: Projects[];
@@ -34,6 +37,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
   const [filterCategory, setFilterCategory] = useState<CategoryEnum>();
   const [links, setLinks] = useState<Links[] | null>(null);
   const [documents, setDocuments] = useState<Documents[] | null>(null);
+  const [team, setTeam] = useState<Team | null>(null);
   const router = useRouter();
   useEffect(() => {
     const fetchDeliverables = async (projectId: string) => {
@@ -85,6 +89,23 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
         .finally(() => {
           setTimeout(() => setLoading(false), 1000);
         });
+    }
+  }, [selectedProject]);
+
+  useEffect(() => {
+    if (selectedProject) {
+      const fetchTeamMembers = async () => {
+        return await getTeamMembers(selectedProject.id);
+      };
+      fetchTeamMembers()
+        .then((data) => {
+          if (data) {
+            setTeam(data);
+            console.log("team : ", data);
+          }
+        })
+        .catch((error) => console.log(error));
+      // .finally(() => setLoading(false));
     }
   }, [selectedProject]);
 
@@ -173,7 +194,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                     />
                   ))
                 ) : (
-                  <div className="w-full text-center">
+                  <div className="w-full text-center text-sm">
                     this project has no deliverables yet !
                   </div>
                 )}
@@ -181,20 +202,21 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
             </div>
             <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[88%] rounded-xl bg-primary-dark p-4 pb-8">
               <h3 className="p-1 font-bold">Team Members</h3>
-              {/* <div className="grid grid-cols-2 gap-4">
-                {deliverables ? (
-                  deliverables.map((deliverable) => (
-                    <Deliverable
-                      deliverable={deliverable}
-                      key={deliverable.id}
+              <div className="grid grid-cols-2 gap-4">
+                {team ? (
+                  team.map((member) => (
+                    <TeamMember
+                      avatar_url={member.avatar_url!}
+                      full_name={member.full_name!}
+                      key={member.id}
                     />
                   ))
                 ) : (
-                  <div className="w-full text-center">
-                    this project has no deliverables yet !
+                  <div className="w-full text-center text-sm">
+                    this project has no members yet !
                   </div>
                 )}
-              </div> */}
+              </div>
             </div>
             <div className="mx-auto mt-8 flex w-[88%] items-center justify-center space-x-8">
               <span className="w-full text-xl font-bold">Feedbacks</span>

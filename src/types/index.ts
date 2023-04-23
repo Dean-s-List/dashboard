@@ -54,3 +54,5 @@ export type Links = Database["public"]["Tables"]["links"]["Row"];
 export type Documents = Database["public"]["Tables"]["documents"]["Row"];
 export type Admin = Database["public"]["Tables"]["admins"]["Row"];
 export type Comments = Database["public"]["Tables"]["comments"]["Row"];
+export type Team =
+  Database["public"]["Functions"]["get_profiles_with_feedback"]["Returns"];

@@ -41,6 +41,13 @@ export const EditorProvider = ({ children }: IProvider) => {
     }
   }, [editorData]);
 
+  // useEffect(() => {
+  //   if (!editorData) {
+  //     console.log("editorData is empty, destroying..");
+  //     window.localStorage.removeItem("editorData");
+  //   }
+  // }, [editorData]);
+
   return (
     <EditorContext.Provider value={value}>{children}</EditorContext.Provider>
   );

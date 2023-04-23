@@ -17,6 +17,8 @@ import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import type { Documents, Links, Projects } from "@/types";
 import type { OutputData } from "@editorjs/editorjs";
 import type { FC } from "react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const EditorBlock = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -29,75 +31,24 @@ interface Props {
 export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
   const [data, setData] = useState<OutputData>();
   const { currentUser } = useContext(UserContext);
-  const { editorData } = useContext(EditorContext);
-  const { projects } = useContext(ProjectsContext);
+  const { editorData, setEditorData } = useContext(EditorContext);
+  const { projects, links, documents } = useContext(ProjectsContext);
   const [userAgent, setUserAgent] = useState<string>();
   const [project, setTargetProject] = useState<Projects | null>(currentProject);
   const [projectName] = useState<string | null>(null);
   const [category, setCategory] = useState<CategoryEnum>();
-  const [links, setLinks] = useState<Links[] | null>(null);
-  const [documents, setDocuments] = useState<Documents[] | null>(null);
 
-  useEffect(() => {
-    if (project) {
-      const fetchProjectLinks = async () => {
-        return await getProjectLinks(project);
-      };
-      fetchProjectLinks()
-        .then(({ data }) => {
-          if (data) {
-            setLinks(data);
-            console.log(data);
-          }
-        })
-        .catch((error) => console.log(error));
-      // .finally(() => setLoading(false));
-    }
-  }, [project]);
+  const router = useRouter();
 
-  useEffect(() => {
-    if (project) {
-      const fetchProjectDocuments = async () => {
-        return await getProjectDocuments(project);
-      };
-      fetchProjectDocuments()
-        .then(({ data }) => {
-          if (data) {
-            setDocuments(data);
-            console.log(data);
-          }
-        })
-        .catch((error) => console.log(error));
-      // .finally(() => setLoading(false));
-    }
-  }, [project]);
-
-  useEffect(() => {
-    if (project) {
-      const fetchTeamMembers = async () => {
-        return await getTeamMembers(project.id);
-      };
-      fetchTeamMembers()
-        .then((data) => {
-          if (data) {
-            // setDocuments(data);
-            console.log(data);
-          }
-        })
-        .catch((error) => console.log(error));
-      // .finally(() => setLoading(false));
-    }
-  }, [project]);
-
-  useEffect(() => {
-    if (projects && projectName) {
-      console.log("projects :", projects);
-      const project = nameToProject(projects, projectName);
-      if (project) {
-        setTargetProject(project);
-      }
-    }
-  }, [projects, projectName]);
+  // useEffect(() => {
+  //   if (projects && projectName) {
+  //     console.log("projects :", projects);
+  //     const project = nameToProject(projects, projectName);
+  //     if (project) {
+  //       setTargetProject(project);
+  //     }
+  //   }
+  // }, [projects, projectName]);
 
   useEffect(() => {
     if (window.navigator.userAgent) {
@@ -124,22 +75,45 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
-    // if (currentUser && project && data && category && userAgent) {
-    addFeedback({
-      id: null,
-      title: "Undefined",
-      user_id: currentUser!.id,
-      project: project!.id,
-      content: JSON.stringify(editorData),
-      category: category!,
-      published: true,
-      user_agent: userAgent!,
-      avatar_url: currentUser!.avatar_url,
-      created_at: null,
-    })
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
-    // }
+    if (!project || !category) {
+      switch (!project || !category || !editorData) {
+        case !editorData:
+          toast.error("Feedback is empty !");
+          break;
+        case !currentUser:
+          toast.error("No project selected !");
+          break;
+        case !category:
+          toast.error("No category selected !");
+          break;
+      }
+    } else {
+      toast
+        .promise(
+          addFeedback({
+            id: null,
+            title: "Undefined",
+            user_id: currentUser!.id,
+            project: project.id,
+            content: JSON.stringify(editorData),
+            category: category,
+            published: true,
+            user_agent: userAgent!,
+            avatar_url: currentUser!.avatar_url,
+            created_at: null,
+          }),
+          {
+            loading: "Posting feedback..",
+            success: () => {
+              setEditorData(null);
+              return <b>Feedback posted !</b>;
+            },
+            error: <b>Error posting feedback !</b>,
+          }
+        )
+        .then((res) => console.log(res))
+        .catch((error) => console.log(error));
+    }
   };
 
   return (
@@ -163,6 +137,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </label>
               <select
                 className="select-bordered select w-full"
+                defaultValue="Target Project"
                 onChange={(e) => {
                   if (e.target.value && projects)
                     setTargetProject(nameToProject(projects, e.target.value)!);
@@ -191,6 +166,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
             <>
               <li className="mt-8 flex w-96 items-center px-1">
                 <span className="text-sm">Project Focus :</span>
+
                 <span className="ml-4 w-[50%]">
                   <Badge category={project.focus} />
                 </span>
@@ -216,6 +192,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </label>
               <select
                 className="select-bordered select"
+                defaultValue="Choose"
                 onChange={(e) => {
                   switch (e.target.value) {
                     case "UX/UI":
@@ -233,9 +210,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
                   }
                 }}
               >
-                <option disabled selected>
-                  Choose
-                </option>
+                <option disabled>Choose</option>
                 <option>UX/UI</option>
                 <option>Documentation</option>
                 <option>Business/Strategy</option>

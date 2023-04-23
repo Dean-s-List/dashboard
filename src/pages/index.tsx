@@ -1,32 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import { UserContext } from "@/contexts/user.context";
-import { getAllProjects } from "@/tools/supabase";
 import Layout from "@/layout";
 import CostumerView from "@/views/home/costumer";
 import { ReviewerView } from "@/views/home/reviewer";
 import type { NextPage } from "next";
-import type { Deliverables, Profiles, Projects } from "@/types";
+import { ProjectsContext } from "@/contexts/projects.context";
+import Spinner from "@/components/spinner/Spinner";
 
 const Dashboard: NextPage = () => {
-  const { currentUser } = useContext(UserContext);
-  const [projects, setProjects] = useState<Projects[] | null>(null);
-  const [deliverables, setDeliverables] = useState<Deliverables[] | null>(null);
-  const [team, setTeam] = useState<Profiles[] | null>(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      return await getAllProjects();
-    };
-    fetchProjects()
-      .then(({ data }) => {
-        if (data) {
-          setProjects(data);
-          console.log(data);
-        }
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  const { projects } = useContext(ProjectsContext);
 
   return (
     <>
@@ -43,12 +26,13 @@ const Dashboard: NextPage = () => {
         />
       </Head>
       <Layout>
-        {currentUser?.account_enum == 0 && (
+        {/* {currentUser?.account_enum == 0 && (
           <CostumerView deliverables={deliverables} team={team} />
-        )}
-        {currentUser?.account_enum == 1 && (
+        )} */}
+        {/* {currentUser?.account_enum == 1 && (
           <ReviewerView projects={projects!} />
-        )}
+        )} */}
+        {!projects ? <Spinner /> : <ReviewerView projects={projects} />}
       </Layout>
     </>
   );
