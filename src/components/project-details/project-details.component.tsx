@@ -5,7 +5,6 @@ import { ClockIcon } from "@heroicons/react/24/solid";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import type { Documents, Links, Projects } from "@/types";
 import type { FC } from "react";
-import InputItem from "../input-item/input-item";
 import LinkItem from "../link-item/link-item.component";
 import React from "react";
 

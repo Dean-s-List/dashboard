@@ -309,6 +309,8 @@ export const AdminView: FC<Props> = ({ projects }) => {
             project={selectedProject}
             links={links}
             documents={documents}
+            setDocuments={setDocuments}
+            setLinks={setLinks}
           />
         ) : (
           <div>Please select a project !</div>
