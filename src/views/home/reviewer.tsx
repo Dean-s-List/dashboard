@@ -203,6 +203,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                 <div className="form-control">
                   <select
                     className="select-bordered select select-sm"
+                    defaultValue={"Sort By : Show All"}
                     onChange={(e) => {
                       switch (e.target.value) {
                         case "UX/UI":
@@ -220,9 +221,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                       }
                     }}
                   >
-                    <option disabled selected>
-                      Sort By : Show All
-                    </option>
+                    <option disabled>Sort By : Show All</option>
                     <option>UX/UI</option>
                     <option>Documentation</option>
                     <option>Business/Strategy</option>
@@ -232,6 +231,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                 <div className="form-control">
                   <select
                     className="select-bordered select select-sm"
+                    defaultValue={"Category : Show All"}
                     onChange={(e) => {
                       switch (e.target.value) {
                         case "UX/UI":
@@ -249,10 +249,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
                       }
                     }}
                   >
-                    <option disabled selected>
-                      <span>Category :</span>{" "}
-                      <span className="font-bold">Show All</span>
-                    </option>
+                    <option disabled>Category : Show All</option>
                     <option>UX/UI</option>
                     <option>Documentation</option>
                     <option>Business/Strategy</option>
@@ -295,7 +292,9 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
         <ProjectDetails
           project={selectedProject}
           links={links}
+          setLinks={setLinks}
           documents={documents}
+          setDocuments={setDocuments}
         />
       )}
     </div>

@@ -19,10 +19,23 @@ interface IProvider {
 export const EditorProvider = ({ children }: IProvider) => {
   const [editorData, setEditorData] = useState<OutputData | null>(null);
   const value = { editorData, setEditorData };
+
+  useEffect(() => {
+    if (window.localStorage.getItem("editorData"))
+      setEditorData(
+        JSON.parse(window.localStorage.getItem("editorData")!) as OutputData
+      );
+    console.log(
+      "editorData from localStorage : ",
+      window.localStorage.getItem("editorData")
+    );
+  }, [editorData]);
+
   useEffect(() => {
     if (editorData) {
       console.log(editorData);
       setEditorData(editorData);
+      window.localStorage.setItem("editorData", JSON.stringify(editorData));
     } else {
       setEditorData(null);
     }

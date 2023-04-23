@@ -2,6 +2,7 @@ import { numericalToString } from "@/tools/core/month";
 import type { Projects } from "@/types";
 import type { FC } from "react";
 import { Badge } from "@/components/badge/badge.component";
+import ProjectTitle from "../project-title/project-title.component";
 
 interface Props {
   project: Projects;
@@ -14,7 +15,9 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => (
     onClick={onClick}
   >
     <div className="card-body">
-      <h2 className="card-title">{project.name}</h2>
+      <h2 className="card-title">
+        <ProjectTitle project={project} />
+      </h2>
       <hr className="pb-1 text-primary" />
       <div className="mx-auto flex w-[88%] items-center justify-center space-x-8">
         <Badge category={project.focus} />

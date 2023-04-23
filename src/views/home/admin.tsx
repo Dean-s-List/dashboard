@@ -88,8 +88,8 @@ export const AdminView: FC<Props> = ({ projects }) => {
   }, [selectedProject]);
 
   return (
-    <div className="flex w-[100vw] max-w-full">
-      <div className="h-[calc(100vh-67.5px)] w-[25vw] border-l border-t bg-primary-dark">
+    <div className="flex max-w-full">
+      <div className="w-[25vw] border-l border-t bg-primary-dark">
         <form
           className="flex w-full flex-col items-center justify-center px-2"
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => {

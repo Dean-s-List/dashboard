@@ -70,7 +70,7 @@ export interface Database {
         Row: {
           id: string | null;
           user_id: string;
-          title: string | null;
+          title: string;
           project: string;
           created_at: string | null;
           published: boolean;
@@ -82,7 +82,7 @@ export interface Database {
         Insert: {
           id?: string | null;
           user_id?: string;
-          title: string | null;
+          title: string;
           project?: string;
           created_at?: string | null;
           published?: boolean;
@@ -94,7 +94,7 @@ export interface Database {
         Update: {
           id?: string | null;
           user_id?: string;
-          title?: string | null;
+          title?: string;
           project?: string;
           created_at?: string;
           published?: boolean;

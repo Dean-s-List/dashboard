@@ -7,7 +7,7 @@ interface Props {
   projects: Projects[];
 }
 
-const Admin: FC<Props> = ({ projects }) => (
+const AdminPopup: FC<Props> = ({ projects }) => (
   <div className="mx-auto mt-16 flex h-60 w-[88%] flex-col items-center justify-center rounded-xl border border-primary bg-primary-darker px-1 text-center">
     <ShieldCheckIcon className="h-6 w-6" />
     <div className="mt-4 w-[100%] text-sm font-bold">
@@ -23,4 +23,4 @@ const Admin: FC<Props> = ({ projects }) => (
   </div>
 );
 
-export default Admin;
+export default AdminPopup;

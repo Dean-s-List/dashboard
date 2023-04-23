@@ -11,20 +11,33 @@ import { CategoryEnum } from "@/constants";
 import type { NextPage, NextPageContext } from "next";
 import type { Feedbacks, Projects } from "@/types";
 import { Badge } from "@/components/badge/badge.component";
+import FeedbackTitle from "@/components/feedback-title/feedback-title.component";
+import { UserContext } from "@/contexts/user.context";
 interface Props {
   data: Feedbacks | null;
 }
 
 const FeedbackPage: NextPage<Props> = ({ data }) => {
+  const { currentUser } = useContext(UserContext);
   const { projects } = useContext(ProjectsContext);
   const [project, setProject] = useState<Projects | null>(null);
+  const [title, setTitle] = useState<string>(data!.title);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.id === data!.user_id) {
+        setIsOwner(true);
+      }
+    }
+  }, [currentUser, data]);
 
   useEffect(() => {
     if (projects) {
-      const currentProject = projects.filter(
+      const [currentProject] = projects.filter(
         (project) => project.id == data?.project
       );
-      if (currentProject) setProject(currentProject[0]!);
+      if (currentProject) setProject(currentProject);
     }
   }, [projects, data?.project]);
 
@@ -42,12 +55,17 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
             </div>
             <div className="flex flex-col">
               <h1 className="ml-8 p-8 text-3xl font-bold">
-                {data.title || "Untitled"}
+                <FeedbackTitle
+                  feedback={data}
+                  project={project}
+                  setTitle={setTitle}
+                  isOwner={isOwner}
+                />
               </h1>
               <div className="mx-auto mb-2 flex w-[95%]">
                 <span className="mx-auto flex w-[40%] items-center justify-start">
                   <span>
-                    Project : <span className="font-bold">{project?.name}</span>{" "}
+                    Project :<span className="font-bold">{project?.name}</span>{" "}
                   </span>
                 </span>
                 <span className="mx-auto flex w-[40%] flex-row items-center justify-end">

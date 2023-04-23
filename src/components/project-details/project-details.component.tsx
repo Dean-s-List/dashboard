@@ -5,17 +5,24 @@ import { ClockIcon } from "@heroicons/react/24/solid";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import type { Documents, Links, Projects } from "@/types";
 import type { FC } from "react";
+import InputItem from "../input-item/input-item";
+import LinkItem from "../link-item/link-item.component";
+import React from "react";
 
 interface ProjectDetailsProps {
   project: Projects;
   links: Links[] | null;
   documents: Documents[] | null;
+  setLinks: React.Dispatch<React.SetStateAction<Links[] | null>>;
+  setDocuments: React.Dispatch<React.SetStateAction<Documents[] | null>>;
 }
 
 const ProjectDetails: FC<ProjectDetailsProps> = ({
   project,
   links,
+  setLinks,
   documents,
+  setDocuments,
 }) => (
   <div className="bg-white flex h-[calc(100vh-67.5px)] w-[50%] flex-col border-t border-l border-primary">
     <div className="w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
@@ -53,11 +60,17 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
         {links ? (
           links.map((link) => (
             <li key={link.id}>
-              <Link href={link.link}>
+              <LinkItem
+                link={link}
+                links={links}
+                project={project}
+                setLinks={setLinks}
+              />
+              {/* <Link href={link.link}>
                 <span className="text-sm font-bold text-secondary-dark">
                   {link.text}
                 </span>
-              </Link>
+              </Link> */}
             </li>
           ))
         ) : (

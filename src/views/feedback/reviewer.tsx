@@ -88,6 +88,13 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
     }
   }, [projects]);
 
+  useEffect(() => {
+    if (window.localStorage.getItem("editorData"))
+      setData(
+        JSON.parse(window.localStorage.getItem("editorData")!) as OutputData
+      );
+  }, []);
+
   const nameToProject = (projects: Projects[], str: string) => {
     if (projects && projects.length > 0) {
       const [project] = projects?.filter((project) => project.name == str);
@@ -102,7 +109,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
     // if (currentUser && project && data && category && userAgent) {
     addFeedback({
       id: null,
-      title: null,
+      title: "Undefined",
       user_id: currentUser!.id,
       project: project!.id,
       content: JSON.stringify(editorData),
