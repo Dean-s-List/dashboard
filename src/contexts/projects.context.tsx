@@ -95,7 +95,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
           .catch((error) => console.log(error));
       }
     }
-  }, []);
+  }, [user, supabase]);
 
   return (
     <ProjectsContext.Provider value={value}>

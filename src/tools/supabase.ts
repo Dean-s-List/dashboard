@@ -111,6 +111,16 @@ export const getAllFeedback = async () => {
   return await supabase.from("feedbacks").select("*");
 };
 
+export const getTeamMembers = async (id: string) => {
+  const { data, error } = await supabase.rpc("get_profiles_with_feedback", {
+    id,
+  });
+
+  if (error) console.error(error);
+  else console.log(data);
+  return data;
+};
+
 export const getSingleFeedback = async (id: string) => {
   console.log("querying feedback with id : ", id);
   return await supabase.from("feedbacks").select("*").eq("id", id).single();

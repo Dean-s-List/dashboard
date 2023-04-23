@@ -247,7 +247,18 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_profiles_with_feedback: {
+        Args: {
+          id: string;
+        };
+        Returns: {
+          Row: {
+            id?: string;
+            full_name?: string;
+            avatar_url?: string | null;
+          };
+        };
+      };
     };
     Enums: {
       [_ in never]: never;

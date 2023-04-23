@@ -10,6 +10,7 @@ import {
   addFeedback,
   getProjectDocuments,
   getProjectLinks,
+  getTeamMembers,
 } from "@/tools/supabase";
 import { numericalToString } from "@/tools/core/month";
 import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
@@ -63,6 +64,23 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
         .then(({ data }) => {
           if (data) {
             setDocuments(data);
+            console.log(data);
+          }
+        })
+        .catch((error) => console.log(error));
+      // .finally(() => setLoading(false));
+    }
+  }, [project]);
+
+  useEffect(() => {
+    if (project) {
+      const fetchTeamMembers = async () => {
+        return await getTeamMembers(project.id);
+      };
+      fetchTeamMembers()
+        .then((data) => {
+          if (data) {
+            // setDocuments(data);
             console.log(data);
           }
         })
