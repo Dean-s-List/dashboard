@@ -1,23 +1,26 @@
 import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-// Supabase
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
-import { getAllProjects } from "@/tools/supabase";
-// Components
+// Solana
 import WalletProvider from "@/components/wallet/Provider";
-import { ContentContainer } from "@/components/content-container/content-container";
-// import { HolderProvider } from "@/contexts/holder.context";
+// Supabase
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+// Contexts/Providers
 import { UserProvider } from "@/contexts/user.context";
-import { UserAgentProvider } from "@/contexts/agent.context";
 import { ProjectsContext, ProjectsProvider } from "@/contexts/projects.context";
+import { UserAgentProvider } from "@/contexts/agent.context";
+import { EditorProvider } from "@/contexts/editor.context";
+// Components
+import { ContentContainer } from "@/components/content-container/content-container";
+
+import type { Session } from "@supabase/auth-helpers-react";
+import type { Database } from "@/types/supabase";
+import type { AppProps } from "next/app";
 
 // Stylesheet
 require("@solana/wallet-adapter-react-ui/styles.css");
 import "@/styles/globals.css";
 import "@/styles/spinner.css";
-import "@uiw/react-md-editor/markdown-editor.css";
-import "@uiw/react-markdown-preview/markdown.css";
 
 // Fonts
 import { Space_Grotesk } from "@next/font/google";
@@ -30,14 +33,6 @@ const tt = localFont({
   src: "../styles/fonts/tt.woff2",
   variable: "--font-tt",
 });
-// Types
-// import type { AppType } from "next/dist/shared/lib/utils";
-
-import type { Database } from "@/types/supabase";
-
-import type { Projects } from "@/types";
-import type { AppProps } from "next/app";
-import { EditorProvider } from "@/contexts/editor.context";
 
 const MyApp = ({
   Component,
