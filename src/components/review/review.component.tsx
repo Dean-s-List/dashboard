@@ -56,6 +56,7 @@ const Review: FC<Props> = ({ feedback }) => {
               type="radio"
               name="rating"
               value={3}
+              defaultChecked
               onClick={() => {
                 setStars(3);
               }}

@@ -31,7 +31,7 @@ const ProjectTitle: React.FC<Props> = ({ project }) => {
   const handleEditNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
-      const data = await updateProjectName({
+      const data = await updateProject({
         id: project.id,
         name: editName,
         created_at: project.created_at,
