@@ -3,14 +3,15 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
 import type { Projects } from "@/types";
 import { UserContext } from "@/contexts/user.context";
+import { updateProject, updateProjectName } from "@/tools/supabase";
 
 interface Props {
-  project: Projects | null;
+  project: Projects;
 }
 
 const ProjectTitle: React.FC<Props> = ({ project }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editName, setEditName] = useState<string>(project!.name);
+  const [editName, setEditName] = useState<string>(project.name);
   const { isAdmin } = useContext(UserContext);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,7 +30,26 @@ const ProjectTitle: React.FC<Props> = ({ project }) => {
 
   const handleEditNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setTitle(editName);
+    (async () => {
+      const data = await updateProjectName({
+        id: project.id,
+        name: editName,
+        created_at: project.created_at,
+        starts_at: project.starts_at,
+        ends_at: project.ends_at,
+        description: project.description,
+        focus: project.focus,
+        logo: project.logo,
+        image: project.image,
+      });
+      console.log(data);
+      return data;
+    })()
+      .then((project) => {
+        console.log(project);
+      })
+      .catch((error) => console.log(error));
+
     setEdit(false);
   };
 
@@ -54,7 +74,7 @@ const ProjectTitle: React.FC<Props> = ({ project }) => {
               onChange={handleEditNameChange}
             />
           ) : (
-            <span className="font-bold">{project!.name || "Untitled"}</span>
+            <span className="font-bold">{project.name || "Untitled"}</span>
           )}
           <div className="flex items-center gap-1">
             <span
@@ -78,7 +98,7 @@ const ProjectTitle: React.FC<Props> = ({ project }) => {
           </div>
         </form>
       ) : (
-        <span className="font-bold">{project!.name}</span>
+        <span className="font-bold">{project.name}</span>
       )}
     </>
   );

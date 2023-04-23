@@ -45,7 +45,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
         .then(({ data }) => {
           if (data) {
             setDeliverables(data);
-            console.log(data);
+            console.log("deliverables : ", data);
           }
         })
         .finally(() => {
@@ -64,7 +64,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
         .then(({ data }) => {
           if (data) {
             setLinks(data);
-            console.log(data);
+            console.log("links : ", data);
           }
         })
         .finally(() => {

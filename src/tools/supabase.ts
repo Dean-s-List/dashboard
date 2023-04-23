@@ -67,12 +67,40 @@ export const addFeedback = async ({
 };
 
 export const addComment = async ({ id, user_id, content }: Comments) => {
-  const { error } = await supabase.from("comments").insert({
-    id,
-    user_id,
-    content,
-  });
+  const { data, error } = await supabase
+    .from("comments")
+    .insert({
+      id,
+      user_id,
+      content,
+    })
+    .select();
   if (error) console.log(error);
+  return data;
+};
+
+export const updateProjectName = async ({ id, name }: Projects) => {
+  const { data, error } = await supabase
+    .from("projects")
+    .upsert({ name })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) console.log(error);
+  return data;
+};
+
+export const updateProject = async (project: Projects) => {
+  const { data, error } = await supabase
+    .from("projects")
+    .update(project)
+    .eq("id", project.id)
+    .select()
+    .single();
+  if (error) console.log(error);
+  if (data) console.log(data);
+
+  return data;
 };
 
 export const getAllProjects = async () => {
