@@ -13,11 +13,7 @@ import { Badge } from "@/components/badge/badge.component";
 import { WIP } from "@/components/wip";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 // import { CategoryEnum } from "@/constants";
-import {
-  deleteFeedback,
-  getSingleFeedback,
-  updateFeedback,
-} from "@/tools/supabase";
+import { deleteFeedback, getSingleFeedback } from "@/tools/supabase";
 
 import Layout from "@/layout";
 
