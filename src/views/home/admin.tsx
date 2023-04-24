@@ -304,7 +304,7 @@ export const AdminView: FC<Props> = ({ projects }) => {
         <div className="w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
           Project Details
         </div>
-        {selectedProject ? (
+        {/* {selectedProject ? (
           <ProjectDetails
             project={selectedProject}
             links={links}
@@ -314,7 +314,7 @@ export const AdminView: FC<Props> = ({ projects }) => {
           />
         ) : (
           <div>Please select a project !</div>
-        )}
+        )} */}
       </div>
     </div>
   );
