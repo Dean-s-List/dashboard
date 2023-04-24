@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Blocks from "editorjs-blocks-react-renderer";
-import { getSingleFeedback, getSingleProject } from "@/tools/supabase";
+import { getSingleFeedback } from "@/tools/supabase";
 import Layout from "@/layout";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { CategoryEnum } from "@/constants";
@@ -89,12 +89,12 @@ const FeedbackPage: NextPage<Props> = ({ data }) => (
   </Layout>
 );
 
-FeedbackPage.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
-  const { id } = ctx.query;
-  console.log("welcome on the page for feedback ", id);
-  const { data } = await getSingleProject(id as string);
-  console.log(data);
-  return { data };
-};
+// FeedbackPage.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
+//   const { id } = ctx.query;
+//   console.log("welcome on the page for feedback ", id);
+//   const { data } = await getSingleProject(id as string);
+//   console.log(data);
+//   return { data };
+// };
 
 export default FeedbackPage;
