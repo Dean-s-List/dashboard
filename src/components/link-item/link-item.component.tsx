@@ -4,6 +4,8 @@ import { MdDone } from "react-icons/md";
 import type { Links, Projects } from "@/types";
 import Link from "next/link";
 import { UserContext } from "@/contexts/user.context";
+import { toast } from "react-hot-toast";
+import { updateLinks } from "@/tools/supabase";
 
 interface Props {
   link: Links | null;
@@ -14,36 +16,80 @@ interface Props {
 
 const LinkItem: React.FC<Props> = ({ link, links, setLinks }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editName, setEditName] = useState<string>(link!.text);
+  const [editText, setEditText] = useState<string>(link!.text);
+  const [editLink, setEditLink] = useState<string>(link!.link);
   const { isAdmin } = useContext(UserContext);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputTextRef = useRef<HTMLInputElement>(null);
+  const inputLinkRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
+    inputTextRef.current?.focus();
+  }, [edit]);
+  useEffect(() => {
+    inputLinkRef.current?.focus();
   }, [edit]);
 
   const handleEdit = () => {
     setEdit(true);
   };
 
-  const handleEditNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditName(e.target.value);
+  const handleEditTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditText(e.target.value);
   };
 
-  const handleEditNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditLink(e.target.value);
+  };
+
+  const handleEditLinkSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    links &&
-      setLinks(
-        links.map((item) =>
-          item.id === link!.id ? { ...item, text: editName } : item
+    if (!editText || !editLink) {
+      switch (!editText || !editLink) {
+        case !editText:
+          toast.error("Text for link is empty !");
+          break;
+        case !editLink:
+          toast.error("URL for link is empty !");
+          break;
+      }
+    } else {
+      toast
+        .promise(
+          (async () => {
+            const data = await updateLinks({
+              id: link!.id,
+              project: link!.project,
+              text: editText,
+              link: editLink,
+              created_at: null,
+            });
+            console.log(data);
+            return data;
+          })(),
+          {
+            loading: "Updating link..",
+            success: () => {
+              setLinks(
+                links!.map((item) =>
+                  item.id === link!.id
+                    ? { ...item, text: editText, link: editLink }
+                    : item
+                )
+              );
+              return <b>Link updated !</b>;
+            },
+            error: <b>Error updating link !</b>,
+          }
         )
-      );
+        .catch((error) => console.log(error));
+    }
+
     setEdit(false);
   };
 
   const handleDelete = () => {
-    links && setLinks(links.filter((item) => item.id !== link!.id));
+    setLinks(links!.filter((item) => item.id !== link!.id));
   };
 
   return (
@@ -51,17 +97,27 @@ const LinkItem: React.FC<Props> = ({ link, links, setLinks }) => {
       {isAdmin ? (
         <form
           className="flex w-full items-center"
-          onSubmit={handleEditNameSubmit}
+          onSubmit={handleEditLinkSubmit}
         >
           {edit ? (
-            <input
-              autoFocus
-              className="flex-1 rounded-md px-1 text-[#000] outline-none"
-              type="text"
-              ref={inputRef}
-              value={editName}
-              onChange={handleEditNameChange}
-            />
+            <div className="flex flex-col">
+              <input
+                autoFocus
+                className="flex-1 rounded-md px-1 text-[#000] outline-none"
+                type="text"
+                ref={inputTextRef}
+                value={editText}
+                onChange={handleEditTextChange}
+              />
+              <input
+                autoFocus
+                className="flex-1 rounded-md px-1 text-[#000] outline-none"
+                type="text"
+                ref={inputLinkRef}
+                value={editLink}
+                onChange={handleEditLinkChange}
+              />
+            </div>
           ) : (
             <Link href={link!.link}>
               <span className="text-sm font-bold text-secondary-dark">

@@ -15,6 +15,7 @@ interface ProjectsContext {
   projects: Projects[] | null;
   project: Projects | null;
   setProject: React.Dispatch<SetStateAction<Projects | null>> | null;
+  setProjects: React.Dispatch<SetStateAction<Projects[] | null>> | null;
   links: Links[] | null;
   setLinks: React.Dispatch<SetStateAction<Links[] | null>> | null;
   documents: Documents[] | null;
@@ -27,6 +28,7 @@ export const ProjectsContext = createContext<ProjectsContext>({
   projects: null,
   project: null,
   setProject: () => null,
+  setProjects: () => null,
   links: null,
   setLinks: () => null,
   documents: null,
@@ -37,8 +39,9 @@ export const ProjectsContext = createContext<ProjectsContext>({
 
 export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   const user = useUser();
-  const [projects, setProjects] = useState<Projects[] | null>(null);
   const [project, setProject] = useState<Projects | null>(null);
+
+  const [projects, setProjects] = useState<Projects[] | null>(null);
   const [links, setLinks] = useState<Links[] | null>(null);
   const [documents, setDocuments] = useState<Documents[] | null>(null);
   const [team, setTeam] = useState<Team | null>(null);
@@ -46,6 +49,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     projects,
     project,
+    setProjects,
     setProject,
     links,
     setLinks,

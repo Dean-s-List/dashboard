@@ -31,7 +31,11 @@ const Navbar: FC<Props> = ({
         />
       </div>
     </div>
-    <div className="mr-2 flex items-center justify-end gap-2 rounded-md border border-primary bg-base-100 py-1 pr-4">
+    <div className="badge-success badge mr-4 border border-primary font-bold text-[#000]">
+      alpha
+    </div>
+
+    <div className="mr-2 flex items-center justify-end gap-2 rounded-md border border-primary bg-base-100 pt-1 pr-4">
       {currentUser && (
         <div className="flex">
           {wallet.publicKey ? (
@@ -42,7 +46,7 @@ const Navbar: FC<Props> = ({
             <Wallet />
           )}
 
-          <div className="dropdown-end dropdown">
+          <div className="dropdown-end dropdown flex items-center">
             <div className="">
               {currentUser.avatar_url ? (
                 <label tabIndex={0} className="btn-ghost btn-circle avatar btn">

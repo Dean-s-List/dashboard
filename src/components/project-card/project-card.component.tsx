@@ -1,22 +1,34 @@
+import React from "react";
+import ProjectTitle from "@/components/project-title/project-title.component";
+import { Badge } from "@/components/badge/badge.component";
 import { numericalToString } from "@/tools/core/month";
 import type { Projects } from "@/types";
 import type { FC } from "react";
-import { Badge } from "@/components/badge/badge.component";
-import ProjectTitle from "../project-title/project-title.component";
 
 interface Props {
   project: Projects;
+  projects: Projects[] | null;
+  setProjects: React.Dispatch<React.SetStateAction<Projects[] | null>>;
   onClick: () => void;
 }
 
-const ProjectCard: FC<Props> = ({ project, onClick }) => (
+const ProjectCard: FC<Props> = ({
+  project,
+  projects,
+  setProjects,
+  onClick,
+}) => (
   <div
     className="card mx-8 w-96 cursor-pointer border border-primary bg-primary-dark shadow-xl"
     onClick={onClick}
   >
     <div className="card-body">
       <h2 className="card-title">
-        <ProjectTitle project={project} />
+        <ProjectTitle
+          project={project}
+          projects={projects}
+          setProjects={setProjects}
+        />
       </h2>
       <hr className="pb-1 text-primary" />
       <div className="mx-auto flex w-[88%] items-center justify-center space-x-8">

@@ -4,14 +4,10 @@ import dynamic from "next/dynamic";
 import { UserContext } from "@/contexts/user.context";
 import { ProjectsContext } from "@/contexts/projects.context";
 import { EditorContext } from "@/contexts/editor.context";
+import LinkItem from "@/components/link-item/link-item.component";
 import { Badge } from "@/components/badge/badge.component";
 import { CategoryEnum } from "@/constants";
-import {
-  addFeedback,
-  getProjectDocuments,
-  getProjectLinks,
-  getTeamMembers,
-} from "@/tools/supabase";
+import { addFeedback, getProjectLinks } from "@/tools/supabase";
 import { numericalToString } from "@/tools/core/month";
 import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
 import type { Documents, Links, Projects } from "@/types";
@@ -32,12 +28,11 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
   const [data, setData] = useState<OutputData>();
   const { currentUser } = useContext(UserContext);
   const { editorData, setEditorData } = useContext(EditorContext);
-  const { projects, links, documents } = useContext(ProjectsContext);
+  const { projects, documents } = useContext(ProjectsContext);
   const [userAgent, setUserAgent] = useState<string>();
-  const [project, setTargetProject] = useState<Projects | null>(currentProject);
-  const [projectName] = useState<string | null>(null);
+  const [project, setProject] = useState<Projects | null>(currentProject);
   const [category, setCategory] = useState<CategoryEnum>();
-
+  const [links, setLinks] = useState<Links[] | null>(null);
   const router = useRouter();
 
   // useEffect(() => {
@@ -49,6 +44,25 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
   //     }
   //   }
   // }, [projects, projectName]);
+
+  useEffect(() => {
+    const fetchLinks = async (project: Projects) => {
+      return await getProjectLinks(project);
+    };
+    if (project) {
+      // setLoading(true);
+      fetchLinks(project)
+        .then(({ data }) => {
+          if (data) {
+            setLinks(data);
+            console.log("links : ", data);
+          }
+        })
+        .finally(() => {
+          // setTimeout(() => setLoading(false), 1000);
+        });
+    }
+  }, [project]);
 
   useEffect(() => {
     if (window.navigator.userAgent) {
@@ -111,7 +125,19 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
             error: <b>Error posting feedback !</b>,
           }
         )
-        .then((res) => console.log(res))
+        .then(() => {
+          // if (feedback) {
+          router
+            .push(
+              {
+                pathname: "/my-feedbacks",
+                // query: { id: feedback.id },
+              },
+              "/feedback"
+            )
+            .catch((error) => console.log(error));
+          // }
+        })
         .catch((error) => console.log(error));
     }
   };
@@ -137,10 +163,10 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </label>
               <select
                 className="select-bordered select w-full"
-                defaultValue="Target Project"
+                defaultValue={currentProject?.name || "Target Project"}
                 onChange={(e) => {
                   if (e.target.value && projects)
-                    setTargetProject(nameToProject(projects, e.target.value)!);
+                    setProject(nameToProject(projects, e.target.value)!);
                 }}
                 required
               >
@@ -149,11 +175,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
                   return (
                     <option
                       key={project.id}
-                      selected={
-                        currentProject && project.id == currentProject.id
-                          ? true
-                          : false
-                      }
+                      selected={currentProject ? true : false}
                     >
                       {project.name}
                     </option>
@@ -192,7 +214,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </label>
               <select
                 className="select-bordered select"
-                defaultValue="Choose"
+                defaultValue={currentProject?.focus || "Target Project"}
                 onChange={(e) => {
                   switch (e.target.value) {
                     case "UX/UI":
@@ -225,11 +247,17 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
                 {links ? (
                   links.map((link) => (
                     <li key={link.id}>
-                      <Link href={link.link}>
-                        <span className="text-sm font-bold text-secondary-dark">
-                          {link.text}
-                        </span>
-                      </Link>
+                      <LinkItem
+                        link={link}
+                        links={links}
+                        project={project}
+                        setLinks={setLinks}
+                      />
+                      {/* <Link href={link.link}>
+                <span className="text-sm font-bold text-secondary-dark">
+                  {link.text}
+                </span>
+              </Link> */}
                     </li>
                   ))
                 ) : (

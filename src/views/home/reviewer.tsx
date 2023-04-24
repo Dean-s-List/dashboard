@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { SetStateAction, useContext, useEffect, useState } from "react";
 import {
   getDeliverables,
   getProjectFeedbacks,
@@ -26,10 +26,11 @@ import { TeamMember } from "@/components/team-member/team-member.component";
 
 interface Props {
   projects: Projects[];
+  setProjects: React.Dispatch<SetStateAction<Projects[] | null>>;
 }
 
-export const ReviewerView: FC<Props> = ({ projects }) => {
-  const { currentUser } = useContext(UserContext);
+export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
+  const { currentUser, isAdmin } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Projects>();
   const [deliverables, setDeliverables] = useState<Deliverables[]>();
@@ -38,6 +39,7 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
   const [links, setLinks] = useState<Links[] | null>(null);
   const [documents, setDocuments] = useState<Documents[] | null>(null);
   const [team, setTeam] = useState<Team | null>(null);
+  const [description, setDescription] = useState<string>("");
   const router = useRouter();
   useEffect(() => {
     const fetchDeliverables = async (projectId: string) => {
@@ -109,6 +111,12 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
     }
   }, [selectedProject]);
 
+  useEffect(() => {
+    if (selectedProject) {
+      setDescription(selectedProject.description!);
+    }
+  }, [selectedProject]);
+
   return (
     <div className="flex w-[100vw] max-w-full">
       <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col border-r border-t border-l border-primary">
@@ -145,6 +153,8 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
             <li className="ml-0 mt-4 list-none" key={project.id}>
               <ProjectCard
                 project={project}
+                projects={projects}
+                setProjects={setProjects}
                 onClick={() => {
                   setSelectedProject(project);
                 }}
@@ -313,10 +323,15 @@ export const ReviewerView: FC<Props> = ({ projects }) => {
       {selectedProject && (
         <ProjectDetails
           project={selectedProject}
+          projects={projects}
+          setProjects={setProjects}
           links={links}
           setLinks={setLinks}
           documents={documents}
-          setDocuments={setDocuments}
+          // setDocuments={setDocuments}
+          // description={description!}
+          // setDescription={setDescription}
+          isAdmin={isAdmin}
         />
       )}
     </div>

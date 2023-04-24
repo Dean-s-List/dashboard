@@ -70,7 +70,7 @@ export interface Database {
         Row: {
           id: string | null;
           user_id: string;
-          title: string;
+          title: string | null;
           project: string;
           created_at: string | null;
           published: boolean;
@@ -82,7 +82,7 @@ export interface Database {
         Insert: {
           id?: string | null;
           user_id?: string;
-          title: string;
+          title: string | null;
           project?: string;
           created_at?: string | null;
           published?: boolean;
@@ -94,9 +94,9 @@ export interface Database {
         Update: {
           id?: string | null;
           user_id?: string;
-          title?: string;
+          title?: string | null;
           project?: string;
-          created_at?: string;
+          created_at?: string | null;
           published?: boolean;
           category?: CategoryEnum;
           content?: Json | OutputData | null;
@@ -145,7 +145,7 @@ export interface Database {
           project: string;
           text: string;
           link: string;
-          created_at: string;
+          created_at: string | null;
         };
         Insert: {
           id?: string;
@@ -229,6 +229,26 @@ export interface Database {
           user_id?: string;
           content?: string;
           created_at?: string;
+        };
+      };
+      stars: {
+        Row: {
+          id: string;
+          user_id: string;
+          value: number;
+          created_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          value?: number;
+          created_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          value?: number;
+          created_at?: string | null;
         };
       };
       admins: {

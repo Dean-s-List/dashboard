@@ -2,7 +2,14 @@ import { createClient } from "@supabase/supabase-js";
 
 import type { Database } from "@/types/supabase";
 import type { CategoryEnum } from "@/constants";
-import type { Feedbacks, Profiles, Projects, Comments } from "@/types";
+import type {
+  Feedbacks,
+  Profiles,
+  Projects,
+  Comments,
+  Stars,
+  Links,
+} from "@/types";
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -53,17 +60,22 @@ export const addFeedback = async ({
   user_agent,
   avatar_url,
 }: Feedbacks) => {
-  const { error } = await supabase.from("feedbacks").insert({
-    user_id,
-    title,
-    project,
-    content,
-    category,
-    published,
-    user_agent,
-    avatar_url,
-  });
+  const { data, error } = await supabase
+    .from("feedbacks")
+    .insert({
+      user_id,
+      title,
+      project,
+      content,
+      category,
+      published,
+      user_agent,
+      avatar_url,
+    })
+    .select()
+    .single();
   if (error) console.log(error);
+  return data;
 };
 
 export const addComment = async ({ id, user_id, content }: Comments) => {
@@ -73,6 +85,19 @@ export const addComment = async ({ id, user_id, content }: Comments) => {
       id,
       user_id,
       content,
+    })
+    .select();
+  if (error) console.log(error);
+  return data;
+};
+
+export const addStars = async ({ id, user_id, value }: Stars) => {
+  const { data, error } = await supabase
+    .from("stars")
+    .insert({
+      id,
+      user_id,
+      value,
     })
     .select();
   if (error) console.log(error);
@@ -90,6 +115,17 @@ export const updateProjectName = async ({ id, name }: Projects) => {
   return data;
 };
 
+export const updateLinks = async ({ id, text, link }: Links) => {
+  const { data, error } = await supabase
+    .from("links")
+    .upsert({ text, link })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) console.log(error);
+  return data;
+};
+
 export const updateProject = async (project: Projects) => {
   const { data, error } = await supabase
     .from("projects")
@@ -97,6 +133,30 @@ export const updateProject = async (project: Projects) => {
     .eq("id", project.id)
     .select()
     .single();
+  if (error) console.log(error);
+  if (data) console.log(data);
+
+  return data;
+};
+
+export const updateFeedback = async (feedback: Feedbacks) => {
+  const { data, error } = await supabase
+    .from("feedbacks")
+    .update(feedback)
+    .eq("id", feedback.id)
+    .select()
+    .single();
+  if (error) console.log(error);
+  if (data) console.log(data);
+
+  return data;
+};
+
+export const deleteFeedback = async (feedback: Feedbacks) => {
+  const { data, error } = await supabase
+    .from("feedbacks")
+    .delete()
+    .eq("id", feedback.id);
   if (error) console.log(error);
   if (data) console.log(data);
 

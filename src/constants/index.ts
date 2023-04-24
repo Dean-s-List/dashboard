@@ -23,10 +23,10 @@ export enum HolderEnum {
 }
 
 export enum CategoryEnum {
-  UXUI,
-  Docs,
-  Strategy,
-  Community,
+  UXUI = 1,
+  Docs = 2,
+  Strategy = 3,
+  Community = 4,
 }
 
 export enum TransactionEnum {

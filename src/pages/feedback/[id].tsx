@@ -1,28 +1,42 @@
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import Blocks from "editorjs-blocks-react-renderer";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { ProjectsContext } from "@/contexts/projects.context";
-import Review from "@/components/review/review.component";
-import { WIP } from "@/components/wip";
-import { getSingleFeedback } from "@/tools/supabase";
-import Layout from "@/layout";
-import { CategoryEnum } from "@/constants";
-import type { NextPage, NextPageContext } from "next";
-import type { Feedbacks, Projects } from "@/types";
-import { Badge } from "@/components/badge/badge.component";
-import FeedbackTitle from "@/components/feedback-title/feedback-title.component";
 import { UserContext } from "@/contexts/user.context";
+import { EditorContext } from "@/contexts/editor.context";
+import { ProjectsContext } from "@/contexts/projects.context";
+import FeedbackTitle from "@/components/feedback-title/feedback-title.component";
+// import FeedbackView from "@/components/feedback-view/feedback-view.component";
+import ReviewComment from "@/components/review-comment/review-comment.component";
+import { Badge } from "@/components/badge/badge.component";
+import { WIP } from "@/components/wip";
+import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+// import { CategoryEnum } from "@/constants";
+import {
+  deleteFeedback,
+  getSingleFeedback,
+  updateFeedback,
+} from "@/tools/supabase";
+
+import Layout from "@/layout";
+
+import type { OutputData } from "@editorjs/editorjs";
+import type { Feedbacks, Projects } from "@/types";
+import type { NextPage, NextPageContext } from "next";
+
 interface Props {
   data: Feedbacks | null;
 }
 
 const FeedbackPage: NextPage<Props> = ({ data }) => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, isAdmin } = useContext(UserContext);
+  const { editorData, setEditorData } = useContext(EditorContext);
   const { projects } = useContext(ProjectsContext);
   const [project, setProject] = useState<Projects | null>(null);
-  const [title, setTitle] = useState<string>(data!.title);
   const [isOwner, setIsOwner] = useState<boolean>(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (currentUser) {
@@ -41,6 +55,58 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
     }
   }, [projects, data?.project]);
 
+  useEffect(() => {
+    if (data) setEditorData(data.content as OutputData);
+  });
+
+  const onClick = () => {
+    // if (e) e.preventDefault();
+    if (!isOwner || !currentUser || !data || !project) {
+      toast.error("You're not allowed to do this !");
+    } else {
+      toast
+        .promise(deleteFeedback(data), {
+          loading: "Deleting feedback..",
+          success: () => {
+            setEditorData(null);
+            return <b>Feedback deleted !</b>;
+          },
+          error: <b>Error deleting feedback !</b>,
+        })
+        .then(() => {
+          // if (feedback) {
+          router
+            .push(
+              {
+                pathname: "/my-feedbacks",
+                // query: { id: feedback.id },
+              },
+              "/feedback"
+            )
+            .catch((error) => console.log(error));
+          // }
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
+  // const onClick = async () => {
+  //   // e.preventDefault();
+  //   if (data)
+  //     await deleteFeedback(data)
+  //       .then(() => {
+  //         router
+  //           .push(
+  //             {
+  //               pathname: "/my-feedbacks",
+  //             },
+  //             "/feedback"
+  //           )
+  //           .catch((error) => console.log(error));
+  //       })
+  //       .catch((error) => console.log(error));
+  // };
+
   return (
     <Layout>
       {data ? (
@@ -54,14 +120,28 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
               </span>
             </div>
             <div className="flex flex-col">
-              <h1 className="ml-8 p-8 text-3xl font-bold">
-                <FeedbackTitle
-                  feedback={data}
-                  project={project}
-                  setTitle={setTitle}
-                  isOwner={isOwner}
-                />
-              </h1>
+              <div className="flex items-center">
+                <h1 className="ml-8 p-8 text-3xl font-bold">
+                  <FeedbackTitle
+                    feedback={data}
+                    project={project}
+                    currentUser={currentUser!}
+                    isOwner={isOwner}
+                    isAdmin={isAdmin}
+                  />
+                </h1>
+                {currentUser!.id == data.user_id && (
+                  <div className="mr-8 flex w-full justify-end">
+                    <button
+                      className="btn-error btn capitalize"
+                      onClick={onClick}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div className="mx-auto mb-2 flex w-[95%]">
                 <span className="mx-auto flex w-[40%] items-center justify-start">
                   <span>
@@ -78,6 +158,12 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
               </div>
             </div>
             <hr className="mx-auto w-[88%] text-primary" />
+            {/* <FeedbackView
+              feedback={data}
+              data={editorData}
+              // setData={setEditorData}
+              isOwner={isOwner}
+            /> */}
             <article className="text-white mx-auto mt-8 flex w-[88%] flex-col items-center justify-center">
               <Blocks
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -94,7 +180,7 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
               />
             </article>
           </div>
-          <Review feedback={data} />
+          <ReviewComment feedback={data} />
         </>
       ) : (
         <WIP />

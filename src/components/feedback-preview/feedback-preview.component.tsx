@@ -37,6 +37,7 @@ const FeedbackPreview: FC<Props> = ({ project, feedback }) => (
     <hr className="text-primary" />
     <div className="mt-1 flex h-[42%] w-[100%] items-end">
       <div className="flex w-[50%] flex-col">
+        <span className="font-bold">{feedback.title || "Untitled"}</span>
         <span className="mb-1 text-sm">Project : {project.name}</span>
         <Badge category={feedback.category} />
         <div className="mt-2 flex ">

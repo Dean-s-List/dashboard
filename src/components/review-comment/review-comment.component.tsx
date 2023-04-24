@@ -8,7 +8,7 @@ interface Props {
   feedback: Feedbacks;
 }
 
-const Review: FC<Props> = ({ feedback }) => {
+const ReviewComment: FC<Props> = ({ feedback }) => {
   const { currentUser } = useContext(UserContext);
   const [data, setData] = useState<string>("");
   const [stars, setStars] = useState(3);
@@ -109,4 +109,4 @@ const Review: FC<Props> = ({ feedback }) => {
   );
 };
 
-export default Review;
+export default ReviewComment;

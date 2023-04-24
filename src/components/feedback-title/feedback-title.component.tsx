@@ -1,25 +1,27 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-// import { MdDone } from "react-icons/md";
-import type { Feedbacks, Projects } from "@/types";
-import Link from "next/link";
-import { UserContext } from "@/contexts/user.context";
+import React, { useRef, useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { AiFillEdit } from "react-icons/ai";
+import { MdDone } from "react-icons/md";
+import type { Feedbacks, Profiles, Projects } from "@/types";
+import { updateFeedback } from "@/tools/supabase";
 
 interface Props {
   feedback: Feedbacks | null;
   project: Projects | null;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  currentUser: Profiles;
   isOwner: boolean;
+  isAdmin: boolean;
 }
 
 const FeedbackTitle: React.FC<Props> = ({
   feedback,
   project,
-  setTitle,
+  currentUser,
   isOwner,
+  isAdmin,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editName, setEditName] = useState<string>(feedback!.title);
+  const [editTitle, setEditTitle] = useState<string | null>(feedback!.title);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -31,13 +33,43 @@ const FeedbackTitle: React.FC<Props> = ({
     setEdit(true);
   };
 
-  const handleEditNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditName(e.target.value);
+  const handleEditTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditTitle(e.target.value);
   };
 
-  const handleEditNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditTitleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setTitle(editName);
+    if (!editTitle || !feedback || !project) {
+      toast.error("Title is empty !");
+    } else {
+      toast
+        .promise(
+          (async () => {
+            const data = await updateFeedback({
+              id: feedback.id,
+              user_id: currentUser.id,
+              title: editTitle,
+              project: project.id,
+              created_at: feedback.created_at,
+              published: true,
+              category: feedback.category,
+              content: feedback.content,
+              user_agent: feedback.user_agent,
+              avatar_url: feedback.avatar_url,
+            });
+            console.log(data);
+            return data;
+          })(),
+          {
+            loading: "Updating feedback title..",
+            success: () => {
+              return <b>Feedback title updated !</b>;
+            },
+            error: <b>Error updating feedback title !</b>,
+          }
+        )
+        .catch((error) => console.log(error));
+    }
     setEdit(false);
   };
 
@@ -47,10 +79,10 @@ const FeedbackTitle: React.FC<Props> = ({
 
   return (
     <>
-      {isOwner ? (
+      {isOwner || isAdmin ? (
         <form
           className="flex w-full items-center"
-          onSubmit={handleEditNameSubmit}
+          onSubmit={handleEditTitleSubmit}
         >
           {edit ? (
             <input
@@ -58,8 +90,8 @@ const FeedbackTitle: React.FC<Props> = ({
               className="flex-1 rounded-md px-1 py-2 text-[#000] outline-none"
               type="text"
               ref={inputRef}
-              value={editName}
-              onChange={handleEditNameChange}
+              value={editTitle!}
+              onChange={handleEditTitleChange}
             />
           ) : (
             <span className="font-bold">{feedback!.title || "Untitled"}</span>
@@ -69,14 +101,20 @@ const FeedbackTitle: React.FC<Props> = ({
               className="ml-[10px] cursor-pointer text-[25px]"
               onClick={handleEdit}
             >
-              <AiFillEdit />
+              {!edit ? (
+                <AiFillEdit />
+              ) : (
+                <button type="submit">
+                  <MdDone />
+                </button>
+              )}
             </span>
-            <span
+            {/* <span
               className="ml-[10px] cursor-pointer text-[25px]"
               onClick={handleDelete}
             >
               <AiFillDelete />
-            </span>
+            </span> */}
           </div>
         </form>
       ) : (

@@ -7,21 +7,31 @@ import type { Documents, Links, Projects } from "@/types";
 import type { FC } from "react";
 import LinkItem from "../link-item/link-item.component";
 import React from "react";
+import ProjectDescription from "../project-description/project-description.component";
+import ProjectDate from "../project-date/project-date.component";
 
 interface ProjectDetailsProps {
   project: Projects;
+  projects: Projects[] | null;
+  setProjects: React.Dispatch<React.SetStateAction<Projects[] | null>>;
   links: Links[] | null;
   documents: Documents[] | null;
   setLinks: React.Dispatch<React.SetStateAction<Links[] | null>>;
-  setDocuments: React.Dispatch<React.SetStateAction<Documents[] | null>>;
+  // setDocuments: React.Dispatch<React.SetStateAction<Documents[] | null>>;
+  // setDescription: React.Dispatch<React.SetStateAction<string>>;
+  isAdmin: boolean;
 }
 
 const ProjectDetails: FC<ProjectDetailsProps> = ({
   project,
+  projects,
+  setProjects,
   links,
   setLinks,
   documents,
-  setDocuments,
+  // setDocuments,
+  // setDescription,
+  isAdmin,
 }) => (
   <div className="bg-white flex h-[calc(100vh-67.5px)] w-[50%] flex-col border-t border-l border-primary">
     <div className="w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
@@ -36,27 +46,21 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
         alt={`${project.name}`}
         className="my-4 rounded-md border border-primary shadow-xl"
       />
-      <span className="text-xs">Description :</span>
-      <p className="mt-2 text-justify text-xs">{project.description}</p>
-      <span className="mt-4 flex items-center text-xs">
-        <ClockIcon className="mr-1 h-6 w-6" /> Started
-      </span>
-      <span className="flex w-[100%] text-sm font-bold">
-        {`${numericalToString(project.starts_at)!} ${project.starts_at.split(
-          "-"
-        )[2]!} ${project.starts_at.split("-")[0]!}`}
-      </span>
-      <span className="mt-4 flex items-center text-xs">
-        <ClockIcon className="mr-1 h-6 w-6" /> Due Date
-      </span>
-      <span className="flex w-[100%] text-sm font-bold">
-        {`${numericalToString(project.ends_at)!} ${project.ends_at.split(
-          "-"
-        )[2]!} ${project.ends_at.split("-")[0]!}`}
-      </span>
-      <ul className="mt-4">
+      <ProjectDescription
+        project={project}
+        projects={projects}
+        setProjects={setProjects}
+        description={project.description!}
+        isAdmin={isAdmin}
+      />
+      <ProjectDate
+        project={project}
+        projects={projects}
+        setProjects={setProjects}
+      />
+      <ul className="mt-8">
         <span className="text-xs">Links :</span>
-        {links ? (
+        {links && links.length > 0 ? (
           links.map((link) => (
             <li key={link.id}>
               <LinkItem
@@ -76,7 +80,7 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
           <div className="mt-2 text-xs">this project has no links yet.</div>
         )}
       </ul>
-      <ul className="mt-4">
+      <ul className="mt-8">
         <span className="text-xs">Documents :</span>
         {documents ? (
           documents.map((document) => (
