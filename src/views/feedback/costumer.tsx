@@ -4,12 +4,12 @@ import PaymentTable from "@/components/tables/Payments";
 import { Deliverable } from "@/components/deliverable/deliverable.component";
 import { TeamMember } from "@/components/team-member/team-member.component";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import type { Deliverables, Profiles, TeamMemberItem } from "@/types";
+import type { Deliverables, Profiles, Team } from "@/types";
 import type { FC } from "react";
 
 interface Props {
   deliverables: Deliverables[] | null;
-  team: [] | null;
+  team: Team | null;
 }
 
 export const CostumerFeedback: FC<Props> = ({ deliverables, team }) => (
@@ -49,12 +49,12 @@ export const CostumerFeedback: FC<Props> = ({ deliverables, team }) => (
               </span>
             </div>
             <ul className="w-full">
-              {team &&
+              {/* {team &&
                 team.map((member: Profiles) => (
                   <li className="ml-0 list-none" key={member.id}>
                     <TeamMember member={member} />
                   </li>
-                ))}
+                ))} */}
             </ul>
           </div>
         </div>
