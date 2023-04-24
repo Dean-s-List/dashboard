@@ -50,9 +50,10 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
         project={project}
         projects={projects}
         setProjects={setProjects}
-        description={project.description!}
+        description={project.description}
         isAdmin={isAdmin}
       />
+
       <ProjectDate
         project={project}
         projects={projects}

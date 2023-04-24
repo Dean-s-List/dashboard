@@ -9,7 +9,7 @@ interface Props {
   project: Projects;
   projects: Projects[] | null;
   setProjects: React.Dispatch<React.SetStateAction<Projects[] | null>>;
-  description: string;
+  description: string | null;
   isAdmin: boolean;
 }
 
