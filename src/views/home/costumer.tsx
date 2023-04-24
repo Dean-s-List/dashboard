@@ -49,12 +49,12 @@ const CostumerView: FC<Props> = ({ deliverables, team }) => (
               </span>
             </div>
             <ul className="w-full">
-              {team &&
+              {/* {team &&
                 team.map((member: Profiles) => (
                   <li className="ml-0 list-none" key={member.id}>
                     <TeamMember member={member} />
                   </li>
-                ))}
+                ))} */}
             </ul>
           </div>
         </div>
