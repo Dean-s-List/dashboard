@@ -10,7 +10,7 @@ interface Props {
   project: Projects;
 }
 
-const InputItem: React.FC<Props> = ({
+const DeliverableTitle: React.FC<Props> = ({
   deliverable,
   project,
   deliverables,
@@ -88,4 +88,4 @@ const InputItem: React.FC<Props> = ({
   );
 };
 
-export default InputItem;
+export default DeliverableTitle;
