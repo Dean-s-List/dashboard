@@ -26,7 +26,7 @@ interface Props {
 }
 
 const FeedbackPage: NextPage<Props> = ({ data }) => {
-  const { currentUser, isAdmin } = useContext(UserContext);
+  const { currentUser, adminUI } = useContext(UserContext);
   const { editorData, setEditorData } = useContext(EditorContext);
   const { projects } = useContext(ProjectsContext);
   const [project, setProject] = useState<Projects | null>(null);
@@ -123,7 +123,7 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
                     project={project}
                     currentUser={currentUser!}
                     isOwner={isOwner}
-                    isAdmin={isAdmin}
+                    adminUI={adminUI}
                   />
                 </h1>
                 {currentUser!.id == data.user_id && (
