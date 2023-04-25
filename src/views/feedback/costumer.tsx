@@ -5,14 +5,18 @@ import { Deliverable } from "@/components/deliverable/deliverable.component";
 import { TeamMember } from "@/components/team-member/team-member.component";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import type { Deliverables, Profiles, Team } from "@/types";
-import type { FC } from "react";
+import type { FC, SetStateAction } from "react";
+import React from "react";
 
 interface Props {
   deliverables: Deliverables[] | null;
-  team: Team | null;
+  setDeliverables: React.Dispatch<SetStateAction<Deliverables[] | null>>;
 }
 
-export const CostumerFeedback: FC<Props> = ({ deliverables, team }) => (
+export const CostumerFeedback: FC<Props> = ({
+  deliverables,
+  setDeliverables,
+}) => (
   <div className="mx-auto flex w-[100%] bg-primary-darker p-4 pr-4 md:p-8 md:pr-4">
     <div className="border-full top-0 flex w-full flex-col items-center">
       <Cards />
@@ -27,11 +31,13 @@ export const CostumerFeedback: FC<Props> = ({ deliverables, team }) => (
           <div className="mx-auto mt-8 flex flex-col items-center justify-center rounded-xl bg-primary-dark p-4 shadow-xl md:mr-8 md:w-[379px]">
             <span className="font-bold">Deliverables</span>
             <ul className="w-full">
-              {deliverables ? (
+              {deliverables && setDeliverables ? (
                 deliverables.map((deliverable: Deliverables) => {
                   return (
                     <Deliverable
                       deliverable={deliverable}
+                      deliverables={deliverables}
+                      setDeliverables={setDeliverables}
                       key={deliverable.id}
                     />
                   );
