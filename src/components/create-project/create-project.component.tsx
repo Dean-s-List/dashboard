@@ -6,10 +6,10 @@ import { toast } from "react-hot-toast";
 import { ProjectsContext } from "@/contexts/projects.context";
 
 interface Props {
-  tooglePopUp: () => void;
+  toogleCreateProjectPopUp: () => void;
 }
 
-const CreateProject: FC<Props> = ({ tooglePopUp }) => {
+const CreateProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
   const { projects, setProjects } = useContext(ProjectsContext);
   const [sessionName, setSessionName] = useState<string | null>(null);
   const [sessionStart, setSessionStart] = useState<string | null>(null);
@@ -71,7 +71,10 @@ const CreateProject: FC<Props> = ({ tooglePopUp }) => {
       <div className="static flex w-full items-center justify-center">
         <h2 className="text-xl font-bold">Create a Feedback Session :</h2>
         <div className="absolute right-[2.5%] top-4">
-          <XMarkIcon className="h-6 w-6 cursor-pointer" onClick={tooglePopUp} />
+          <XMarkIcon
+            className="h-6 w-6 cursor-pointer"
+            onClick={toogleCreateProjectPopUp}
+          />
         </div>
       </div>
 

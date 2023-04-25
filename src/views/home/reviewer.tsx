@@ -24,7 +24,8 @@ import type { FC, SetStateAction } from "react";
 import { Router, useRouter } from "next/router";
 import Spinner from "@/components/spinner/Spinner";
 import { TeamMember } from "@/components/team-member/team-member.component";
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { PlusIcon, PlusSmallIcon } from "@heroicons/react/24/solid";
+import CreateDeliverable from "@/components/create-deliverable/create-deliverable.component";
 
 interface Props {
   projects: Projects[];
@@ -43,6 +44,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
   const [team, setTeam] = useState<Team | null>(null);
   const [description, setDescription] = useState<string>("");
   const [createProjectPopUp, setCreateProjectPopUp] = useState(false);
+  const [createDeliverablePopUp, setCreateDeliverablePopUp] = useState(false);
 
   const router = useRouter();
   useEffect(() => {
@@ -121,13 +123,24 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     }
   }, [selectedProject]);
 
-  const tooglePopUp = () => {
+  const toogleCreateProjectPopUp = () => {
     setCreateProjectPopUp(!createProjectPopUp);
+  };
+
+  const toogleCreateDeliverablePopUp = () => {
+    setCreateDeliverablePopUp(!createDeliverablePopUp);
   };
 
   return (
     <>
-      {createProjectPopUp && <CreateProject tooglePopUp={tooglePopUp} />}
+      {createProjectPopUp && (
+        <CreateProject toogleCreateProjectPopUp={toogleCreateProjectPopUp} />
+      )}
+      {createDeliverablePopUp && (
+        <CreateDeliverable
+          toogleCreateDeliverablePopUp={toogleCreateDeliverablePopUp}
+        />
+      )}
 
       <div className="flex w-[100vw] max-w-full">
         <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col border-r border-t border-l border-primary">
@@ -161,7 +174,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
               </div>
             </div>
             {isAdmin && (
-              <button onClick={tooglePopUp} className="mr-8">
+              <button onClick={toogleCreateProjectPopUp} className="mr-8">
                 <PlusIcon className="h-6 w-6" />
               </button>
             )}
@@ -212,7 +225,18 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                 </button>
               </div>
               <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[88%] rounded-xl bg-primary-dark p-4 pb-8">
-                <h3 className="p-1 font-bold">Deliverables</h3>
+                <div className="flex items-center">
+                  <h3 className="p-1 font-bold">Deliverables</h3>
+                  {isAdmin && (
+                    <button
+                      onClick={toogleCreateDeliverablePopUp}
+                      className="mr-8"
+                    >
+                      <PlusSmallIcon className="h-6 w-6" />
+                    </button>
+                  )}
+                </div>
+
                 {deliverables && deliverables.length > 0 ? (
                   <div className="grid grid-cols-2 gap-4">
                     {deliverables.map((deliverable) => (
@@ -223,9 +247,15 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                     ))}
                   </div>
                 ) : (
-                  <div className="mt-4 w-full text-center text-sm">
-                    this project has no deliverables yet !
-                  </div>
+                  <>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="w-[331px] max-w-[331px]"></div>
+                      <div className="w-[331px] max-w-[331px]"></div>
+                    </div>
+                    <div className="mt-4 w-full text-center text-sm">
+                      this project has no deliverables yet !
+                    </div>
+                  </>
                 )}
               </div>
               <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[88%] rounded-xl bg-primary-dark p-4 pb-8">
