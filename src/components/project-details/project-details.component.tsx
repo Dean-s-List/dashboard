@@ -83,7 +83,7 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
       </ul>
       <ul className="mt-8">
         <span className="text-xs">Documents :</span>
-        {documents ? (
+        {documents && documents.length > 0 ? (
           documents.map((document) => (
             <li key={document.id}>
               <DocumentIcon className="h-6 w-6" />

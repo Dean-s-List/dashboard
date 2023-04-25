@@ -41,7 +41,7 @@ const ProjectDescription: React.FC<Props> = ({
   const handleEditNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!editDescription) {
-      toast.error("Title is empty !");
+      toast.error("Description is empty !");
     } else {
       toast
         .promise(
@@ -52,7 +52,7 @@ const ProjectDescription: React.FC<Props> = ({
               created_at: project.created_at,
               starts_at: project.starts_at,
               ends_at: project.ends_at,
-              description: project.description,
+              description: editDescription,
               focus: project.focus,
               logo: project.logo,
               image: project.image,
