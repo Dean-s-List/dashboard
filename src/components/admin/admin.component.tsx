@@ -1,5 +1,4 @@
 import { ShieldCheckIcon } from "@heroicons/react/24/solid";
-import { AdminView } from "@/views/home/admin";
 import type { Projects } from "@/types";
 import type { FC } from "react";
 
@@ -16,7 +15,7 @@ const AdminPopup: FC<Props> = ({ projects }) => (
     </div>
     <button
       className="bottom bg-white text-black btn-secondary btn-sm btn  mt-4 border border-primary text-sm capitalize"
-      onClick={() => <AdminView projects={projects} />}
+      onClick={() => null}
     >
       <span className="text-sm ">Admin Panel</span>
     </button>
