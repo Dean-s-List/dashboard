@@ -7,9 +7,11 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { WalletContextState } from "@solana/wallet-adapter-react";
 import type { FC, SetStateAction } from "react";
 import Image from "next/image";
+import { ShieldCheckIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   currentUser: Profiles;
+  isAdmin: boolean;
   setCurrentUser: React.Dispatch<SetStateAction<Profiles | null>>;
   wallet: WalletContextState;
   supabase: SupabaseClient;
@@ -17,6 +19,7 @@ type Props = {
 
 const Navbar: FC<Props> = ({
   currentUser,
+  isAdmin,
   wallet,
   supabase,
   setCurrentUser,
@@ -31,9 +34,11 @@ const Navbar: FC<Props> = ({
         />
       </div>
     </div>
-    <div className="badge-success badge mr-4 border border-primary font-bold text-[#000]">
-      alpha
-    </div>
+    {isAdmin && (
+      <div className="badge-success badge mr-4 flex items-center text-xs font-bold">
+        <ShieldCheckIcon className="mr-1 h-4 w-4" /> Admin
+      </div>
+    )}
 
     <div className="mr-2 flex items-center justify-end gap-2 rounded-md border border-primary bg-base-100 pt-1 pr-4">
       {currentUser && (

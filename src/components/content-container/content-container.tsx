@@ -17,7 +17,6 @@ import {
 
 import { UserContext } from "@/contexts/user.context";
 import CTA from "@/components/cta";
-import Admin from "@/components/admin/admin.component";
 
 import type { ReactNode } from "react";
 import type { Projects } from "@/types";
@@ -155,7 +154,6 @@ export const ContentContainer: FC<PropsWithChildren<Props>> = ({
               </>
             )}
             {currentUser?.account_enum == 0 && <CTA />}
-            {isAdmin && <Admin projects={projects!} />}
 
             {/* SIDEBAR BOTTOM */}
             <ul className="menu absolute bottom-0 w-full">
