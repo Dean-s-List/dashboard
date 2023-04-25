@@ -9,6 +9,7 @@ import type {
   Comments,
   Stars,
   Links,
+  Deliverables,
 } from "@/types";
 
 const supabase = createClient<Database>(
@@ -144,6 +145,19 @@ export const updateFeedback = async (feedback: Feedbacks) => {
     .from("feedbacks")
     .update(feedback)
     .eq("id", feedback.id)
+    .select()
+    .single();
+  if (error) console.log(error);
+  if (data) console.log(data);
+
+  return data;
+};
+
+export const updateDeliverable = async (deliverable: Deliverables) => {
+  const { data, error } = await supabase
+    .from("deliverables")
+    .update(deliverable)
+    .eq("id", deliverable.id)
     .select()
     .single();
   if (error) console.log(error);

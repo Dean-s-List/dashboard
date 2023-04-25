@@ -16,7 +16,7 @@ interface Props {
 const ProjectTitle: React.FC<Props> = ({ project, projects, setProjects }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>(project.name);
-  const { isAdmin } = useContext(UserContext);
+  const { adminUI } = useContext(UserContext);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -78,7 +78,7 @@ const ProjectTitle: React.FC<Props> = ({ project, projects, setProjects }) => {
 
   return (
     <>
-      {isAdmin ? (
+      {adminUI ? (
         <form
           className="flex w-full items-center"
           onSubmit={handleEditNameSubmit}

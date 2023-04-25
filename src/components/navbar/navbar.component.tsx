@@ -12,6 +12,8 @@ import { ShieldCheckIcon } from "@heroicons/react/24/solid";
 type Props = {
   currentUser: Profiles;
   isAdmin: boolean;
+  adminUI: boolean;
+  toogleAdmin: () => null;
   setCurrentUser: React.Dispatch<SetStateAction<Profiles | null>>;
   wallet: WalletContextState;
   supabase: SupabaseClient;
@@ -20,6 +22,8 @@ type Props = {
 const Navbar: FC<Props> = ({
   currentUser,
   isAdmin,
+  adminUI,
+  toogleAdmin,
   wallet,
   supabase,
   setCurrentUser,
@@ -35,7 +39,12 @@ const Navbar: FC<Props> = ({
       </div>
     </div>
     {isAdmin && (
-      <div className="badge-success badge mr-4 flex items-center text-xs font-bold">
+      <div
+        className={`${
+          adminUI ? "badge-secondary" : ""
+        }  badge mr-4 flex cursor-pointer items-center text-xs font-bold`}
+        onClick={toogleAdmin}
+      >
         <ShieldCheckIcon className="mr-1 h-4 w-4" /> Admin
       </div>
     )}
@@ -75,7 +84,7 @@ const Navbar: FC<Props> = ({
                 </label>
               ) : (
                 <div className="placeholder avatar">
-                  <div className="w-12 rounded-full bg-neutral-focus text-neutral-content">
+                  <div className="w-10 rounded-full bg-neutral-focus text-neutral-content">
                     <span>MX</span>
                   </div>
                 </div>

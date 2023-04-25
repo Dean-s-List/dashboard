@@ -18,7 +18,8 @@ require("@solana/wallet-adapter-react-ui/styles.css");
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const wallet = useWallet();
-  const { currentUser, setCurrentUser, isAdmin } = useContext(UserContext);
+  const { currentUser, setCurrentUser, isAdmin, adminUI, toogleAdmin } =
+    useContext(UserContext);
   const supabase = useSupabaseClient<Database>();
 
   if (!supabase) return <Spinner />;
@@ -30,6 +31,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
           wallet={wallet}
           currentUser={currentUser}
           isAdmin={isAdmin}
+          adminUI={adminUI}
+          toogleAdmin={toogleAdmin}
           supabase={supabase}
           setCurrentUser={setCurrentUser}
         />

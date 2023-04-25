@@ -16,7 +16,7 @@ const CreateProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
   const [sessionEnd, setSessionEnd] = useState<string | null>(null);
   return (
     <form
-      className="absolute top-[25%] z-[999] flex w-full flex-col items-center justify-center rounded-lg border-primary bg-primary-dark p-4 px-2 md:left-[25%] md:w-[50vw] lg:left-[33.3%] lg:w-[25vw]"
+      className="absolute top-[25%] z-[999] flex w-full flex-col items-center justify-center rounded-lg border-4 border-secondary border-success bg-primary-dark p-4 px-2 md:left-[25%] md:w-[50vw] lg:left-[33.3%] lg:w-[25vw]"
       onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(event);

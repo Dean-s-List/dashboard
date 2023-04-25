@@ -18,7 +18,7 @@ const LinkItem: React.FC<Props> = ({ link, links, setLinks }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editText, setEditText] = useState<string>(link!.text);
   const [editLink, setEditLink] = useState<string>(link!.link);
-  const { isAdmin } = useContext(UserContext);
+  const { adminUI } = useContext(UserContext);
 
   const inputTextRef = useRef<HTMLInputElement>(null);
   const inputLinkRef = useRef<HTMLInputElement>(null);
@@ -94,7 +94,7 @@ const LinkItem: React.FC<Props> = ({ link, links, setLinks }) => {
 
   return (
     <>
-      {isAdmin ? (
+      {adminUI ? (
         <form
           className="flex w-full items-center"
           onSubmit={handleEditLinkSubmit}

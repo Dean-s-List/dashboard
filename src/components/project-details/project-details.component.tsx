@@ -19,7 +19,7 @@ interface ProjectDetailsProps {
   setLinks: React.Dispatch<React.SetStateAction<Links[] | null>>;
   // setDocuments: React.Dispatch<React.SetStateAction<Documents[] | null>>;
   // setDescription: React.Dispatch<React.SetStateAction<string>>;
-  isAdmin: boolean;
+  adminUI: boolean;
 }
 
 const ProjectDetails: FC<ProjectDetailsProps> = ({
@@ -31,7 +31,7 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
   documents,
   // setDocuments,
   // setDescription,
-  isAdmin,
+  adminUI,
 }) => (
   <div className="bg-white flex h-[calc(100vh-67.5px)] w-[50%] flex-col border-t border-l border-primary">
     <div className="w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
@@ -51,7 +51,7 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
         projects={projects}
         setProjects={setProjects}
         description={project.description}
-        isAdmin={isAdmin}
+        adminUI={adminUI}
       />
 
       <ProjectDate

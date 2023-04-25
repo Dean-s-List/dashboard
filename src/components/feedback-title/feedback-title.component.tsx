@@ -10,7 +10,7 @@ interface Props {
   project: Projects | null;
   currentUser: Profiles;
   isOwner: boolean;
-  isAdmin: boolean;
+  adminUI: boolean;
 }
 
 const FeedbackTitle: React.FC<Props> = ({
@@ -18,7 +18,7 @@ const FeedbackTitle: React.FC<Props> = ({
   project,
   currentUser,
   isOwner,
-  isAdmin,
+  adminUI,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string | null>(feedback!.title);
@@ -79,7 +79,7 @@ const FeedbackTitle: React.FC<Props> = ({
 
   return (
     <>
-      {isOwner || isAdmin ? (
+      {isOwner || adminUI ? (
         <form
           className="flex w-full items-center"
           onSubmit={handleEditTitleSubmit}

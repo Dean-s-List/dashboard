@@ -10,14 +10,14 @@ interface Props {
   projects: Projects[] | null;
   setProjects: React.Dispatch<React.SetStateAction<Projects[] | null>>;
   description: string | null;
-  isAdmin: boolean;
+  adminUI: boolean;
 }
 
 const ProjectDescription: React.FC<Props> = ({
   project,
   projects,
   setProjects,
-  isAdmin,
+  adminUI,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editDescription, setEditDescription] = useState<string>(
@@ -86,7 +86,7 @@ const ProjectDescription: React.FC<Props> = ({
 
   return (
     <>
-      {isAdmin ? (
+      {adminUI ? (
         <form
           className="flex w-full flex-col items-center"
           onSubmit={handleEditNameSubmit}

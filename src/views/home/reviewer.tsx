@@ -33,10 +33,10 @@ interface Props {
 }
 
 export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
-  const { currentUser, isAdmin } = useContext(UserContext);
+  const { currentUser, adminUI } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Projects>();
-  const [deliverables, setDeliverables] = useState<Deliverables[]>();
+  const [deliverables, setDeliverables] = useState<Deliverables[] | null>(null);
   const [feedbacks, setFeedbacks] = useState<Feedbacks[]>([]);
   const [filterCategory, setFilterCategory] = useState<CategoryEnum>();
   const [links, setLinks] = useState<Links[] | null>(null);
@@ -173,7 +173,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                 />
               </div>
             </div>
-            {isAdmin && (
+            {adminUI && (
               <button onClick={toogleCreateProjectPopUp} className="mr-8">
                 <PlusIcon className="h-6 w-6" />
               </button>
@@ -227,7 +227,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
               <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[100%] rounded-xl bg-primary-dark p-4 pb-8">
                 <div className="flex items-center">
                   <h3 className="p-1 font-bold">Deliverables</h3>
-                  {isAdmin && (
+                  {adminUI && (
                     <button
                       onClick={toogleCreateDeliverablePopUp}
                       className="mr-8"
@@ -242,6 +242,8 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                     {deliverables.map((deliverable) => (
                       <Deliverable
                         deliverable={deliverable}
+                        deliverables={deliverables}
+                        setDeliverables={setDeliverables}
                         key={deliverable.id}
                       />
                     ))}
@@ -379,7 +381,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
             // setDocuments={setDocuments}
             // description={description!}
             // setDescription={setDescription}
-            isAdmin={isAdmin}
+            adminUI={adminUI}
           />
         )}
       </div>

@@ -54,7 +54,7 @@ create policy "Anyone can upload an avatar." on storage.objects
 
 ```sql
 
-CREATE TABLE projects (
+CREATE or REPLACE TABLE projects (
   id UUID PRIMARY KEY UNIQUE NOT NULL,
   name TEXT,
   created_at TIMESTAMPTZ,
@@ -66,7 +66,7 @@ CREATE TABLE projects (
   image TEXT
 );
 
-CREATE TABLE links (
+CREATE or REPLACE TABLE links (
   id UUID PRIMARY KEY UNIQUE NOT NULL,
   project UUID REFERENCES projects(id) ON DELETE CASCADE,
   text TEXT,
@@ -74,7 +74,7 @@ CREATE TABLE links (
   created_at TIMESTAMPTZ
 );
 
-CREATE TABLE feedbacks (
+CREATE or REPLACE TABLE feedbacks (
   id UUID PRIMARY KEY UNIQUE NOT NULL,
   created_at TIMESTAMPTZ,
   category INT2,
@@ -87,7 +87,7 @@ CREATE TABLE feedbacks (
   content JSONB
 );
 
-CREATE TABLE documents (
+CREATE or REPLACE  TABLE documents (
   id UUID PRIMARY KEY UNIQUE NOT NULL,
   uploaded_at TIMESTAMPTZ,
   project UUID REFERENCES public.projects(id),
@@ -95,7 +95,7 @@ CREATE TABLE documents (
   link TEXT
 );
 
-CREATE TABLE deliverables (
+CREATE or REPLACE TABLE deliverables (
   id UUID PRIMARY KEY UNIQUE NOT NULL,
   created_at TIMESTAMPTZ,
   due_date TIMESTAMPTZ,
@@ -105,14 +105,14 @@ CREATE TABLE deliverables (
   category INT2
 );
 
-CREATE TABLE comments (
+CREATE or REPLACE  TABLE comments (
   id UUID PRIMARY KEY REFERENCES public.feedbacks(id) UNIQUE NOT NULL ON DELETE CASCADE ,
   content TEXT,
   created_at TIMESTAMPTZ,
   user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE admins (
+CREATE or REPLACE TABLE admins (
   id UUID PRIMARY KEY REFERENCES public.profiles(id) UNIQUE NOT NULL ON DELETE CASCADE
 );
 ```

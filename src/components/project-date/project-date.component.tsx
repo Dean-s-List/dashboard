@@ -25,7 +25,7 @@ const ProjectDate: React.FC<Props> = ({ project, projects, setProjects }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editStartDate, setEditStartDate] = useState<string>(project.starts_at);
   const [editEndDate, setEditEndDate] = useState<string>(project.ends_at);
-  const { isAdmin } = useContext(UserContext);
+  const { adminUI } = useContext(UserContext);
 
   const inputRefStartDate = useRef<HTMLInputElement>(null);
   const inputRefEndDate = useRef<HTMLInputElement>(null);
@@ -111,7 +111,7 @@ const ProjectDate: React.FC<Props> = ({ project, projects, setProjects }) => {
 
   return (
     <>
-      {isAdmin ? (
+      {adminUI ? (
         <form className="flex w-full flex-col" onSubmit={handleEditNameSubmit}>
           {edit ? (
             <div className="flex flex-col">
