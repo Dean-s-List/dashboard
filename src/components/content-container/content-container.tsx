@@ -10,7 +10,6 @@ import {
   UserCircleIcon,
   PresentationChartLineIcon,
   Cog6ToothIcon,
-  ClockIcon,
   HeartIcon,
   ChatBubbleBottomCenterTextIcon,
   BugAntIcon,
@@ -168,16 +167,29 @@ export const ContentContainer: FC<PropsWithChildren<Props>> = ({
                   </a>
                 </li>
               )}
-              <li className="ml-0 p-0 text-xs font-bold uppercase">
-                <Link
-                  href="https://github.com/Deans-List/dashboard/issues/new"
-                  target="_blank"
-                  className="mx-[12px]"
-                >
-                  <BugAntIcon className="h-6 w-6" />
-                  Bug Report
-                </Link>
-              </li>
+              {currentUser && (
+                <li className="ml-0 p-0 text-xs font-bold uppercase">
+                  <div
+                    onClick={() => {
+                      router
+                        .push(
+                          {
+                            pathname: "/feedback",
+                            query: {
+                              id: "46d8685b-e639-4334-a41f-8ef442fb2823",
+                            },
+                          },
+                          "/feedback"
+                        )
+                        .catch((error) => console.log(error));
+                    }}
+                    className="mx-[12px]"
+                  >
+                    <BugAntIcon className="h-6 w-6" />
+                    Bug Report
+                  </div>
+                </li>
+              )}
               {/* <li className="ml-0 p-0 text-xs font-bold uppercase">
               <a className="mx-[12px]">
                 <QuestionMarkCircleIcon className="h-6 w-6" />

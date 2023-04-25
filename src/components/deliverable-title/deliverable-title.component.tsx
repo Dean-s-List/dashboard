@@ -1,23 +1,23 @@
 import React, { useRef, useState, useEffect } from "react";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-// import { MdDone } from "react-icons/md";
-import type { Projects } from "@/types";
+import { MdDone } from "react-icons/md";
+import type { Deliverables, Projects } from "@/types";
 
 interface Props {
-  hasDoneIcon?: boolean;
+  deliverable: Deliverables;
+  deliverables: Deliverables[];
+  setDeliverables: React.Dispatch<React.SetStateAction<Deliverables[]>>;
   project: Projects;
-  projects: Projects[];
-  setProjects: React.Dispatch<React.SetStateAction<Projects[]>>;
 }
 
 const InputItem: React.FC<Props> = ({
-  hasDoneIcon = true,
+  deliverable,
   project,
-  projects,
-  setProjects,
+  deliverables,
+  setDeliverables,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editName, setEditName] = useState<string>(project.name);
+  const [editName, setEditName] = useState<string>(deliverable.name);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -35,8 +35,8 @@ const InputItem: React.FC<Props> = ({
 
   const handleEditNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setProjects(
-      projects.map((item) =>
+    setDeliverables(
+      deliverables.map((item) =>
         item.id === project.id ? { ...item, name: editName } : item
       )
     );
@@ -44,7 +44,7 @@ const InputItem: React.FC<Props> = ({
   };
 
   const handleDelete = () => {
-    setProjects(projects.filter((item) => item.id !== project.id));
+    setDeliverables(deliverables.filter((item) => item.id !== deliverable.id));
   };
 
   return (
@@ -62,14 +62,20 @@ const InputItem: React.FC<Props> = ({
           onChange={handleEditNameChange}
         />
       ) : (
-        <span className="flex-1">{project.name}</span>
+        <div className="text-md w-full font-bold">{`${deliverable.name}`}</div>
       )}
-      <div className="flex gap-1">
+      <div className="flex items-center gap-1">
         <span
           className="ml-[10px] cursor-pointer text-[25px]"
           onClick={handleEdit}
         >
-          <AiFillEdit />
+          {!edit ? (
+            <AiFillEdit />
+          ) : (
+            <button type="submit">
+              <MdDone />
+            </button>
+          )}
         </span>
         <span
           className="ml-[10px] cursor-pointer text-[25px]"
@@ -77,14 +83,6 @@ const InputItem: React.FC<Props> = ({
         >
           <AiFillDelete />
         </span>
-        {/* {hasDoneIcon && (
-          <span
-            className="ml-[10px] cursor-pointer text-[25px]"
-            onClick={handleDone}
-          >
-            <MdDone />
-          </span>
-        )} */}
       </div>
     </form>
   );

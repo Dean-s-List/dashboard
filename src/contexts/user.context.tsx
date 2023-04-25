@@ -35,7 +35,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         .eq("id", user.id)
         .single();
     }
-    if (user)
+    if (user) {
+      console.log(user);
       getProfile()
         .then(({ data }) => {
           if (data) {
@@ -44,6 +45,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           }
         })
         .catch((error) => console.log(error));
+    }
   }, [user, supabase]);
 
   useEffect(() => {

@@ -20,8 +20,8 @@ const ProjectDescription: React.FC<Props> = ({
   isAdmin,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editDescription, setEditDescription] = useState<string | null>(
-    project.description
+  const [editDescription, setEditDescription] = useState<string>(
+    project.description!
   );
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -34,7 +34,7 @@ const ProjectDescription: React.FC<Props> = ({
     setEdit(true);
   };
 
-  const handleEditNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditNameChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditDescription(e.target.value);
   };
 
@@ -97,8 +97,8 @@ const ProjectDescription: React.FC<Props> = ({
               className="textarea-bordered textarea mx-auto mb-2 h-full w-[100%] resize-none border-primary"
               placeholder="Much wow !"
               ref={inputRef}
-              value={editDescription!}
-              onChange={() => handleEditNameChange}
+              value={editDescription}
+              onChange={handleEditNameChange}
             ></textarea>
           ) : (
             <div className="flex flex-col">
