@@ -224,7 +224,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                   Add Feedback
                 </button>
               </div>
-              <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[88%] rounded-xl bg-primary-dark p-4 pb-8">
+              <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[100%] rounded-xl bg-primary-dark p-4 pb-8">
                 <div className="flex items-center">
                   <h3 className="p-1 font-bold">Deliverables</h3>
                   {isAdmin && (
@@ -258,7 +258,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                   </>
                 )}
               </div>
-              <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[88%] rounded-xl bg-primary-dark p-4 pb-8">
+              <div className="mx-auto mt-8 min-h-[150px] w-full max-w-[100%] rounded-xl bg-primary-dark p-4 pb-8">
                 <h3 className="p-1 font-bold">Team Members</h3>
                 {team && team.length > 0 ? (
                   <div className="grid w-full grid-cols-2 gap-4">
