@@ -2,17 +2,17 @@ import Cards from "@/components/cards";
 import FeedbackTable from "@/components/tables/Feedback";
 import PaymentTable from "@/components/tables/Payments";
 import { Deliverable } from "@/components/deliverable/deliverable.component";
-import { TeamMember } from "@/components/team-member/team-member.component";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import type { Deliverables, Profiles } from "@/types";
+import type { Deliverables } from "@/types";
 import type { FC } from "react";
+import React from "react";
 
 interface Props {
   deliverables: Deliverables[] | null;
-  team: Profiles[] | null;
+  setDeliverables: React.Dispatch<React.SetStateAction<Deliverables[] | null>>;
 }
 
-const CostumerView: FC<Props> = ({ deliverables, team }) => (
+const CostumerView: FC<Props> = ({ deliverables, setDeliverables }) => (
   <div className="mx-auto flex w-[100%] bg-primary-darker p-4 pr-4 md:p-8 md:pr-4">
     <div className="border-full top-0 flex w-full flex-col items-center">
       <Cards />
@@ -32,6 +32,8 @@ const CostumerView: FC<Props> = ({ deliverables, team }) => (
                   return (
                     <Deliverable
                       deliverable={deliverable}
+                      deliverables={deliverables}
+                      setDeliverables={setDeliverables}
                       key={deliverable.id}
                     />
                   );

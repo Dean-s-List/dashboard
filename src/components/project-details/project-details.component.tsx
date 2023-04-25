@@ -44,8 +44,12 @@ const ProjectDetails: FC<ProjectDetailsProps> = ({
         width={420}
         height={150}
         alt={`${project.name}`}
-        className="my-4 rounded-md border border-primary shadow-xl"
+        className={`my-4 rounded-md border border-primary shadow-xl hover:bg-[rgba(255,255,255,.7)]`}
+        onClick={() => {
+          console.log("hello world");
+        }}
       />
+
       <ProjectDescription
         project={project}
         projects={projects}
