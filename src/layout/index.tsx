@@ -59,6 +59,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             // providers={["discord", "twitter", "github"]}
             providers={["discord"]}
             socialLayout="horizontal"
+            onlyThirdPartyProviders
           />
         ) : (
           <div className="flex w-full flex-grow">{children}</div>
