@@ -107,11 +107,14 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (feedback) {
-      setValue(JSON.parse(feedback.content as string) as MyValue);
-    }
-  }, [feedback]);
+  // useEffect(() => {
+  //   if (feedback) {
+  //     const tmp: MyValue = JSON.parse(feedback?.content as string) as MyValue;
+  //     console.log("tmp : ", tmp);
+  //     setValue(tmp);
+  //     console.log(value);
+  //   }
+  // }, [feedback, value]);
 
   const nameToProject = (projects: Projects[], str: string) => {
     const [project] = projects.filter((project) => project.name == str);

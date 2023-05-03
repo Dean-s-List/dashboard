@@ -11,16 +11,7 @@ interface Props {
 
 const SlateEditor: FC<Props> = ({ data }) => {
   const editor = useMemo(() => withReact(createEditor()), []);
-  const [value, setValue] = useState<MyValue[] | Descendant[]>(
-    data
-      ? data
-      : [
-          {
-            type: "paragraph",
-            children: [{ text: "A line of text in a paragraph." }],
-          },
-        ]
-  );
+  const [value, setValue] = useState<MyValue[] | Descendant[]>(data);
   return (
     <Slate
       editor={editor}
