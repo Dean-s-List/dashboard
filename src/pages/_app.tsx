@@ -12,6 +12,7 @@ import { ProjectsContext, ProjectsProvider } from "@/contexts/projects.context";
 import { UserAgentProvider } from "@/contexts/agent.context";
 // Components
 import { ContentContainer } from "@/components/content-container/content-container";
+import { Analytics } from "@vercel/analytics/react";
 
 import type { Session } from "@supabase/auth-helpers-react";
 import type { Database } from "@/types/supabase";
@@ -62,6 +63,7 @@ const MyApp = ({
                 <ContentContainer projects={projects}>
                   <UserAgentProvider userAgent={ua}>
                     <Component {...pageProps} />
+                    <Analytics />
                   </UserAgentProvider>
                 </ContentContainer>
               </ProjectsProvider>

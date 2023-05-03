@@ -58,6 +58,9 @@ dependencies:
   '@udecode/plate-ui-toolbar':
     specifier: ^21.0.0
     version: 21.0.0(@babel/core@7.21.3)(@types/react@18.2.0)(react-dom@18.2.0)(react-is@18.2.0)(react-native@0.71.7)(react@18.2.0)(scheduler@0.23.0)(slate-history@0.93.0)(slate-react@0.94.0)(slate@0.94.0)(styled-components@5.3.10)
+  '@vercel/analytics':
+    specifier: ^1.0.0
+    version: 1.0.0(react@18.2.0)
   daisyui:
     specifier: ^2.51.1
     version: 2.51.1(autoprefixer@10.4.13)(postcss@8.4.21)
@@ -7203,6 +7206,14 @@ packages:
       - react-dom
       - react-native
       - scheduler
+    dev: false
+
+  /@vercel/analytics@1.0.0(react@18.2.0):
+    resolution: {integrity: sha512-RQmj7pv82JwGDHrnKeRc6TtSw2U7rWNubc2IH0ernTzWTj02yr9zvIYiYJeztsBzrJtWv7m8Nz6vxxb+cdEtJw==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@wallet-standard/app@1.0.1:

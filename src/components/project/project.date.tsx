@@ -61,17 +61,21 @@ const ProjectDate: React.FC<Props> = ({ project, projects, setProjects }) => {
       toast
         .promise(
           (async () => {
-            const data = await updateRecord({
-              id: project.id,
-              name: project.name,
-              created_at: project.created_at,
-              starts_at: editStartDate,
-              ends_at: editEndDate,
-              description: project.description,
-              focus: project.focus,
-              logo: project.logo,
-              image: project.image,
-            });
+            const db = "projects";
+            const data = await updateRecord(
+              {
+                id: project.id,
+                name: project.name,
+                created_at: project.created_at,
+                starts_at: editStartDate,
+                ends_at: editEndDate,
+                description: project.description,
+                focus: project.focus,
+                logo: project.logo,
+                image: project.image,
+              },
+              db
+            );
             console.log(data);
             return data;
           })(),
