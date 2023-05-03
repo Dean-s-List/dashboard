@@ -29,6 +29,7 @@ const Deliverable: FC<Props> = ({
         progress={value}
         spinnerMode={false}
         spinnerSpeed={0}
+        deliverable={deliverable}
       />
       <div className="flex flex w-[100%] flex-col justify-center text-center text-[#fff]">
         <DeliverableTitle
