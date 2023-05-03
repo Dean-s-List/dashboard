@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
-import { addProject } from "@/tools/supabase";
+import { addProject, createRecord } from "@/tools/supabase";
 import type { FC } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
 import { ProjectsContext } from "@/contexts/projects.context";
+import { CategoryEnum } from "@/constants";
 
 interface Props {
   toogleCreateProjectPopUp: () => void;
@@ -14,6 +15,7 @@ const AdminProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
   const [sessionName, setSessionName] = useState<string | null>(null);
   const [sessionStart, setSessionStart] = useState<string | null>(null);
   const [sessionEnd, setSessionEnd] = useState<string | null>(null);
+  const [category, setCategory] = useState<CategoryEnum | null>(null);
   return (
     <form
       className="absolute top-[25%] z-[999] flex w-full flex-col items-center justify-center rounded-lg border-4 border-secondary border-success bg-primary-dark p-4 px-2 md:left-[25%] md:w-[50vw] lg:left-[33.3%] lg:w-[25vw]"
@@ -27,7 +29,10 @@ const AdminProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
         //   sessionEnd
         // ) {
         if (!sessionName || !sessionStart || !sessionEnd) {
-          switch (!sessionName || !sessionStart || !sessionEnd) {
+          switch (!sessionName || !sessionStart || !sessionEnd || !category) {
+            case !category:
+              toast.error("No focus selected !");
+              break;
             case !sessionName:
               toast.error("No name provided !");
               break;
@@ -42,15 +47,25 @@ const AdminProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
           toast
             .promise(
               (async () => {
-                const data = await addProject({
-                  name: sessionName,
-                  starts_at: sessionStart,
-                  ends_at: sessionEnd,
-                }).catch((error) => console.log(error));
+                const db = "projects";
+                const data = await createRecord(
+                  {
+                    id: null,
+                    name: sessionName,
+                    starts_at: sessionStart,
+                    ends_at: sessionEnd,
+                    created_at: null,
+                    description: null,
+                    focus: category!,
+                    image: null,
+                    logo: null,
+                  },
+                  db
+                ).catch((error) => console.log(error));
                 return data;
               })(),
               {
-                loading: "Updating description..",
+                loading: "Creating feedback session..",
                 success: () => {
                   // setProjects!(
                   //   projects!.map((item) =>
@@ -109,6 +124,39 @@ const AdminProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
           required
         />
       </label>
+      <div className="form-control w-full max-w-full">
+        <label className="label">
+          <span className="label-text w-full text-center text-lg font-bold">
+            Project Focus :
+          </span>
+        </label>
+        <select
+          className="select-bordered select"
+          defaultValue="Focus"
+          onChange={(e) => {
+            switch (e.target.value) {
+              case "UX/UI":
+                setCategory(CategoryEnum.UXUI);
+                break;
+              case "Documentation":
+                setCategory(CategoryEnum.Docs);
+                break;
+              case "Business/Strategy":
+                setCategory(CategoryEnum.Strategy);
+                break;
+              case "Community":
+                setCategory(CategoryEnum.Community);
+                break;
+            }
+          }}
+        >
+          <option disabled>Focus</option>
+          <option>UX/UI</option>
+          <option>Documentation</option>
+          <option>Business/Strategy</option>
+          <option>Community</option>
+        </select>
+      </div>
       <button
         className="btn-info btn mx-auto mt-4 text-xs capitalize"
         type="submit"
