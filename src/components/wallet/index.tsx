@@ -10,8 +10,10 @@ const Wallet = () => {
   return (
     <WalletMultiButtonDynamic
       style={{
-        background: "#fff",
-        color: "#000",
+        background: "transparent",
+        color: "white",
+        fontSize: "11px",
+        fontFamily: "monospace",
       }}
     />
   );

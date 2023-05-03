@@ -1,39 +1,70 @@
-// Next
-import Link from "next/link";
+import { useContext } from "react";
 // Solana SDK
 import { useWallet } from "@solana/wallet-adapter-react";
+// Supabase
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
+// Contexts
+import { UserContext } from "@/contexts/user.context";
 // Components
-import Wallet from "@/components/wallet";
-// Utils
-import Image from "next/image";
-
-// Default styles that can be overridden by your app
-require("@solana/wallet-adapter-react-ui/styles.css");
-
+import Navbar from "@/components/navbar/navbar.component";
 import type { ReactNode } from "react";
 
+import type { Database } from "@/types/supabase";
+import Spinner from "@/components/spinner/spinner.component";
+
+require("@solana/wallet-adapter-react-ui/styles.css");
+
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { publicKey } = useWallet();
+  const wallet = useWallet();
+  const { currentUser, setCurrentUser, isAdmin, adminUI, toogleAdmin } =
+    useContext(UserContext);
+  const supabase = useSupabaseClient<Database>();
+
+  if (!supabase) return <Spinner />;
 
   return (
     <div className="text-white relative flex min-h-screen w-full flex-col bg-primary-darker">
-      <div className="navbar flex h-[88px] w-[100vw] items-center justify-between self-end bg-primary-dark pl-4 pr-8">
-        <label htmlFor="my-drawer" className="relative w-[150px]">
-          {/* <Link href={"/"}> */}
-
-          {/* </Link> */}
-        </label>
-
-        {publicKey && <Wallet />}
-      </div>
-
-      {!publicKey ? (
-        <div className="flex w-full flex-grow items-center justify-center">
-          <Wallet />
-        </div>
-      ) : (
-        <div className="flex w-full flex-grow">{children}</div>
+      {currentUser && setCurrentUser && (
+        <Navbar
+          wallet={wallet}
+          currentUser={currentUser}
+          isAdmin={isAdmin}
+          adminUI={adminUI}
+          toogleAdmin={toogleAdmin}
+          supabase={supabase}
+          setCurrentUser={setCurrentUser}
+        />
       )}
+
+      <div className="flex w-full flex-grow items-center justify-center">
+        {!currentUser ? (
+          <Auth
+            redirectTo={`${
+              (process.env.NEXT_PUBLIC_URL as string) || "http://localhost:3000"
+            }`}
+            appearance={{
+              theme: ThemeSupa,
+              variables: {
+                default: {
+                  colors: {
+                    brand: "slateblue",
+                    brandAccent: "darkslateblue",
+                  },
+                },
+              },
+            }}
+            supabaseClient={supabase}
+            // providers={["discord", "twitter", "github"]}
+            providers={["discord"]}
+            socialLayout="horizontal"
+            onlyThirdPartyProviders
+          />
+        ) : (
+          <div className="flex w-full flex-grow">{children}</div>
+        )}
+      </div>
     </div>
   );
 };

@@ -18,6 +18,7 @@ class MyDocument extends Document {
       >
         <Head>
           <link rel="icon" href="/images/logo.png" />
+          <meta charSet="utf-8" />
         </Head>
         <body>
           <Main />

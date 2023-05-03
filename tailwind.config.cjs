@@ -7,7 +7,7 @@ module.exports = {
       space: "var(--font-space)",
     },
     colors: {
-      "primary": "#2c3e50",
+      primary: "#2c3e50",
       "primary-hover": "#283448",
       "primary-active": "#233240",
       "primary-dark": "#212f3c",
@@ -19,7 +19,7 @@ module.exports = {
       "primary-light-hover": "#dfe2e5",
       "primary-light-active": "#bec3c9",
 
-      "secondary": "#3498db",
+      secondary: "#3498db",
       "secondary-hover": "#2f89c5",
       "secondary-active": "#2a7aaf",
       "secondary-dark": "#2772a4",
@@ -31,7 +31,7 @@ module.exports = {
       "secondary-light-hover": "#e1f0fa",
       "secondary-light-active": "#c0dff4",
 
-      "accent": "#f1c40f",
+      accent: "#f1c40f",
       "accent-hover": "#d9b00e",
       "accent-active": "#c19dDc",
       "accent-dark": "#b5930b",
@@ -43,7 +43,7 @@ module.exports = {
       "accent-light-hover": "#fdf6db",
       "accent-light-active": "#fbedb5",
 
-      "neutral": "#bdc3c7",
+      neutral: "#bdc3c7",
       "neutral-hover": "#aab0b3",
       "neutral-active": "#979c9f",
       "neutral-dark": "#8e9295",
@@ -60,19 +60,19 @@ module.exports = {
       "base-300": "#222222",
       "base-content": "#f9fafb",
 
-      "info": "#1ABC9C",
+      info: "#1ABC9C",
       "info-dark": "#148B74",
       "info-light": "#1dd2af",
 
-      "success": "#27AE60",
+      success: "#27AE60",
       "success-dark": "#1C7E45",
       "success-light": "#2ECC71",
 
-      "warning": "#f39c12",
+      warning: "#f39c12",
       "warning-dark": "#c87f0a",
       "warning-light": "#f5b041",
 
-      "error": "#e74c3c",
+      error: "#e74c3c",
       "success-dark": "#b53428",
       "success-light": "#ea6459",
     },
@@ -154,5 +154,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/typography")],
 };

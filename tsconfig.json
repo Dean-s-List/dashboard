@@ -20,6 +20,15 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.mjs",
+    "src/components/editor/editor.tools.js",
+    "next.config.cjs",
+    "src/components/editor/basic-editor/plainTextValue.jsx"
+  ],
   "exclude": ["node_modules"]
 }

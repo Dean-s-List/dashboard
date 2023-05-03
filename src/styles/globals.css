@@ -4,6 +4,8 @@
 
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext");
 
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans:wght@800&display=swap");
+
 @font-face {
   font-family: "localFont";
   src: local("localFont"), url("./fonts/tt.woff2") format("woff");
@@ -22,6 +24,22 @@
 html,
 body {
   background-color: black;
+}
+
+* {
+  font-family: "Lato", sans-serif;
+}
+
+h1,
+h2,
+h3,
+title {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 800;
+}
+
+.ce-header {
+  color: #000;
 }
 
 .uxui {
@@ -120,4 +138,48 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+td {
+  border: 1px solid;
+}
+
+[data-slate-editor] {
+  padding: 84px 50px 50px;
+  position: relative;
+}
+
+.slate-HeadingToolbar {
+  padding: 17px 60px !important;
+  position: fixed !important;
+  background: white !important;
+  z-index: 1000;
+  width: 100%;
+}
+
+.tippy-box[data-theme~="tomato"] {
+  background-color: tomato;
+  color: yellow;
+}
+
+.slate-selection-area {
+  background: #4f90f22d;
+  border: 1px solid #4f90f2;
+}
+
+.drag-button {
+  overflow: hidden;
+  padding: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border-style: none;
+  cursor: pointer;
+  outline: 0;
+
+  min-width: 18px;
+  min-height: 18px;
+}
+
+.MuiSvgIcon-root {
+  font-size: 18px !important;
 }
