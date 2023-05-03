@@ -108,6 +108,7 @@ const initialValue: MyValue = [
     type: "img",
     url: "https://cdn3.emoji.gg/emojis/7346-pepe-hmmm.png",
     children: [{ text: "" }],
+    width: 88,
   },
 ];
 export default PlateEditor;
