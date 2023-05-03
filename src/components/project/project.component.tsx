@@ -14,7 +14,7 @@ interface Props {
 
 const Project: FC<Props> = ({ project, projects, setProjects, onClick }) => (
   <div
-    className="card mx-8 w-96 cursor-pointer border border-primary bg-primary-dark shadow-xl"
+    className="card mx-4 w-96 cursor-pointer border border-primary bg-primary-dark shadow-xl"
     onClick={onClick}
   >
     <div className="card-body">
