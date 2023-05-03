@@ -6,12 +6,12 @@ import type { FC } from "react";
 import type { MyValue } from "./typescript/plateTypes";
 
 interface Props {
-  data: MyValue[];
+  data: MyValue;
 }
 
 const SlateEditor: FC<Props> = ({ data }) => {
   const editor = useMemo(() => withReact(createEditor()), []);
-  const [value, setValue] = useState<MyValue[] | Descendant[]>(data);
+  const [value, setValue] = useState<MyValue | Descendant[]>(data);
   return (
     <Slate
       editor={editor}
