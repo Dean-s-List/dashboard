@@ -12,7 +12,6 @@ import {
   Plate,
   PlateProvider,
 } from "@udecode/plate";
-import FeedbackTitle from "../feedback/feedback.title";
 import { MarkBalloonToolbar } from "./balloon-toolbar/MarkBalloonToolbar";
 import { basicNodesPlugins } from "./basic-nodes/basicNodesPlugins";
 import { linkPlugin } from "./link/linkPlugin";
@@ -26,7 +25,7 @@ import { OndemandVideo } from "@styled-icons/material/OndemandVideo";
 import type { MyValue, MyEditor } from "./typescript/plateTypes";
 import type { FC } from "react";
 import type { Json } from "@/types/supabase";
-import type { Feedbacks, Profiles, Projects } from "@/types";
+import type { Feedbacks, Profiles } from "@/types";
 
 interface Props {
   value: MyValue | Json | undefined;
@@ -75,11 +74,14 @@ const PlateEditor: FC<Props> = ({
         }}
         readOnly={isOwner ? false : true}
       >
-        <Toolbar>
-          <LinkToolbarButton icon={<Link />} />
-          <ImageToolbarButton icon={<Image />} />
-          <MediaEmbedToolbarButton icon={<OndemandVideo />} />
-        </Toolbar>
+        {isOwner && (
+          <Toolbar>
+            <LinkToolbarButton icon={<Link />} />
+            <ImageToolbarButton icon={<Image />} />
+            <MediaEmbedToolbarButton icon={<OndemandVideo />} />
+          </Toolbar>
+        )}
+
         <h1 className="mx-auto text-center">
           {feedback ? feedback.title : "Untilted"}
         </h1>
@@ -104,7 +106,7 @@ const initialValue: MyValue = [
   },
   {
     type: "img",
-    url: "https://source.unsplash.com/kFrdX5IeQzI",
+    url: "https://cdn3.emoji.gg/emojis/7346-pepe-hmmm.png",
     children: [{ text: "" }],
   },
 ];
