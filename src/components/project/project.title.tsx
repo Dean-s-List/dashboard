@@ -40,17 +40,21 @@ const Title: React.FC<Props> = ({ project, projects, setProjects }) => {
       toast
         .promise(
           (async () => {
-            const data = await updateRecord({
-              id: project.id,
-              name: editName,
-              created_at: project.created_at,
-              starts_at: project.starts_at,
-              ends_at: project.ends_at,
-              description: project.description,
-              focus: project.focus,
-              logo: project.logo,
-              image: project.image,
-            });
+            const db = "projects";
+            const data = await updateRecord(
+              {
+                id: project.id,
+                name: editName,
+                created_at: project.created_at,
+                starts_at: project.starts_at,
+                ends_at: project.ends_at,
+                description: project.description,
+                focus: project.focus,
+                logo: project.logo,
+                image: project.image,
+              },
+              db
+            );
             console.log(data);
             return data;
           })(),
