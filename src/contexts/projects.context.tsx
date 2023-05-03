@@ -82,7 +82,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (project && user) {
       if (project) {
-        loadSingleProject(project.id)
+        loadSingleProject(project.id!)
           .then((project) => {
             if (project) setProject(project);
           })
@@ -142,7 +142,7 @@ export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (project) {
       const fetchTeamMembers = async () => {
-        return await getTeamMembers(project.id);
+        return await getTeamMembers(project.id!);
       };
       fetchTeamMembers()
         .then((data) => {
