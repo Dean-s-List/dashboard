@@ -106,9 +106,9 @@ export interface Database {
       };
       projects: {
         Row: {
-          id: string;
+          id: string | null;
           name: string;
-          created_at: string;
+          created_at: string | null;
           starts_at: string;
           ends_at: string;
           description: string | null;
@@ -117,9 +117,9 @@ export interface Database {
           image: string | null;
         };
         Insert: {
-          id?: string;
+          id?: string | null;
           name?: string;
-          created_at?: string;
+          created_at?: string | null;
           starts_at?: string;
           ends_at?: string;
           description?: string | null;
@@ -130,7 +130,7 @@ export interface Database {
         Update: {
           id?: string;
           name?: string;
-          created_at?: string;
+          created_at?: string | null;
           starts_at?: string;
           ends_at?: string;
           description?: string | null;
