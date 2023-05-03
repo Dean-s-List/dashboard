@@ -63,7 +63,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     };
     if (selectedProject) {
       setLoading(true);
-      fetchDeliverables(selectedProject.id)
+      fetchDeliverables(selectedProject.id!)
         .then(({ data }) => {
           if (data) {
             setDeliverables(data);
@@ -99,7 +99,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     if (selectedProject) {
       setLoading(true);
 
-      getPublishedFeedbacks(selectedProject.id)
+      getPublishedFeedbacks(selectedProject.id!)
         .then((data) => {
           console.log({ data });
           if (data) setFeedbacks(data);
@@ -113,7 +113,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
   useEffect(() => {
     if (selectedProject) {
       const fetchTeamMembers = async () => {
-        return await getTeamMembers(selectedProject.id);
+        return await getTeamMembers(selectedProject.id!);
       };
       fetchTeamMembers()
         .then((data) => {
@@ -166,7 +166,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
             id: null,
             title: null,
             user_id: currentUser.id,
-            project: selectedProject.id,
+            project: selectedProject.id!,
             // content: JSON.stringify(value),
             content: null,
             category: null,
