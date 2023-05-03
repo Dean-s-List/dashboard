@@ -57,13 +57,17 @@ const LinkItem: React.FC<Props> = ({ link, links, setLinks }) => {
       toast
         .promise(
           (async () => {
-            const data = await updateRecord({
-              id: link!.id,
-              project: link!.project,
-              text: editText,
-              link: editLink,
-              created_at: null,
-            });
+            const db = "links";
+            const data = await updateRecord(
+              {
+                id: link!.id,
+                project: link!.project,
+                text: editText,
+                link: editLink,
+                created_at: null,
+              },
+              db
+            );
             console.log(data);
             return data;
           })(),
