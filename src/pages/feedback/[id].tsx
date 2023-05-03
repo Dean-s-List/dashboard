@@ -26,6 +26,7 @@ import type { Feedbacks, Projects } from "@/types";
 import type { NextPage, NextPageContext } from "next";
 import type { MyValue } from "@/components/editor/typescript/plateTypes";
 import type { Json } from "@/types/supabase";
+import Head from "next/head";
 
 interface Props {
   data: Feedbacks | null;
@@ -160,84 +161,109 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
   }, [feedback]);
 
   return (
-    <Layout>
-      {data || feedback?.content ? (
-        <>
-          <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col border-r border-t border-l border-primary">
-            <div className="flex w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
-              <span className="btn-ghost btn items-center justify-start">
-                <Link href="/" className="flex items-center pr-4">
-                  <ChevronLeftIcon className="mr-2 h-4 w-4" /> Back
-                </Link>
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center">
-                <h1 className="ml-8 p-8 text-3xl font-bold">
-                  <FeedbackTitle
-                    feedback={data ? data : feedback!}
-                    project={project}
-                    currentUser={currentUser!}
-                    isOwner={isOwner}
-                    adminUI={adminUI}
-                  />
-                </h1>
+    <>
+      <Head>
+        <title>
+          Dean&apos;s List |{" "}
+          {`${feedback?.title ? feedback?.title : "Feedback"}`}
+        </title>
+        <meta
+          property="og:title"
+          content={`Dean's List | ${
+            feedback?.title ? feedback?.title : "Feedback"
+          }`}
+        />
+        <meta property="og:site_name" content="Dean's List" />
+        <meta property="og:url" content="https://app.deanslist.services/" />
+        <meta
+          property="og:description"
+          content="Service DAO improving the Web3 ecosystem one feedback at the time."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
+        />
+      </Head>
+      <Layout>
+        {data || feedback?.content ? (
+          <>
+            <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col border-r border-t border-l border-primary">
+              <div className="flex w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
+                <span className="btn-ghost btn items-center justify-start">
+                  <Link href="/" className="flex items-center pr-4">
+                    <ChevronLeftIcon className="mr-2 h-4 w-4" /> Back
+                  </Link>
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center">
+                  <h1 className="ml-8 p-8 text-3xl font-bold">
+                    <FeedbackTitle
+                      feedback={data ? data : feedback!}
+                      project={project}
+                      currentUser={currentUser!}
+                      isOwner={isOwner}
+                      adminUI={adminUI}
+                    />
+                  </h1>
 
-                {(currentUser && currentUser.id == data?.user_id) ||
-                  (currentUser && currentUser.id == feedback?.user_id && (
-                    <div className="mr-8 w-[50%] flex-1">
-                      <div className="flex w-full justify-end">
-                        <button
-                          className="btn-secondary btn mr-4 capitalize"
-                          onClick={clickUpdate}
-                        >
-                          Update
-                        </button>
-                        <button
-                          className="btn-error btn capitalize"
-                          onClick={clickDelete}
-                        >
-                          Delete
-                        </button>
+                  {(currentUser && currentUser.id == data?.user_id) ||
+                    (currentUser && currentUser.id == feedback?.user_id && (
+                      <div className="mr-8 w-[50%] flex-1">
+                        <div className="flex w-full justify-end">
+                          <button
+                            className="btn-secondary btn mr-4 capitalize"
+                            onClick={clickUpdate}
+                          >
+                            Update
+                          </button>
+                          <button
+                            className="btn-error btn capitalize"
+                            onClick={clickDelete}
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-              </div>
+                    ))}
+                </div>
 
-              <div className="mx-auto mb-2 flex w-[95%]">
-                <span className="mx-auto flex w-[40%] items-center justify-start">
-                  <span>
-                    Project :
-                    <span className="ml-1 font-bold">{project?.name}</span>{" "}
+                <div className="mx-auto mb-2 flex w-[95%]">
+                  <span className="mx-auto flex w-[40%] items-center justify-start">
+                    <span>
+                      Project :
+                      <span className="ml-1 font-bold">{project?.name}</span>{" "}
+                    </span>
                   </span>
-                </span>
-                <span className="mx-auto flex w-[40%] flex-row items-center justify-end">
-                  <span className="">Category : </span>
+                  <span className="mx-auto flex w-[40%] flex-row items-center justify-end">
+                    <span className="">Category : </span>
 
-                  <span className="ml-1 w-[33%]">
-                    <Badge category={feedback!.category!} />
+                    <span className="ml-1 w-[33%]">
+                      <Badge category={feedback!.category!} />
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
+              <hr className="mx-auto w-[88%] text-primary" />
+              <article className="text-white mx-auto mt-8 flex h-full w-full flex-col items-center justify-center overflow-y-scroll bg-[#fff]">
+                <PlateEditor
+                  value={value}
+                  setValue={setValue}
+                  feedback={feedback}
+                  currentUser={currentUser}
+                  isOwner={true}
+                  adminUI={adminUI}
+                />
+              </article>
             </div>
-            <hr className="mx-auto w-[88%] text-primary" />
-            <article className="text-white mx-auto mt-8 flex h-full w-full flex-col items-center justify-center overflow-y-scroll bg-[#fff]">
-              <PlateEditor
-                value={value}
-                setValue={setValue}
-                feedback={feedback}
-                currentUser={currentUser}
-                isOwner={true}
-                adminUI={adminUI}
-              />
-            </article>
-          </div>
-          <ReviewComment feedback={feedback!} />
-        </>
-      ) : (
-        <WIP />
-      )}
-    </Layout>
+            <ReviewComment feedback={feedback!} />
+          </>
+        ) : (
+          <WIP />
+        )}
+      </Layout>
+    </>
   );
 };
 

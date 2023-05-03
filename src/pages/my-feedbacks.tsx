@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import Head from "next/head";
 import { getAllProjects, getCurrentUserFeedbacks } from "@/tools/supabase";
 import { UserContext } from "@/contexts/user.context";
 import Layout from "@/layout";
@@ -43,17 +44,34 @@ const MyFeedbackPage: NextPage = () => {
   }, [currentUser]);
 
   return (
-    <Layout>
-      {currentUser && projects && userFeedbacks ? (
-        <MyFeedback
-          currentUser={currentUser}
-          projects={projects}
-          userFeedbacks={userFeedbacks}
+    <>
+      <Head>
+        <title>Dean&apos;s List | My Feedbacks</title>
+        <meta property="og:title" content="Dean's List | My Feedbacks" />
+        <meta property="og:site_name" content="Dean's List" />
+        <meta property="og:url" content="https://app.deanslist.services/" />
+        <meta
+          property="og:description"
+          content="Service DAO improving the Web3 ecosystem one feedback at the time."
         />
-      ) : (
-        <Spinner />
-      )}
-    </Layout>
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
+        />
+      </Head>
+      <Layout>
+        {currentUser && projects && userFeedbacks ? (
+          <MyFeedback
+            currentUser={currentUser}
+            projects={projects}
+            userFeedbacks={userFeedbacks}
+          />
+        ) : (
+          <Spinner />
+        )}
+      </Layout>
+    </>
   );
 };
 
