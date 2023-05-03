@@ -54,7 +54,7 @@ const AdminDeliverable: FC<Props> = ({ toogleCreateDeliverablePopUp }) => {
                 );
                 const { id } = projectId!;
                 const data = await addDeliverable({
-                  project: id,
+                  project: id!,
                   name: deliverableName,
                   category: deliverableCategory,
                   due_date: deliverableDate,
