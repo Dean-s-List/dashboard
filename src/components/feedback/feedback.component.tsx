@@ -20,7 +20,7 @@ const Feedback: FC<Props> = ({ project, feedback }) => (
       {feedback.content ? (
         <div className="h-[50%] max-h-[50%] w-full overflow-y-hidden">
           <SlateEditor
-            data={JSON.parse(feedback.content as string) as MyValue[]}
+            data={JSON.parse(feedback.content as string) as MyValue}
           />
         </div>
       ) : (
