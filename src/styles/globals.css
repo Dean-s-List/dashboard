@@ -183,3 +183,24 @@ td {
 .MuiSvgIcon-root {
   font-size: 18px !important;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+  z-index: 999;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #2d313c;
+  z-index: 999;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5b5f67;
+  z-index: 999;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5b5f67;
+  z-index: 999;
+}
