@@ -51,7 +51,7 @@ const FeedbackTitle: React.FC<Props> = ({
                 id: feedback.id,
                 user_id: currentUser.id,
                 title: editTitle,
-                project: project.id,
+                project: project.id!,
                 created_at: feedback.created_at,
                 published: true,
                 category: feedback.category,
