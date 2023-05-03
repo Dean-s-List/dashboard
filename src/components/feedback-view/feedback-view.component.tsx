@@ -1,37 +1,36 @@
-import dynamic from "next/dynamic";
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useContext,
-  SetStateAction,
-} from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { toast } from "react-hot-toast";
-import Blocks from "editorjs-blocks-react-renderer";
+// import Blocks from "editorjs-blocks-react-renderer";
 import { UserContext } from "@/contexts/user.context";
-import { EditorContext } from "@/contexts/editor.context";
-import { updateFeedback } from "@/tools/supabase";
+import { updateRecord } from "@/tools/supabase";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
-import type { OutputData } from "@editorjs/editorjs";
+import PlateEditor from "../editor/plate.component";
+import type { MyValue } from "../editor/typescript/plateTypes";
 import type { Feedbacks } from "@/types";
+import { Json } from "@/types/supabase";
 
 interface Props {
   feedback: Feedbacks;
-  data: OutputData | null;
+  data: MyValue | Json | undefined;
+  setValue: React.Dispatch<React.SetStateAction<MyValue | Json | undefined>>;
   isOwner: boolean;
+  adminUI: boolean;
 }
 
-const EditorBlock = dynamic(() => import("@/components/editor"), {
-  ssr: false,
-});
-
-const FeedbackView: React.FC<Props> = ({ feedback, data, isOwner }) => {
+const FeedbackView: React.FC<Props> = ({
+  feedback,
+  data,
+  setValue,
+  isOwner,
+  adminUI,
+}) => {
   const [loading, setLoading] = useState(true);
   const [edit, setEdit] = useState<boolean>(false);
   //   const { editorData, setEditorData } = useContext(EditorContext);
   const { currentUser, isAdmin } = useContext(UserContext);
-  const [editData, setEditData] = useState<OutputData>();
+  const [editData, setEditData] = useState<MyValue | Json | undefined>(data);
+  const [title, setTitle] = useState<string>("Untilted");
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -48,7 +47,7 @@ const FeedbackView: React.FC<Props> = ({ feedback, data, isOwner }) => {
   }, [edit]);
 
   const handleEdit = () => {
-    setEditData(data!);
+    setEditData(data);
     setEdit(true);
   };
 
@@ -64,18 +63,22 @@ const FeedbackView: React.FC<Props> = ({ feedback, data, isOwner }) => {
       toast
         .promise(
           (async () => {
-            const data = await updateFeedback({
-              id: feedback.id,
-              user_id: currentUser!.id,
-              title: feedback.title,
-              project: feedback.project,
-              published: true,
-              category: feedback.category,
-              content: editData,
-              user_agent: feedback.user_agent,
-              avatar_url: currentUser!.avatar_url,
-              created_at: null,
-            });
+            const db = "feedbacks";
+            const data = await updateRecord(
+              {
+                id: feedback.id,
+                user_id: currentUser!.id,
+                title: feedback.title,
+                project: feedback.project,
+                published: true,
+                category: feedback.category,
+                content: editData,
+                user_agent: feedback.user_agent,
+                avatar_url: currentUser!.avatar_url,
+                created_at: null,
+              },
+              db
+            );
             console.log(data);
             return data;
           })(),
@@ -123,45 +126,27 @@ const FeedbackView: React.FC<Props> = ({ feedback, data, isOwner }) => {
               <AiFillDelete />
             </span>
           </div>
-          {edit && data && currentUser ? (
-            <div className="h-full w-full bg-[#fff] text-[#000]">
-              <EditorBlock
-                data={data}
-                onChange={setEditData}
-                holder="editorjs-container"
-              />
-            </div>
-          ) : (
-            <article className="text-white mx-auto mt-8 flex w-[88%] flex-col items-center justify-center">
-              <Blocks
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                data={JSON.parse(feedback.content as string)}
-                config={{
-                  paragraph: {
-                    className:
-                      "text-base text-opacity-75 h-[50%] max-h-[50%] mb-4",
-                    actionsClassNames: {
-                      alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
-                    },
-                  },
-                }}
-              />
-            </article>
-          )}
+
+          <div className="h-full w-full bg-[#fff] text-[#000]">
+            <PlateEditor
+              value={data}
+              setValue={setValue}
+              feedback={feedback}
+              currentUser={currentUser}
+              isOwner={isOwner}
+              adminUI={adminUI}
+            />
+          </div>
         </form>
       ) : (
         <article className="text-white mx-auto mt-8 flex w-[88%] flex-col items-center justify-center">
-          <Blocks
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            data={JSON.parse(feedback.content as string)}
-            config={{
-              paragraph: {
-                className: "text-base text-opacity-75 h-[50%] max-h-[50%] mb-4",
-                actionsClassNames: {
-                  alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
-                },
-              },
-            }}
+          <PlateEditor
+            value={data}
+            setValue={setValue}
+            feedback={feedback}
+            currentUser={currentUser}
+            isOwner={isOwner}
+            adminUI={adminUI}
           />
         </article>
       )}

@@ -1,10 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-
 import type { Database } from "@/types/supabase";
-import type { CategoryEnum } from "@/constants";
 import type {
-  Feedbacks,
   Profiles,
+  Feedbacks,
   Projects,
   Comments,
   Stars,
@@ -25,8 +23,6 @@ export const addProject = async ({
   name: string;
   starts_at: string;
   ends_at: string;
-  // startsAt: Date;
-  // endsAt: Date;
 }) => {
   const { error } = await supabase
     .from("projects")
@@ -105,64 +101,94 @@ export const addStars = async ({ id, user_id, value }: Stars) => {
   return data;
 };
 
-export const updateProjectName = async ({ id, name }: Projects) => {
-  const { data, error } = await supabase
-    .from("projects")
-    .upsert({ name })
-    .eq("id", id)
-    .select()
-    .single();
-  if (error) console.log(error);
-  return data;
+export const updateRecord = async (
+  record:
+    | Profiles
+    | Projects
+    | Deliverables
+    | Links
+    | Feedbacks
+    | Comments
+    | Stars,
+  db: string | null
+) => {
+  if (db == null) {
+    switch (record) {
+      case record as Profiles:
+        db = "profiles";
+        break;
+      case record as Projects:
+        db = "projects";
+        break;
+      case record as Deliverables:
+        db = "deliverables";
+        break;
+      case record as Links:
+        db = "links";
+        break;
+      case record as Feedbacks:
+        db = "feedbacks";
+        break;
+      case record as Comments:
+        db = "comments";
+        break;
+      case record as Stars:
+        db = "stars";
+        break;
+    }
+  }
+  if (db) {
+    const { data, error } = await supabase
+      .from(db)
+      .upsert(record)
+      .eq("id", record.id)
+      .select()
+      .single();
+    if (error) console.log(error);
+    return data;
+  }
 };
 
-export const updateLinks = async ({ id, text, link }: Links) => {
+export const createRecord = async (
+  record:
+    | Profiles
+    | Projects
+    | Deliverables
+    | Links
+    | Feedbacks
+    | Comments
+    | Stars,
+  db = ""
+) => {
+  switch (record) {
+    case record as Profiles:
+      db = "profiles";
+      break;
+    case record as Projects:
+      db = "projects";
+      break;
+    case record as Deliverables:
+      db = "deliverables";
+      break;
+    case record as Links:
+      db = "links";
+      break;
+    case record as Feedbacks:
+      db = "feedbacks";
+      break;
+    case record as Comments:
+      db = "comments";
+      break;
+    case record as Stars:
+      db = "stars";
+      break;
+  }
   const { data, error } = await supabase
-    .from("links")
-    .upsert({ text, link })
-    .eq("id", id)
+    .from(db)
+    .insert(record)
     .select()
     .single();
   if (error) console.log(error);
-  return data;
-};
-
-export const updateProject = async (project: Projects) => {
-  const { data, error } = await supabase
-    .from("projects")
-    .update(project)
-    .eq("id", project.id)
-    .select()
-    .single();
-  if (error) console.log(error);
-  if (data) console.log(data);
-
-  return data;
-};
-
-export const updateFeedback = async (feedback: Feedbacks) => {
-  const { data, error } = await supabase
-    .from("feedbacks")
-    .update(feedback)
-    .eq("id", feedback.id)
-    .select()
-    .single();
-  if (error) console.log(error);
-  if (data) console.log(data);
-
-  return data;
-};
-
-export const updateDeliverable = async (deliverable: Deliverables) => {
-  const { data, error } = await supabase
-    .from("deliverables")
-    .update(deliverable)
-    .eq("id", deliverable.id)
-    .select()
-    .single();
-  if (error) console.log(error);
-  if (data) console.log(data);
-
   return data;
 };
 
@@ -195,9 +221,24 @@ export const getTeamMembers = async (project_id: string) => {
   return data;
 };
 
+export const getPublishedFeedbacks = async (project_id: string) => {
+  const { data, error } = await supabase.rpc("get_published_feedbacks", {
+    project_id,
+  });
+
+  if (error) console.error(error);
+  else console.log(data);
+  return data;
+};
+
 export const getSingleFeedback = async (id: string) => {
   console.log("querying feedback with id : ", id);
-  return await supabase.from("feedbacks").select("*").eq("id", id).single();
+  const { data } = await supabase
+    .from("feedbacks")
+    .select("*")
+    .eq("id", id)
+    .single();
+  return data;
 };
 
 export const loadSingleProject = async (id: string) => {
@@ -215,7 +256,11 @@ export const getAllUsers = async () => {
 };
 
 export const getCurrentUserFeedbacks = async (user: Profiles) => {
-  return await supabase.from("feedbacks").select("*").eq("user_id", user.id);
+  const { data } = await supabase
+    .from("feedbacks")
+    .select("*")
+    .eq("user_id", user.id);
+  if (data) return data;
 };
 
 export const getProjectFeedbacks = async (project: Projects) => {

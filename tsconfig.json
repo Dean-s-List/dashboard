@@ -27,7 +27,8 @@
     "**/*.cjs",
     "**/*.mjs",
     "src/components/editor/editor.tools.js",
-    "next.config.cjs"
+    "next.config.cjs",
+    "src/components/editor/basic-editor/plainTextValue.jsx"
   ],
   "exclude": ["node_modules"]
 }

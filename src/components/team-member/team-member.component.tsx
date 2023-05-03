@@ -7,8 +7,8 @@ interface Props {
   avatar_url: string | null;
 }
 
-export const TeamMember: FC<Props> = ({ full_name, avatar_url }) => (
-  <div className="flex flex h-[65.7px] w-full items-center justify-center rounded-xl border border-primary bg-primary-darker shadow-xl">
+const TeamMember: FC<Props> = ({ full_name, avatar_url }) => (
+  <div className="flex flex h-[65.7px] w-[331px] max-w-[331px] items-center justify-center rounded-xl border border-primary bg-primary-darker shadow-xl">
     <div className="ml-[5%] flex w-[25%]">
       {/* AVATAR */}
       {avatar_url ? (
@@ -48,3 +48,5 @@ export const TeamMember: FC<Props> = ({ full_name, avatar_url }) => (
     </div>
   </div>
 );
+
+export default TeamMember;

@@ -1,38 +1,50 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import { toast } from "react-hot-toast";
+
 import { UserContext } from "@/contexts/user.context";
 import { ProjectsContext } from "@/contexts/projects.context";
-import { EditorContext } from "@/contexts/editor.context";
+import PlateEditor from "@/components/editor/plate.component";
 import LinkItem from "@/components/link-item/link-item.component";
 import { Badge } from "@/components/badge/badge.component";
-import { CategoryEnum } from "@/constants";
-import { addFeedback, getProjectLinks } from "@/tools/supabase";
+import {
+  addFeedback,
+  getCurrentUserFeedbacks,
+  getProjectLinks,
+  updateRecord,
+} from "@/tools/supabase";
 import { numericalToString } from "@/tools/core/month";
-import { ChevronLeftIcon, DocumentIcon } from "@heroicons/react/24/solid";
-import type { Documents, Links, Projects } from "@/types";
-import type { OutputData } from "@editorjs/editorjs";
+import {
+  ChevronLeftIcon,
+  DocumentIcon,
+  LinkIcon,
+} from "@heroicons/react/24/solid";
+import { CategoryEnum } from "@/constants";
+// Types
+import type { Documents, Feedbacks, Links, Profiles, Projects } from "@/types";
 import type { FC } from "react";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/router";
-
-const EditorBlock = dynamic(() => import("@/components/editor"), {
-  ssr: false,
-});
+import type { MyValue } from "@/components/editor/typescript/plateTypes";
+import type { Json } from "@/types/supabase";
 
 interface Props {
+  draft: Feedbacks | null;
   currentProject: Projects | null;
 }
 
-export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
-  const [data, setData] = useState<OutputData>();
-  const { currentUser } = useContext(UserContext);
-  const { editorData, setEditorData } = useContext(EditorContext);
+export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
+  const [value, setValue] = useState<MyValue | Json | undefined>();
+  const { currentUser, adminUI } = useContext(UserContext);
   const { projects, documents } = useContext(ProjectsContext);
   const [userAgent, setUserAgent] = useState<string>();
   const [project, setProject] = useState<Projects | null>(currentProject);
   const [category, setCategory] = useState<CategoryEnum>();
   const [links, setLinks] = useState<Links[] | null>(null);
+  const [feedback, setFeedback] = useState<Feedbacks | null>(
+    draft ? draft : null
+  );
+  const [userDrafts, setUserDrafts] = useState<Feedbacks[] | null>(null);
+
   const router = useRouter();
 
   // useEffect(() => {
@@ -44,6 +56,30 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
   //     }
   //   }
   // }, [projects, projectName]);
+
+  useEffect(() => {
+    if (feedback) {
+      setValue(feedback.content);
+    }
+  }, [feedback]);
+
+  useEffect(() => {
+    const fetchUserFeedback = async (user: Profiles) => {
+      return await getCurrentUserFeedbacks(user);
+    };
+    if (currentUser) {
+      fetchUserFeedback(currentUser)
+        .then((data) => {
+          if (data) {
+            setUserDrafts(data.filter((draft) => draft.published == false));
+            console.log("user drafts : ", data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const fetchLinks = async (project: Projects) => {
@@ -69,74 +105,85 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
       console.log(window.navigator.userAgent);
       setUserAgent(window.navigator.userAgent);
     }
-  }, [projects]);
-
-  useEffect(() => {
-    if (window.localStorage.getItem("editorData"))
-      setData(
-        JSON.parse(window.localStorage.getItem("editorData")!) as OutputData
-      );
   }, []);
 
+  useEffect(() => {
+    if (feedback) {
+      setValue(JSON.parse(feedback.content as string) as MyValue);
+    }
+  }, [feedback]);
+
   const nameToProject = (projects: Projects[], str: string) => {
-    if (projects && projects.length > 0) {
-      const [project] = projects?.filter((project) => project.name == str);
-      return project;
-    } else {
-      throw new Error("project not found !");
+    const [project] = projects.filter((project) => project.name == str);
+    return project;
+  };
+
+  const idToFeedback = (drafts: Feedbacks[], str: string) => {
+    if (userDrafts) {
+      const [draft] = drafts?.filter((draft) => draft.id == str);
+      return draft;
     }
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     if (!project || !category) {
-      switch (!project || !category || !editorData) {
-        case !editorData:
-          toast.error("Feedback is empty !");
-          break;
+      switch (!project || !category || !currentUser || !value) {
         case !currentUser:
           toast.error("No project selected !");
           break;
         case !category:
           toast.error("No category selected !");
           break;
+        case !value:
+          toast.error("Feedback is empty !");
+          break;
       }
     } else {
+      const db = "feedbacks";
       toast
         .promise(
-          addFeedback({
-            id: null,
-            title: "Undefined",
-            user_id: currentUser!.id,
-            project: project.id,
-            content: JSON.stringify(editorData),
-            category: category,
-            published: true,
-            user_agent: userAgent!,
-            avatar_url: currentUser!.avatar_url,
-            created_at: null,
-          }),
-          {
-            loading: "Posting feedback..",
-            success: () => {
-              setEditorData(null);
-              return <b>Feedback posted !</b>;
+          updateRecord(
+            {
+              id: feedback!.id,
+              title: feedback?.title || "Untilted",
+              user_id: feedback!.user_id,
+              project: feedback!.project,
+              content: JSON.stringify(value),
+              category: category,
+              published: true,
+              user_agent: feedback!.user_agent,
+              avatar_url: feedback!.avatar_url,
+              created_at: feedback!.created_at,
             },
-            error: <b>Error posting feedback !</b>,
+            db
+          ),
+          {
+            loading: "Publishing feedback..",
+            success: () => {
+              return (
+                <b>
+                  Feedback published !
+                  {/* {res?.id && (
+                    <Link href={`/feedback/${res.id}`} className="ml-1">
+                      <LinkIcon className="h-4 w-4" />
+                    </Link>
+                  )} */}
+                </b>
+              );
+            },
+            error: <b>Error publishing feedback !</b>,
           }
         )
         .then(() => {
-          // if (feedback) {
           router
             .push(
               {
                 pathname: "/my-feedbacks",
-                // query: { id: feedback.id },
               },
               "/feedback"
             )
             .catch((error) => console.log(error));
-          // }
         })
         .catch((error) => console.log(error));
     }
@@ -155,6 +202,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
             </Link>
           </span>
         </div>
+
         <ul className="mx-auto w-96 px-2 pt-8">
           <li className="flex flex-col">
             <div className="form-control w-full max-w-full">
@@ -172,14 +220,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               >
                 <option disabled>Target Project</option>
                 {projects?.map((project) => {
-                  return (
-                    <option
-                      key={project.id}
-                      selected={currentProject ? true : false}
-                    >
-                      {project.name}
-                    </option>
-                  );
+                  return <option key={project.id}>{project.name}</option>;
                 })}
               </select>
             </div>
@@ -214,7 +255,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </label>
               <select
                 className="select-bordered select"
-                defaultValue={currentProject?.focus || "Target Project"}
+                defaultValue={"Choose"}
                 onChange={(e) => {
                   switch (e.target.value) {
                     case "UX/UI":
@@ -244,7 +285,7 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
             <>
               <ul className="mt-8">
                 <span className="text-xs">Links :</span>
-                {links ? (
+                {links && links.length > 0 ? (
                   links.map((link) => (
                     <li key={link.id}>
                       <LinkItem
@@ -268,16 +309,16 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
               </ul>
               <ul className="mt-8">
                 <span className="text-xs">Documents :</span>
-                {documents ? (
+                {documents && documents.length > 0 ? (
                   documents.map((document) => (
                     <li key={document.id}>
                       <DocumentIcon className="h-6 w-6" />
-                      <Link href={document.name}>
+                      <Link href={document.link}>
                         <span className="font-bold text-info">
-                          {document.name}
+                          {document.text}
                         </span>
                       </Link>
-                      <span>{document.created_at}</span>
+                      <span>{document.uploaded_at}</span>
                     </li>
                   ))
                 ) : (
@@ -311,20 +352,45 @@ export const ReviewerFeedback: FC<Props> = ({ currentProject }) => {
       </div>
       <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col items-center justify-center border-t border-primary bg-[#fff]">
         <div className="flex h-[64px] w-full items-center justify-end bg-primary-dark py-2 pl-8 text-xl font-bold">
+          <div className="w-full justify-start">
+            <span className="text-sm">Drafts :</span>
+            <select
+              className="select-bordered select ml-4 justify-start"
+              defaultValue={feedback?.id || "Choose"}
+              onChange={(e) => {
+                if (e.target.value && userDrafts)
+                  setFeedback(idToFeedback(userDrafts, e.target.value)!);
+              }}
+              required
+            >
+              <option disabled>Choose</option>
+              {userDrafts?.map((draft) => {
+                return <option key={draft.id}>{draft.id}</option>;
+              })}
+            </select>
+          </div>
+
           <button
             className="btn-secondary btn-sm btn mr-4 capitalize"
             type="submit"
           >
-            Add Feedback
+            Publish
           </button>
         </div>
-        <div className="h-full w-full">
-          <EditorBlock
-            data={data}
-            onChange={setData}
-            holder="editorjs-container"
+        {feedback ? (
+          <PlateEditor
+            value={value}
+            setValue={setValue}
+            feedback={feedback}
+            currentUser={currentUser}
+            isOwner={true}
+            adminUI={adminUI}
           />
-        </div>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-[#000]">
+            please select a draft or create one
+          </div>
+        )}
       </div>
     </form>
   );

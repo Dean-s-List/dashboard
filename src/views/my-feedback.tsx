@@ -1,5 +1,4 @@
-import FeedbackPreview from "@/components/feedback-preview/feedback-preview.component";
-
+import Feedback from "@/components/feedback/feedback.component";
 import type { Projects, Profiles, Feedbacks } from "@/types";
 import type { FC } from "react";
 
@@ -14,7 +13,7 @@ const MyFeedback: FC<Props> = ({ projects, userFeedbacks }) => (
     <h1>My Feedback</h1>
     <div className="mx-auto mt-8 grid w-[88%] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       {userFeedbacks.map((feedback) => (
-        <FeedbackPreview
+        <Feedback
           feedback={feedback}
           project={
             projects.filter(

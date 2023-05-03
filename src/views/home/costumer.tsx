@@ -1,7 +1,7 @@
 import Cards from "@/components/cards";
 import FeedbackTable from "@/components/tables/Feedback";
 import PaymentTable from "@/components/tables/Payments";
-import { Deliverable } from "@/components/deliverable/deliverable.component";
+import Deliverable from "@/components/deliverable";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import type { Deliverables } from "@/types";
 import type { FC } from "react";

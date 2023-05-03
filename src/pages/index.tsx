@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Head from "next/head";
-// import { UserContext } from "@/contexts/user.context";
+
 import Layout from "@/layout";
-// import CostumerView from "@/views/home/costumer";
-import { ReviewerView } from "@/views/home/reviewer";
-import type { NextPage } from "next";
 import { ProjectsContext } from "@/contexts/projects.context";
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/spinner/spinner.component";
+import { ReviewerView } from "@/views/home/reviewer";
+
+import type { NextPage } from "next";
 
 const Dashboard: NextPage = () => {
   const { projects, setProjects } = useContext(ProjectsContext);
@@ -32,10 +32,10 @@ const Dashboard: NextPage = () => {
         {/* {currentUser?.account_enum == 1 && (
           <ReviewerView projects={projects!} />
         )} */}
-        {!projects ? (
+        {!projects || !setProjects ? (
           <Spinner />
         ) : (
-          <ReviewerView projects={projects} setProjects={setProjects!} />
+          <ReviewerView projects={projects} setProjects={setProjects} />
         )}
       </Layout>
     </>

@@ -8,7 +8,11 @@ const config = {
   //   defaultLocale: "en",
   // },
   images: {
-    domains: ["cdn.discordapp.com", "ezfwjybkfdqayhmguzxx.supabase.co"],
+    domains: [
+      "cdn.discordapp.com",
+      "ezfwjybkfdqayhmguzxx.supabase.co",
+      "xxgdnzstiplwbkmgblax.supabase.co",
+    ],
   },
 };
 export default config;

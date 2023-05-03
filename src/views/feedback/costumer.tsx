@@ -1,8 +1,8 @@
 import Cards from "@/components/cards";
 import FeedbackTable from "@/components/tables/Feedback";
 import PaymentTable from "@/components/tables/Payments";
-import { Deliverable } from "@/components/deliverable/deliverable.component";
-import { TeamMember } from "@/components/team-member/team-member.component";
+import Deliverable from "@/components/deliverable";
+import TeamMember from "@/components/team-member/team-member.component";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import type { Deliverables, Profiles, Team } from "@/types";
 import type { FC, SetStateAction } from "react";

@@ -2,24 +2,30 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import Blocks from "editorjs-blocks-react-renderer";
+// import Blocks from "editorjs-blocks-react-renderer";
 import { UserContext } from "@/contexts/user.context";
-import { EditorContext } from "@/contexts/editor.context";
 import { ProjectsContext } from "@/contexts/projects.context";
-import FeedbackTitle from "@/components/feedback-title/feedback-title.component";
+import PlateEditor from "@/components/editor/plate.component";
+
+import FeedbackTitle from "@/components/feedback/feedback.title";
 // import FeedbackView from "@/components/feedback-view/feedback-view.component";
 import ReviewComment from "@/components/review-comment/review-comment.component";
 import { Badge } from "@/components/badge/badge.component";
 import { WIP } from "@/components/wip";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 // import { CategoryEnum } from "@/constants";
-import { deleteFeedback, getSingleFeedback } from "@/tools/supabase";
+import {
+  deleteFeedback,
+  getSingleFeedback,
+  updateRecord,
+} from "@/tools/supabase";
 
 import Layout from "@/layout";
 
-import type { OutputData } from "@editorjs/editorjs";
 import type { Feedbacks, Projects } from "@/types";
 import type { NextPage, NextPageContext } from "next";
+import type { MyValue } from "@/components/editor/typescript/plateTypes";
+import type { Json } from "@/types/supabase";
 
 interface Props {
   data: Feedbacks | null;
@@ -27,85 +33,135 @@ interface Props {
 
 const FeedbackPage: NextPage<Props> = ({ data }) => {
   const { currentUser, adminUI } = useContext(UserContext);
-  const { editorData, setEditorData } = useContext(EditorContext);
   const { projects } = useContext(ProjectsContext);
   const [project, setProject] = useState<Projects | null>(null);
   const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [value, setValue] = useState<
+    MyValue | Json | string | null | undefined
+  >();
+  const [feedback, setFeedback] = useState<Feedbacks | null>(
+    data ? data : null
+  );
 
   const router = useRouter();
 
   useEffect(() => {
+    if (!data) {
+      const pid = router.asPath.split("/")[2];
+      console.log("pid : ", pid);
+      if (pid) {
+        getSingleFeedback(pid)
+          .then((res) => {
+            console.log(res);
+            if (res) {
+              setFeedback(res);
+              setValue(JSON.parse(res.content as string) as MyValue);
+            }
+          })
+          .catch((error) => console.log(error));
+      }
+    }
+  }, [data, router.asPath]);
+
+  useEffect(() => {
     if (currentUser) {
-      if (currentUser.id === data!.user_id) {
+      if (currentUser.id === feedback?.user_id) {
         setIsOwner(true);
       }
     }
-  }, [currentUser, data]);
+  }, [currentUser, feedback]);
 
   useEffect(() => {
     if (projects) {
       const [currentProject] = projects.filter(
-        (project) => project.id == data?.project
+        (project) => project.id == feedback?.project
       );
       if (currentProject) setProject(currentProject);
     }
-  }, [projects, data?.project]);
+  }, [projects, feedback?.project]);
 
-  useEffect(() => {
-    if (data) setEditorData(data.content as OutputData);
-  });
-
-  const onClick = () => {
+  const clickDelete = () => {
     // if (e) e.preventDefault();
-    if (!isOwner || !currentUser || !data || !project) {
+    if (!isOwner || !currentUser || !feedback || !project) {
       toast.error("You're not allowed to do this !");
     } else {
       toast
-        .promise(deleteFeedback(data), {
+        .promise(deleteFeedback(feedback), {
           loading: "Deleting feedback..",
           success: () => {
-            setEditorData(null);
             return <b>Feedback deleted !</b>;
           },
           error: <b>Error deleting feedback !</b>,
         })
         .then(() => {
-          // if (feedback) {
           router
             .push(
               {
                 pathname: "/my-feedbacks",
-                // query: { id: feedback.id },
               },
               "/feedback"
             )
             .catch((error) => console.log(error));
-          // }
         })
         .catch((error) => console.log(error));
     }
   };
 
-  // const onClick = async () => {
-  //   // e.preventDefault();
-  //   if (data)
-  //     await deleteFeedback(data)
-  //       .then(() => {
-  //         router
-  //           .push(
-  //             {
-  //               pathname: "/my-feedbacks",
-  //             },
-  //             "/feedback"
-  //           )
-  //           .catch((error) => console.log(error));
-  //       })
-  //       .catch((error) => console.log(error));
-  // };
+  const clickUpdate = () => {
+    // if (e) e.preventDefault();
+    if (!isOwner || !currentUser || !feedback || !project) {
+      toast.error("You're not allowed to do this !");
+    } else {
+      const db = "feedbacks";
+      toast
+        .promise(
+          updateRecord(
+            {
+              id: feedback.id,
+              title: feedback.title,
+              user_id: feedback.user_id,
+              project: feedback.project,
+              content: JSON.stringify(value),
+              category: feedback.category,
+              published: true,
+              user_agent: feedback.user_agent,
+              avatar_url: feedback.avatar_url,
+              created_at: feedback.created_at,
+            },
+            db
+          ),
+          {
+            loading: "Updating feedback..",
+            success: () => {
+              return <b>Feedback updated !</b>;
+            },
+            error: <b>Error updating feedback !</b>,
+          }
+        )
+        .then(() => {
+          router
+            .push(
+              {
+                pathname: "/my-feedbacks",
+              },
+              "/feedback"
+            )
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
+  useEffect(() => {
+    if (feedback?.content) {
+      console.log(feedback.content);
+      setValue(feedback.content);
+    }
+  }, [feedback]);
 
   return (
     <Layout>
-      {data ? (
+      {data || feedback?.content ? (
         <>
           <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col border-r border-t border-l border-primary">
             <div className="flex w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
@@ -119,78 +175,70 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
               <div className="flex items-center">
                 <h1 className="ml-8 p-8 text-3xl font-bold">
                   <FeedbackTitle
-                    feedback={data}
+                    feedback={data ? data : feedback!}
                     project={project}
                     currentUser={currentUser!}
                     isOwner={isOwner}
                     adminUI={adminUI}
                   />
                 </h1>
-                {currentUser!.id == data.user_id && (
-                  <div className="mr-8 flex w-full justify-end">
-                    <button
-                      className="btn-error btn capitalize"
-                      onClick={onClick}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
+
+                {(currentUser && currentUser.id == data?.user_id) ||
+                  (currentUser && currentUser.id == feedback?.user_id && (
+                    <div className="mr-8 w-[50%] flex-1">
+                      <div className="flex w-full justify-end">
+                        <button
+                          className="btn-secondary btn mr-4 capitalize"
+                          onClick={clickUpdate}
+                        >
+                          Update
+                        </button>
+                        <button
+                          className="btn-error btn capitalize"
+                          onClick={clickDelete}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
               </div>
 
               <div className="mx-auto mb-2 flex w-[95%]">
                 <span className="mx-auto flex w-[40%] items-center justify-start">
                   <span>
-                    Project :<span className="font-bold">{project?.name}</span>{" "}
+                    Project :
+                    <span className="ml-1 font-bold">{project?.name}</span>{" "}
                   </span>
                 </span>
                 <span className="mx-auto flex w-[40%] flex-row items-center justify-end">
                   <span className="">Category : </span>
 
                   <span className="ml-1 w-[33%]">
-                    <Badge category={data.category} />
+                    <Badge category={feedback!.category!} />
                   </span>
                 </span>
               </div>
             </div>
             <hr className="mx-auto w-[88%] text-primary" />
-            {/* <FeedbackView
-              feedback={data}
-              data={editorData}
-              // setData={setEditorData}
-              isOwner={isOwner}
-            /> */}
-            <article className="text-white mx-auto mt-8 flex w-[88%] flex-col items-center justify-center">
-              <Blocks
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                data={JSON.parse(data.content as string)}
-                config={{
-                  paragraph: {
-                    className:
-                      "text-base text-opacity-75 h-[50%] max-h-[50%] mb-4",
-                    actionsClassNames: {
-                      alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
-                    },
-                  },
-                }}
+            <article className="text-white mx-auto mt-8 flex h-full w-full flex-col items-center justify-center overflow-y-scroll bg-[#fff]">
+              <PlateEditor
+                value={value}
+                setValue={setValue}
+                feedback={feedback}
+                currentUser={currentUser}
+                isOwner={true}
+                adminUI={adminUI}
               />
             </article>
           </div>
-          <ReviewComment feedback={data} />
+          <ReviewComment feedback={feedback!} />
         </>
       ) : (
         <WIP />
       )}
     </Layout>
   );
-};
-
-FeedbackPage.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
-  const { id } = ctx.query;
-  console.log("welcome on the page for feedback ", id);
-  const { data } = await getSingleFeedback(id as string);
-  console.log(data);
-  return { data };
 };
 
 export default FeedbackPage;

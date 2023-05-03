@@ -3,7 +3,7 @@ import { getAllProjects, getCurrentUserFeedbacks } from "@/tools/supabase";
 import { UserContext } from "@/contexts/user.context";
 import Layout from "@/layout";
 import MyFeedback from "@/views/my-feedback";
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/spinner/spinner.component";
 import type { Projects, Feedbacks } from "@/types";
 import type { NextPage } from "next";
 
@@ -19,7 +19,7 @@ const MyFeedbackPage: NextPage = () => {
     fetchProjects()
       .then(({ data }) => {
         if (data) {
-          console.log(data);
+          // console.log(data);
           setProjects(data);
         }
       })
@@ -32,7 +32,7 @@ const MyFeedbackPage: NextPage = () => {
         return await getCurrentUserFeedbacks(currentUser);
       };
       fetchUserFeedbacks()
-        .then(({ data }) => {
+        .then((data) => {
           if (data) {
             console.log(data);
             setUserFeedbacks(data);

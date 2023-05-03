@@ -1,17 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Router, useRouter } from "next/router";
+import { UserContext } from "@/contexts/user.context";
+//
+import Project from "@/components/project/project.component";
+import Details from "@/components/project/project.details";
+import AdminProject from "@/components/project/project.admin";
+//
+import Deliverable from "@/components/deliverable";
+import AdminDeliverable from "@/components/deliverable/deliverable.admin";
+//
+import TeamMember from "@/components/team-member/team-member.component";
+import Spinner from "@/components/spinner/spinner.component";
+//
+import Feedback from "@/components/feedback/feedback.component";
+import { CategoryEnum } from "@/constants";
 import {
+  addFeedback,
   getDeliverables,
   getProjectFeedbacks,
   getProjectLinks,
+  getPublishedFeedbacks,
   getTeamMembers,
 } from "@/tools/supabase";
-import { UserContext } from "@/contexts/user.context";
-import ProjectCard from "@/components/project-card/project-card.component";
-import ProjectDetails from "@/components/project-details/project-details.component";
-import { Deliverable } from "@/components/deliverable/deliverable.component";
-import FeedbackPreview from "@/components/feedback-preview/feedback-preview.component";
-import CreateProject from "@/components/create-project/create-project.component";
-import { CategoryEnum } from "@/constants";
+import { LinkIcon, PlusIcon, PlusSmallIcon } from "@heroicons/react/24/solid";
+
 import type {
   Projects,
   Deliverables,
@@ -21,11 +33,8 @@ import type {
   Team,
 } from "@/types";
 import type { FC, SetStateAction } from "react";
-import { Router, useRouter } from "next/router";
-import Spinner from "@/components/spinner/Spinner";
-import { TeamMember } from "@/components/team-member/team-member.component";
-import { PlusIcon, PlusSmallIcon } from "@heroicons/react/24/solid";
-import CreateDeliverable from "@/components/create-deliverable/create-deliverable.component";
+import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 interface Props {
   projects: Projects[];
@@ -45,6 +54,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
   const [description, setDescription] = useState<string>("");
   const [createProjectPopUp, setCreateProjectPopUp] = useState(false);
   const [createDeliverablePopUp, setCreateDeliverablePopUp] = useState(false);
+  const [userAgent, setUserAgent] = useState<string>();
 
   const router = useRouter();
   useEffect(() => {
@@ -89,9 +99,9 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     if (selectedProject) {
       setLoading(true);
 
-      getProjectFeedbacks(selectedProject)
-        .then(({ data }) => {
-          console.log(data);
+      getPublishedFeedbacks(selectedProject.id)
+        .then((data) => {
+          console.log({ data });
           if (data) setFeedbacks(data);
         })
         .finally(() => {
@@ -123,6 +133,13 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     }
   }, [selectedProject]);
 
+  useEffect(() => {
+    if (window.navigator.userAgent) {
+      console.log(window.navigator.userAgent);
+      setUserAgent(window.navigator.userAgent);
+    }
+  }, []);
+
   const toogleCreateProjectPopUp = () => {
     setCreateProjectPopUp(!createProjectPopUp);
   };
@@ -131,13 +148,71 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     setCreateDeliverablePopUp(!createDeliverablePopUp);
   };
 
+  const onClick = () => {
+    // if (e) e.preventDefault();
+    if (!currentUser || !selectedProject) {
+      switch (!currentUser || !selectedProject) {
+        case !currentUser:
+          toast.error("No user found !");
+          break;
+        case !selectedProject:
+          toast.error("No project selected !");
+          break;
+      }
+    } else {
+      toast
+        .promise(
+          addFeedback({
+            id: null,
+            title: null,
+            user_id: currentUser.id,
+            project: selectedProject.id,
+            // content: JSON.stringify(value),
+            content: null,
+            category: null,
+            published: false,
+            user_agent: userAgent!,
+            avatar_url: currentUser.avatar_url,
+            created_at: null,
+          }),
+          {
+            loading: "Creating draft..",
+            success: (res) => {
+              router
+                .push(
+                  {
+                    pathname: "/feedback",
+                    query: { id: selectedProject.id, draft: res?.id },
+                  },
+                  "/feedback"
+                )
+                .catch((error) => console.log(error));
+              return (
+                <b>
+                  Draft created !
+                  {/* {res?.id && (
+                    <Link href={`/feedback/${res.id}`} className="ml-1">
+                      <LinkIcon className="h-4 w-4" />
+                    </Link>
+                  )} */}
+                </b>
+              );
+            },
+            error: <b>Error publishing feedback !</b>,
+          }
+        )
+
+        .catch((error) => console.log(error));
+    }
+  };
+
   return (
     <>
       {createProjectPopUp && (
-        <CreateProject toogleCreateProjectPopUp={toogleCreateProjectPopUp} />
+        <AdminProject toogleCreateProjectPopUp={toogleCreateProjectPopUp} />
       )}
       {createDeliverablePopUp && (
-        <CreateDeliverable
+        <AdminDeliverable
           toogleCreateDeliverablePopUp={toogleCreateDeliverablePopUp}
         />
       )}
@@ -182,13 +257,11 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
           <ul className="mt-0 w-full pt-2">
             {projects?.map((project) => (
               <li className="ml-0 mt-4 list-none" key={project.id}>
-                <ProjectCard
+                <Project
                   project={project}
                   projects={projects}
                   setProjects={setProjects}
-                  onClick={() => {
-                    setSelectedProject(project);
-                  }}
+                  onClick={() => setSelectedProject(project)}
                 />
               </li>
             ))}
@@ -209,17 +282,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                 </h2>
                 <button
                   className="btn-secondary btn-sm btn capitalize "
-                  onClick={() => {
-                    router
-                      .push(
-                        {
-                          pathname: "/feedback",
-                          query: { id: selectedProject.id },
-                        },
-                        "/feedback"
-                      )
-                      .catch((error) => console.log(error));
-                  }}
+                  onClick={onClick}
                 >
                   Add Feedback
                 </button>
@@ -344,7 +407,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
               <div className="my-4 mx-auto grid w-[100%] grid-cols-2 gap-4">
                 {feedbacks &&
                   feedbacks.map((feedback) => (
-                    <FeedbackPreview
+                    <Feedback
                       feedback={feedback}
                       project={selectedProject}
                       key={feedback.id}
@@ -371,7 +434,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
         </div>
 
         {selectedProject && (
-          <ProjectDetails
+          <Details
             project={selectedProject}
             projects={projects}
             setProjects={setProjects}

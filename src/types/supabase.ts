@@ -1,5 +1,5 @@
+import { MyValue } from "@/components/editor/typescript/plateTypes";
 import type { CategoryEnum } from "@/constants";
-import type { OutputData } from "@editorjs/editorjs";
 
 export type Json =
   | string
@@ -74,8 +74,8 @@ export interface Database {
           project: string;
           created_at: string | null;
           published: boolean;
-          category: CategoryEnum;
-          content: Json | OutputData | null;
+          category: CategoryEnum | null;
+          content: Json | MyValue | string | null;
           user_agent: string;
           avatar_url: string;
         };
@@ -86,8 +86,8 @@ export interface Database {
           project?: string;
           created_at?: string | null;
           published?: boolean;
-          category?: CategoryEnum;
-          content?: Json | OutputData | null;
+          category?: CategoryEnum | null;
+          content?: Json | MyValue | string | null;
           user_agent?: string;
           avatar_url?: string;
         };
@@ -98,8 +98,8 @@ export interface Database {
           project?: string;
           created_at?: string | null;
           published?: boolean;
-          category?: CategoryEnum;
-          content?: Json | OutputData | null;
+          category?: CategoryEnum | null;
+          content?: Json | MyValue | string | null;
           user_agent?: string;
           avatar_url?: string;
         };
@@ -166,20 +166,23 @@ export interface Database {
         Row: {
           id: string;
           project: string;
-          name: string;
-          created_at: string;
+          text: string;
+          link: string;
+          uploaded_at: string;
         };
         Insert: {
           id?: string;
           project?: string;
-          name?: string;
-          created_at?: string;
+          text?: string;
+          link?: string;
+          uploaded_at?: string;
         };
         Update: {
           id?: string;
           project?: string;
-          name?: string;
-          created_at?: string;
+          text?: string;
+          link?: string;
+          uploaded_at?: string;
         };
       };
       deliverables: {
@@ -275,6 +278,23 @@ export interface Database {
           id?: string;
           full_name?: string;
           avatar_url?: string | null;
+        }[];
+      };
+      get_published_feedbacks: {
+        Args: {
+          project_id: string;
+        };
+        Returns: {
+          id: string | null;
+          user_id: string;
+          title: string | null;
+          project: string;
+          created_at: string | null;
+          published: boolean;
+          category: CategoryEnum | null;
+          content: Json | MyValue | string | null;
+          user_agent: string;
+          avatar_url: string;
         }[];
       };
     };

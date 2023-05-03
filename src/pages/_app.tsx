@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 // Solana
 import WalletProvider from "@/components/wallet/Provider";
+import { HolderProvider } from "@/contexts/holder.context";
 // Supabase
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -9,7 +10,6 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { UserProvider } from "@/contexts/user.context";
 import { ProjectsContext, ProjectsProvider } from "@/contexts/projects.context";
 import { UserAgentProvider } from "@/contexts/agent.context";
-import { EditorProvider } from "@/contexts/editor.context";
 // Components
 import { ContentContainer } from "@/components/content-container/content-container";
 
@@ -23,8 +23,8 @@ import "@/styles/globals.css";
 import "@/styles/spinner.css";
 
 // Fonts
-import { Space_Grotesk } from "@next/font/google";
-import localFont from "@next/font/local";
+import { Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 const space = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space",
@@ -56,24 +56,22 @@ const MyApp = ({
     <main className={`${tt.variable} ${space.variable}`}>
       <Toaster />
       <WalletProvider>
-        {/* <HolderProvider> */}
-        <SessionContextProvider
-          supabaseClient={supabaseClient}
-          initialSession={pageProps.initialSession}
-        >
-          <UserProvider>
-            <ProjectsProvider>
-              <ContentContainer projects={projects}>
-                <UserAgentProvider userAgent={ua}>
-                  <EditorProvider>
+        <HolderProvider>
+          <SessionContextProvider
+            supabaseClient={supabaseClient}
+            initialSession={pageProps.initialSession}
+          >
+            <UserProvider>
+              <ProjectsProvider>
+                <ContentContainer projects={projects}>
+                  <UserAgentProvider userAgent={ua}>
                     <Component {...pageProps} />
-                  </EditorProvider>
-                </UserAgentProvider>
-              </ContentContainer>
-            </ProjectsProvider>
-          </UserProvider>
-        </SessionContextProvider>
-        {/* </HolderProvider> */}
+                  </UserAgentProvider>
+                </ContentContainer>
+              </ProjectsProvider>
+            </UserProvider>
+          </SessionContextProvider>
+        </HolderProvider>
       </WalletProvider>
     </main>
   );

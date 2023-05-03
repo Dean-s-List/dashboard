@@ -12,7 +12,7 @@ import Navbar from "@/components/navbar/navbar.component";
 import type { ReactNode } from "react";
 
 import type { Database } from "@/types/supabase";
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/spinner/spinner.component";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 

@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
+import Link from "next/link";
+import { toast } from "react-hot-toast";
+import { UserContext } from "@/contexts/user.context";
+import { updateRecord } from "@/tools/supabase";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
 import type { Links, Projects } from "@/types";
-import Link from "next/link";
-import { UserContext } from "@/contexts/user.context";
-import { toast } from "react-hot-toast";
-import { updateLinks } from "@/tools/supabase";
 
 interface Props {
   link: Links | null;
@@ -57,7 +57,7 @@ const LinkItem: React.FC<Props> = ({ link, links, setLinks }) => {
       toast
         .promise(
           (async () => {
-            const data = await updateLinks({
+            const data = await updateRecord({
               id: link!.id,
               project: link!.project,
               text: editText,
