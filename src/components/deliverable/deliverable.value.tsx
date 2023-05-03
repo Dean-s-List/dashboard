@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
+import { toast } from "react-hot-toast";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
 import type { Deliverables, Projects } from "@/types";
 import { UserContext } from "@/contexts/user.context";
 import { RadialProgress } from "../radial-progress/radial-progress.component";
+import { updateRecord } from "@/tools/supabase";
 
 interface Props {
   trackColor: string;
@@ -13,6 +15,7 @@ interface Props {
   progress: number;
   spinnerMode: boolean;
   spinnerSpeed: number;
+  deliverable: Deliverables;
 }
 
 const DeliverableValue: React.FC<Props> = ({
@@ -23,6 +26,7 @@ const DeliverableValue: React.FC<Props> = ({
   progress,
   spinnerMode,
   spinnerSpeed,
+  deliverable,
 }) => {
   const { adminUI } = useContext(UserContext);
   const [edit, setEdit] = useState<boolean>(false);
@@ -43,7 +47,53 @@ const DeliverableValue: React.FC<Props> = ({
   };
 
   const handleEditValueSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    if (!editValue) {
+      switch (!editValue) {
+        case !editValue:
+          toast.error("No value provided !");
+          break;
+        // case !editLink:
+        //   toast.error("URL for link is empty !");
+        //   break;
+      }
+    } else {
+      toast
+        .promise(
+          (async () => {
+            const db = "deliverables";
+            const data = await updateRecord(
+              {
+                id: deliverable.id,
+                due_date: deliverable.due_date,
+                project: deliverable.project,
+                name: deliverable.name,
+                value: editValue,
+                category: deliverable.category,
+                created_at: deliverable.created_at,
+              },
+              db
+            );
+            console.log(data);
+            return data;
+          })(),
+          {
+            loading: "Updating link..",
+            success: () => {
+              // setLinks(
+              //   links!.map((item) =>
+              //     item.id === link!.id
+              //       ? { ...item, text: editText, link: editLink }
+              //       : item
+              //   )
+              // );
+              return <b>Value updated !</b>;
+            },
+            error: <b>Error updating value !</b>,
+          }
+        )
+        .catch((error) => console.log(error));
+    }
+
     // setDeliverables(
     //   deliverables.map((item) =>
     //     item.id === project.id ? { ...item, name: editName } : item
