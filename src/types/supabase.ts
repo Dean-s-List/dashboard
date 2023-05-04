@@ -75,7 +75,7 @@ export interface Database {
           created_at: string | null;
           published: boolean;
           category: CategoryEnum | null;
-          content: Json | MyValue | string | null;
+          content: Json | MyValue | string;
           user_agent: string;
           avatar_url: string;
         };
@@ -87,7 +87,7 @@ export interface Database {
           created_at?: string | null;
           published?: boolean;
           category?: CategoryEnum | null;
-          content?: Json | MyValue | string | null;
+          content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
         };
@@ -99,7 +99,7 @@ export interface Database {
           created_at?: string | null;
           published?: boolean;
           category?: CategoryEnum | null;
-          content?: Json | MyValue | string | null;
+          content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
         };
