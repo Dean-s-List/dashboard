@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { addProject, createRecord } from "@/tools/supabase";
+import { addProject, createProject, createRecord } from "@/tools/supabase";
 import type { FC } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
 import { ProjectsContext } from "@/contexts/projects.context";
 import { CategoryEnum } from "@/constants";
+import { Projects } from "@/types";
 
 interface Props {
   toogleCreateProjectPopUp: () => void;
@@ -21,7 +22,7 @@ const AdminProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
       className="absolute top-[25%] z-[999] flex w-full flex-col items-center justify-center rounded-lg border-4 border-secondary border-success bg-primary-dark p-4 px-2 md:left-[25%] md:w-[50vw] lg:left-[33.3%] lg:w-[25vw]"
       onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(event);
+        // console.log(event);
         // if (
         //   sessionName &&
         //   sessionName?.length > 3 &&
@@ -47,21 +48,16 @@ const AdminProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
           toast
             .promise(
               (async () => {
-                const db = "projects";
-                const data = await createRecord(
-                  {
-                    id: null,
-                    name: sessionName,
-                    starts_at: sessionStart,
-                    ends_at: sessionEnd,
-                    created_at: null,
-                    description: null,
-                    focus: category!,
-                    image: null,
-                    logo: null,
-                  },
-                  db
-                ).catch((error) => console.log(error));
+                const data = await createProject({
+                  name: sessionName,
+                  starts_at: sessionStart,
+                  ends_at: sessionEnd,
+                  created_at: null,
+                  description: null,
+                  focus: category!,
+                  image: null,
+                  logo: null,
+                }).catch((error) => console.log(error));
                 return data;
               })(),
               {
