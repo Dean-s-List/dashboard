@@ -5,6 +5,7 @@ import { getSingleFeedback, loadSingleProject } from "@/tools/supabase";
 
 import type { Feedbacks, Projects } from "@/types";
 import type { NextPage, NextPageContext } from "next";
+import Gated from "@/components/gated/gated.component";
 
 interface Props {
   project: Projects | null | undefined;
@@ -28,9 +29,9 @@ const FeedbackPage: NextPage<Props> = ({ project, data }) => (
         content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
       />
     </Head>
-    <Layout>
+    <Gated>
       <ReviewerFeedback currentProject={project!} draft={data!} />
-    </Layout>
+    </Gated>
   </>
 );
 

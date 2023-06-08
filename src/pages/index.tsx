@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import Head from "next/head";
-
-import Layout from "@/layout";
 import { ProjectsContext } from "@/contexts/projects.context";
 import Spinner from "@/components/spinner/spinner.component";
 import { ReviewerView } from "@/views/home/reviewer";
 
 import type { NextPage } from "next";
+import Gated from "@/components/gated/gated.component";
 
 const Dashboard: NextPage = () => {
   const { projects, setProjects } = useContext(ProjectsContext);
@@ -28,7 +27,7 @@ const Dashboard: NextPage = () => {
           content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
         />
       </Head>
-      <Layout>
+      <Gated>
         {/* {currentUser?.account_enum == 0 && (
           <CostumerView deliverables={deliverables} team={team} />
         )} */}
@@ -40,7 +39,7 @@ const Dashboard: NextPage = () => {
         ) : (
           <ReviewerView projects={projects} setProjects={setProjects} />
         )}
-      </Layout>
+      </Gated>
     </>
   );
 };

@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import { getAllProjects, getCurrentUserFeedbacks } from "@/tools/supabase";
 import { UserContext } from "@/contexts/user.context";
-import Layout from "@/layout";
 import MyFeedback from "@/views/my-feedback";
 import Spinner from "@/components/spinner/spinner.component";
 import type { Projects, Feedbacks } from "@/types";
 import type { NextPage } from "next";
+import Gated from "@/components/gated/gated.component";
 
 const MyFeedbackPage: NextPage = () => {
   const [projects, setProjects] = useState<Projects[]>();
@@ -60,7 +60,7 @@ const MyFeedbackPage: NextPage = () => {
           content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
         />
       </Head>
-      <Layout>
+      <Gated>
         {currentUser && projects && userFeedbacks ? (
           <MyFeedback
             currentUser={currentUser}
@@ -70,7 +70,7 @@ const MyFeedbackPage: NextPage = () => {
         ) : (
           <Spinner />
         )}
-      </Layout>
+      </Gated>
     </>
   );
 };
