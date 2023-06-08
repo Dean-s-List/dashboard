@@ -26,6 +26,9 @@ import type { Documents, Feedbacks, Links, Profiles, Projects } from "@/types";
 import type { FC } from "react";
 import type { MyValue } from "@/components/editor/typescript/plateTypes";
 import type { Json } from "@/types/supabase";
+import FeedbackTitle from "@/components/feedback/feedback.title";
+import { AiFillEdit } from "react-icons/ai";
+import { MdDone } from "react-icons/md";
 
 interface Props {
   draft: Feedbacks | null;
@@ -44,6 +47,8 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
     draft ? draft : null
   );
   const [userDrafts, setUserDrafts] = useState<Feedbacks[] | null>(null);
+  const [title, setTitle] = useState<string>();
+  const [edit, setEdit] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -149,7 +154,7 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
           updateRecord(
             {
               id: feedback!.id,
-              title: feedback?.title || "Untilted",
+              title: title || "Untilted",
               user_id: feedback!.user_id,
               project: feedback!.project,
               content: JSON.stringify(value),
@@ -355,7 +360,7 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
       </div>
       <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col items-center justify-center border-t border-primary bg-[#fff]">
         <div className="flex h-[64px] w-full items-center justify-end bg-primary-dark py-2 pl-8 text-xl font-bold">
-          <div className="w-full justify-start">
+          <div className="flex w-full items-center justify-start">
             <span className="text-sm">Drafts :</span>
             <select
               className="select-bordered select ml-4 justify-start"
@@ -371,6 +376,27 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
                 return <option key={draft.id}>{draft.id}</option>;
               })}
             </select>
+            <div className="ml-2 flex items-center">
+              <input
+                type="text"
+                placeholder="untilted"
+                className="input border border-primary"
+                disabled={edit ? false : true}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+              {!edit ? (
+                <AiFillEdit
+                  onClick={() => setEdit(!edit)}
+                  className="cursor-pointer"
+                />
+              ) : (
+                <button onClick={() => setEdit(!edit)}>
+                  <MdDone />
+                </button>
+              )}
+            </div>
           </div>
 
           <button
