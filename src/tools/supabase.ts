@@ -149,6 +149,16 @@ export const updateRecord = async (
   }
 };
 
+export const createProject = async (project: Projects) => {
+  const { data, error } = await supabase
+    .from("projects")
+    .insert(project)
+    .select()
+    .single();
+  if (error) console.log(error);
+  return data;
+};
+
 export const createRecord = async (
   record:
     | Profiles

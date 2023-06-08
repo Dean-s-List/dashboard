@@ -106,7 +106,7 @@ export interface Database {
       };
       projects: {
         Row: {
-          id: string | null;
+          id?: string | null | undefined;
           name: string;
           created_at: string | null;
           starts_at: string;
