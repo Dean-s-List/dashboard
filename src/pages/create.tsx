@@ -85,122 +85,118 @@ const Create = () => {
 
   return (
     <Layout>
-      {holder === HolderEnum.Yay ? (
-        <div className="font-font-space flex w-full justify-center font-medium">
-          <div className="flex w-full max-w-screen-xl flex-col items-center pt-16">
-            <div className="text-center font-tt text-5xl uppercase">
-              feedback <br /> request
+      <div className="font-font-space flex w-full justify-center font-medium">
+        <div className="flex w-full max-w-screen-xl flex-col items-center pt-16">
+          <div className="text-center font-tt text-5xl uppercase">
+            feedback <br /> request
+          </div>
+
+          <div className="mt-16 flex w-full max-w-md flex-col gap-y-5">
+            <div>
+              <div className="m-1 mb-1.5">Project Name</div>
+              <input
+                type="text"
+                className="text-gray-100 h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 outline-none transition-all hover:border-[#333]"
+                value={name}
+                onChange={nameHandler}
+              />
             </div>
 
-            <div className="mt-16 flex w-full max-w-md flex-col gap-y-5">
-              <div>
-                <div className="m-1 mb-1.5">Project Name</div>
-                <input
-                  type="text"
-                  className="text-gray-100 h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 outline-none transition-all hover:border-[#333]"
-                  value={name}
-                  onChange={nameHandler}
-                />
-              </div>
-
-              <div>
-                <div className="m-1 mb-1.5">Description</div>
-                <textarea
-                  className="text-gray-100 h-28 w-full rounded border-2 border-[#222] bg-[#111] p-3 outline-none transition-all hover:border-[#333]"
-                  value={description}
-                  onChange={descriptionHandler}
-                />
-              </div>
-
-              <div>
-                <div className="m-1 mb-1.5">
-                  Contact <span className="text-gray-500 ml-1"></span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Dean#1234, Hanko#5678"
-                  className="text-gray-100 placeholder:text-gray-500 h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 outline-none transition-all hover:border-[#333]"
-                  value={contact}
-                  onChange={contactHandler}
-                />
-              </div>
+            <div>
+              <div className="m-1 mb-1.5">Description</div>
+              <textarea
+                className="text-gray-100 h-28 w-full rounded border-2 border-[#222] bg-[#111] p-3 outline-none transition-all hover:border-[#333]"
+                value={description}
+                onChange={descriptionHandler}
+              />
             </div>
-            <div className="mt-24">
-              <div className="flex">
-                <div className="rounded-lg border-2 border-[#333] bg-[#111]">
-                  <table>
-                    <thead className="">
-                      <tr className="border-b-2 border-[#333]">
-                        <th className="w-max border-r-2 border-[#333]"></th>
 
-                        {packages.map((_package, key) => (
-                          <th
-                            className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${
-                              selected === key ? "bg-white text-black" : ""
+            <div>
+              <div className="m-1 mb-1.5">
+                Contact <span className="text-gray-500 ml-1"></span>
+              </div>
+              <input
+                type="text"
+                placeholder="Dean#1234, Hanko#5678"
+                className="text-gray-100 placeholder:text-gray-500 h-12 w-full rounded border-2 border-[#222] bg-[#111] px-3 outline-none transition-all hover:border-[#333]"
+                value={contact}
+                onChange={contactHandler}
+              />
+            </div>
+          </div>
+          <div className="mt-24">
+            <div className="flex">
+              <div className="rounded-lg border-2 border-[#333] bg-[#111]">
+                <table>
+                  <thead className="">
+                    <tr className="border-b-2 border-[#333]">
+                      <th className="w-max border-r-2 border-[#333]"></th>
+
+                      {packages.map((_package, key) => (
+                        <th
+                          className={`relative cursor-pointer border-l-2 border-[#333] px-6 py-3 ${
+                            selected === key ? "bg-white text-black" : ""
+                          }`}
+                          key={key}
+                          onClick={() => {
+                            setSelected(key);
+                          }}
+                        >
+                          {selected === key && (
+                            <div className="border-black bg-white text-black absolute -top-10 left-0 flex h-10 w-full items-center justify-center rounded-t border-b-2 text-sm">
+                              SELECTED
+                            </div>
+                          )}
+                          {_package.name} <br />
+                          [${_package.price.toLocaleString()}]
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {perks.map((perk, key) => (
+                      <tr className="border-t-2 border-[#333]" key={key}>
+                        <td className="border-r-2 border-[#333] px-5 py-3">
+                          <div>{perk.name}</div>
+                          <div className="text-gray-300 mt-1 max-w-xs text-xs">
+                            {perk?.description}
+                          </div>
+                        </td>
+                        {packages.map((_package, index) => (
+                          <td
+                            className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${
+                              selected === index ? "bg-white" : ""
                             }`}
-                            key={key}
+                            key={index}
                             onClick={() => {
-                              setSelected(key);
+                              setSelected(index);
                             }}
                           >
-                            {selected === key && (
-                              <div className="border-black bg-white text-black absolute -top-10 left-0 flex h-10 w-full items-center justify-center rounded-t border-b-2 text-sm">
-                                SELECTED
-                              </div>
-                            )}
-                            {_package.name} <br />
-                            [${_package.price.toLocaleString()}]
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {perks.map((perk, key) => (
-                        <tr className="border-t-2 border-[#333]" key={key}>
-                          <td className="border-r-2 border-[#333] px-5 py-3">
-                            <div>{perk.name}</div>
-                            <div className="text-gray-300 mt-1 max-w-xs text-xs">
-                              {perk?.description}
+                            <div className="flex w-full items-center justify-center">
+                              {_package.perks[key] === true ? (
+                                <CheckCircleIcon className="text-green-500 h-6 w-6" />
+                              ) : (
+                                <XCircleIcon className="text-red-500 h-6 w-6" />
+                              )}
                             </div>
                           </td>
-                          {packages.map((_package, index) => (
-                            <td
-                              className={`flex-grow cursor-pointer  border-l-2 border-[#333] text-center ${
-                                selected === index ? "bg-white" : ""
-                              }`}
-                              key={index}
-                              onClick={() => {
-                                setSelected(index);
-                              }}
-                            >
-                              <div className="flex w-full items-center justify-center">
-                                {_package.perks[key] === true ? (
-                                  <CheckCircleIcon className="text-green-500 h-6 w-6" />
-                                ) : (
-                                  <XCircleIcon className="text-red-500 h-6 w-6" />
-                                )}
-                              </div>
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                    <tr></tr>
-                  </table>
-                </div>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tr></tr>
+                </table>
               </div>
             </div>
-
-            <Pay
-              enabled={!(name && description && contact)}
-              price={packages[selected]!.price}
-              setTransaction={setTransaction}
-            />
           </div>
+
+          <Pay
+            enabled={!(name && description && contact)}
+            price={packages[selected]!.price}
+            setTransaction={setTransaction}
+          />
         </div>
-      ) : (
-        <WIP />
-      )}
+      </div>
     </Layout>
   );
 };

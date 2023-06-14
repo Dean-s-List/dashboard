@@ -27,7 +27,6 @@ import type { NextPage, NextPageContext } from "next";
 import type { MyValue } from "@/components/editor/typescript/plateTypes";
 import type { Json } from "@/types/supabase";
 import Head from "next/head";
-import Gated from "@/components/gated/gated.component";
 
 interface Props {
   data: Feedbacks | null;
@@ -129,6 +128,8 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
               user_agent: feedback.user_agent,
               avatar_url: feedback.avatar_url,
               created_at: feedback.created_at,
+              owner: null,
+              action_taken: false,
             },
             db
           ),
@@ -186,7 +187,7 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
           content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
         />
       </Head>
-      <Gated>
+      <Layout>
         {data || feedback?.content ? (
           <>
             <div className="flex h-[calc(100vh-67.5px)] w-[75vw] flex-col border-r border-t border-l border-primary">
@@ -263,7 +264,7 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
         ) : (
           <WIP />
         )}
-      </Gated>
+      </Layout>
     </>
   );
 };

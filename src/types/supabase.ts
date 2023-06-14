@@ -78,6 +78,8 @@ export interface Database {
           content: Json | MyValue | string;
           user_agent: string;
           avatar_url: string;
+          owner: string | null;
+          action_taken: boolean;
         };
         Insert: {
           id?: string | null;
@@ -90,6 +92,8 @@ export interface Database {
           content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
+          owner?: string | null;
+          action_taken?: boolean;
         };
         Update: {
           id?: string | null;
@@ -102,6 +106,8 @@ export interface Database {
           content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
+          owner?: string | null;
+          action_taken?: boolean;
         };
       };
       projects: {
@@ -295,6 +301,8 @@ export interface Database {
           content: Json | MyValue | string | null;
           user_agent: string;
           avatar_url: string;
+          owner: string | null;
+          action_taken: boolean;
         }[];
       };
     };

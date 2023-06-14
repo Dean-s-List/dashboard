@@ -174,6 +174,8 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
             user_agent: userAgent!,
             avatar_url: currentUser.avatar_url,
             created_at: null,
+            owner: null,
+            action_taken: false,
           }),
           {
             loading: "Creating draft..",

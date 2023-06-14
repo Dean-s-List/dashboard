@@ -6,7 +6,7 @@ import MyFeedback from "@/views/my-feedback";
 import Spinner from "@/components/spinner/spinner.component";
 import type { Projects, Feedbacks } from "@/types";
 import type { NextPage } from "next";
-import Gated from "@/components/gated/gated.component";
+import Layout from "@/layout";
 
 const MyFeedbackPage: NextPage = () => {
   const [projects, setProjects] = useState<Projects[]>();
@@ -60,7 +60,7 @@ const MyFeedbackPage: NextPage = () => {
           content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
         />
       </Head>
-      <Gated>
+      <Layout>
         {currentUser && projects && userFeedbacks ? (
           <MyFeedback
             currentUser={currentUser}
@@ -70,7 +70,7 @@ const MyFeedbackPage: NextPage = () => {
         ) : (
           <Spinner />
         )}
-      </Gated>
+      </Layout>
     </>
   );
 };

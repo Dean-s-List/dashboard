@@ -29,9 +29,9 @@ const FeedbackPage: NextPage<Props> = ({ project, data }) => (
         content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
       />
     </Head>
-    <Gated>
+    <Layout>
       <ReviewerFeedback currentProject={project!} draft={data!} />
-    </Gated>
+    </Layout>
   </>
 );
 
