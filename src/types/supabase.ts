@@ -46,6 +46,7 @@ export interface Database {
           avatar_url: string;
           account_enum: number;
           feedback_count: number;
+          discord_id: number;
         };
         Insert: {
           id?: string;
@@ -55,6 +56,7 @@ export interface Database {
           avatar_url?: string;
           account_enum?: number;
           feedback_count?: number;
+          discord_id?: number;
         };
         Update: {
           id?: string;
@@ -64,6 +66,7 @@ export interface Database {
           avatar_url?: string;
           account_enum?: number;
           feedback_count?: number;
+          discord_id?: number;
         };
       };
       feedbacks: {
@@ -78,6 +81,8 @@ export interface Database {
           content: Json | MyValue | string;
           user_agent: string;
           avatar_url: string;
+          owner: string | null;
+          action_taken: boolean;
         };
         Insert: {
           id?: string | null;
@@ -90,6 +95,8 @@ export interface Database {
           content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
+          owner?: string | null;
+          action_taken?: boolean;
         };
         Update: {
           id?: string | null;
@@ -102,6 +109,8 @@ export interface Database {
           content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
+          owner?: string | null;
+          action_taken?: boolean;
         };
       };
       projects: {
@@ -295,6 +304,8 @@ export interface Database {
           content: Json | MyValue | string | null;
           user_agent: string;
           avatar_url: string;
+          owner: string | null;
+          action_taken: boolean;
         }[];
       };
     };

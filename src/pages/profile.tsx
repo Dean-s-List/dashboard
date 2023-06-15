@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useSession } from "@supabase/auth-helpers-react";
 import Account from "@/components/account/account.component";
 import type { NextPage } from "next";
-import Gated from "@/components/gated/gated.component";
+import Layout from "@/layout";
 
 const Profile: NextPage = () => {
   const session = useSession();
@@ -23,13 +23,13 @@ const Profile: NextPage = () => {
           content="https://raw.githubusercontent.com/Deans-List/dashboard/main/public/images/dl_embed.png"
         />
       </Head>
-      <Gated>
+      <Layout>
         {session && (
           <div className="flex h-[calc(100vh-67.5px)] w-screen flex-col items-center justify-center border-t border-l border-primary bg-primary-dark md:w-full">
             <Account session={session} />
           </div>
         )}
-      </Gated>
+      </Layout>
     </>
   );
 };

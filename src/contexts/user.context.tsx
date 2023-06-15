@@ -4,6 +4,7 @@ import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import type { Database } from "@/types/supabase";
 import type { Profiles, Admin } from "@/types";
 import type { ReactNode } from "react";
+import { updateRecord } from "@/tools/supabase";
 
 interface UserContext {
   currentUser: Profiles | null;
@@ -28,6 +29,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [adminUI, setAdminUI] = useState<boolean>(false);
   const [admin, setAdmin] = useState<Admin | null>(null);
+  const [discord, setDiscord] = useState<string>("");
 
   const toogleAdmin = () => {
     if (isAdmin) {
@@ -91,6 +93,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setIsAdmin(true);
     }
   }, [admin]);
+
+  useEffect(() => {
+    async function updateDiscord() {
+      if (!user) throw new Error("No user");
+
+      await updateRecord(currentUser!, "profiles");
+    }
+    if (
+      user &&
+      user.app_metadata.provider == "discord" &&
+      user.user_metadata.provider_id
+    ) {
+      setDiscord(user.user_metadata.provider_id as string);
+      if (discord && currentUser) {
+        console.log(discord);
+        currentUser.discord_id = parseInt(discord);
+        updateDiscord()
+          .then(() => console.log(currentUser))
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }
+  }, [user, discord]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

@@ -163,6 +163,8 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
               user_agent: feedback!.user_agent,
               avatar_url: feedback!.avatar_url,
               created_at: feedback!.created_at,
+              owner: null,
+              action_taken: false,
             },
             db
           ),
@@ -187,7 +189,7 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
           router
             .push(
               {
-                pathname: "/my-feedbacks",
+                pathname: "/feedback",
               },
               "/feedback"
             )
