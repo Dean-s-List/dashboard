@@ -189,7 +189,7 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
           router
             .push(
               {
-                pathname: "/my-feedbacks",
+                pathname: "/feedback",
               },
               "/feedback"
             )

@@ -46,6 +46,7 @@ export interface Database {
           avatar_url: string;
           account_enum: number;
           feedback_count: number;
+          discord_id: number;
         };
         Insert: {
           id?: string;
@@ -55,6 +56,7 @@ export interface Database {
           avatar_url?: string;
           account_enum?: number;
           feedback_count?: number;
+          discord_id?: number;
         };
         Update: {
           id?: string;
@@ -64,6 +66,7 @@ export interface Database {
           avatar_url?: string;
           account_enum?: number;
           feedback_count?: number;
+          discord_id?: number;
         };
       };
       feedbacks: {
