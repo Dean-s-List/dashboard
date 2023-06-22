@@ -84,7 +84,10 @@ create table feedbacks (
   avatar_url text,
   user_agent text,
   title text,
-  content jsonb
+  content jsonb,
+  avg_stars int2,
+  stars_count int4,
+  action_taken boolean,
 );
 
 create table documents(
