@@ -54,66 +54,67 @@ create policy "Anyone can upload an avatar." on storage.objects
 
 ```sql
 
-CREATE or REPLACE TABLE projects (
-  id UUID PRIMARY KEY UNIQUE NOT NULL,
-  name TEXT,
-  created_at TIMESTAMPTZ,
-  starts_at TIMESTAMPTZ,
-  ends_at TIMESTAMPTZ,
-  description TEXT,
-  focus INT2,
-  logo TEXT,
-  image TEXT
+create table projects (
+  id uuid default uuid_generate_v4()  primary key unique not null,
+  name text,
+  created_at timestamptz,
+  starts_at timestamptz,
+  ends_at timestaptz,
+  description text,
+  focus int2,
+  logo text,
+  image text
 );
 
-CREATE or REPLACE TABLE links (
-  id UUID PRIMARY KEY UNIQUE NOT NULL,
-  project UUID REFERENCES projects(id) ON DELETE CASCADE,
-  text TEXT,
-  link TEXT,
-  created_at TIMESTAMPTZ
+create table links (
+  id uuid default uuid_generate_v4() primary key unique not null,
+  project uuid default uuid_generate_v4() references projects(id) on delete cascade,
+  text text,
+  link text,
+  created_at timestamptz
 );
 
-CREATE or REPLACE TABLE feedbacks (
-  id UUID PRIMARY KEY UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ,
-  category INT2,
-  avatar_url TEXT REFERENCES public.profiles(avatar_url) ON DELETE CASCADE,
-  user_id UUID REFERENCES public.profiles(id),
-  published BOOLEAN,
-  project UUID REFERENCES public.projects(id),
-  user_agent TEXT,
-  title TEXT,
-  content JSONB
+create table feedbacks (
+  id uuid default uuid_generate_v4() primary key not null,
+  created_at timestaptz,
+  category int2,
+  user_id uuid default uuid_generate_v4() references public.profiles(id),
+  published boolean,
+  project uuid default uuid_generate_v4() references public.projects(id),
+  avatar_url text,
+  user_agent text,
+  title text,
+  content jsonb
 );
 
-CREATE or REPLACE  TABLE documents (
-  id UUID PRIMARY KEY UNIQUE NOT NULL,
-  uploaded_at TIMESTAMPTZ,
-  project UUID REFERENCES public.projects(id),
-  name TEXT,
-  link TEXT
+create table documents(
+  id uuid default uuid_generate_v4() primary key not null,
+  uploaded_at timestamptz,
+  project uuid default uuid_generate_v4() references public.projects(id),
+  name text,
+  link text
+
 );
 
-CREATE or REPLACE TABLE deliverables (
-  id UUID PRIMARY KEY UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ,
-  due_date TIMESTAMPTZ,
-  project UUID REFERENCES public.projects(id) ON DELETE CASCADE,
-  name TEXT,
-  value INT2,
-  category INT2
+create table deliverables (
+  id uuid default uuid_generate_v4() primary key unique not null,
+  created_at timestamptz,
+  due_date timestamptz,
+  project uuid default uuid_generate_v4() references public.projects(id) on delete cascade,
+  name text,
+  value int2,
+  category int2
 );
 
-CREATE or REPLACE  TABLE comments (
-  id UUID PRIMARY KEY REFERENCES public.feedbacks(id) UNIQUE NOT NULL ON DELETE CASCADE ,
-  content TEXT,
-  created_at TIMESTAMPTZ,
-  user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE
+create table comments (
+  id uuid default uuid_generate_v4() primary key references public.feedbacks(id) on delete cascade,
+  content text,
+  created_at timestamptz,
+  user_id uuid default uuid_generate_v4() references public.profiles(id) on delete cascade
 );
 
-CREATE or REPLACE TABLE admins (
-  id UUID PRIMARY KEY REFERENCES public.profiles(id) UNIQUE NOT NULL ON DELETE CASCADE
+create table admins (
+  id uuid default uuid_generate_v4() primary key not null references public.profiles(id) on delete cascade
 );
 ```
 
