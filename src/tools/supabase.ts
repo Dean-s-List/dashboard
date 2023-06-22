@@ -56,6 +56,10 @@ export const addFeedback = async ({
   published,
   user_agent,
   avatar_url,
+  owner,
+  avg_stars,
+  stars_count,
+  action_taken
 }: Feedbacks) => {
   const { data, error } = await supabase
     .from("feedbacks")
@@ -68,6 +72,10 @@ export const addFeedback = async ({
       published,
       user_agent,
       avatar_url,
+      owner,
+      avg_stars,
+      stars_count,
+      action_taken
     })
     .select()
     .single();
@@ -138,7 +146,7 @@ export const updateRecord = async (
     }
   }
   if (db) {
-    const { data, error } = await supabase
+    const { data, error }: {data: any[] | null; error: any} = await supabase
       .from(db)
       .upsert(record)
       .eq("id", record.id)
@@ -193,7 +201,7 @@ export const createRecord = async (
       db = "stars";
       break;
   }
-  const { data, error } = await supabase
+  const { data, error }: {data: any[] | null; error: any}  = await supabase
     .from(db)
     .insert(record)
     .select()

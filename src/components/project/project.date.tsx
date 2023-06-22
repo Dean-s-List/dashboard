@@ -73,7 +73,7 @@ const ProjectDate: React.FC<Props> = ({ project, projects, setProjects }) => {
                 focus: project.focus,
                 logo: project.logo,
                 image: project.image,
-              },
+              } as Projects,
               db
             );
             console.log(data);

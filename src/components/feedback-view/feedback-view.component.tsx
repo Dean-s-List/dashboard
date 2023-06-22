@@ -80,7 +80,7 @@ const FeedbackView: React.FC<Props> = ({
                 avg_stars: feedback.avg_stars,
                 stars_count: feedback.stars_count,
                 action_taken: false,
-              },
+              } as Feedbacks,
               db
             );
             console.log(data);

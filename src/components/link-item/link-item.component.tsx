@@ -65,7 +65,7 @@ const LinkItem: React.FC<Props> = ({ link, links, setLinks }) => {
                 text: editText,
                 link: editLink,
                 created_at: null,
-              },
+              } as Links,
               db
             );
             console.log(data);

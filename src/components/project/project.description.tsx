@@ -59,7 +59,7 @@ const Description: React.FC<Props> = ({
                 focus: project.focus,
                 logo: project.logo,
                 image: project.image,
-              },
+              } as Projects,
               db
             );
             console.log(data);

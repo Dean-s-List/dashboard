@@ -164,6 +164,8 @@ export const ReviewerFeedback: FC<Props> = ({ draft, currentProject }) => {
               avatar_url: feedback!.avatar_url,
               created_at: feedback!.created_at,
               owner: null,
+              avg_stars: feedback!.avg_stars,
+              stars_count: feedback!.stars_count,
               action_taken: false,
             },
             db
