@@ -6,6 +6,7 @@ import type {
 } from "@/constants";
 
 import type { Database } from "./supabase";
+import type { PublicKey, Transaction, SendOptions } from "@solana/web3.js";
 
 export type DeliverableItem = {
   id: number;
@@ -57,3 +58,38 @@ export type Comments = Database["public"]["Tables"]["comments"]["Row"];
 export type Stars = Database["public"]["Tables"]["stars"]["Row"];
 export type Team =
   Database["public"]["Functions"]["get_profiles_with_feedback"]["Returns"];
+
+type DisplayEncoding = "utf8" | "hex";
+
+interface ConnectOpts {
+  onlyIfTrusted: boolean;
+}
+
+type PhantomEvent = "connect" | "disconnect" | "accountChanged";
+
+type PhantomRequestMethod =
+  | "connect"
+  | "disconnect"
+  | "signAndSendTransaction"
+  | "signTransaction"
+  | "signAllTransactions"
+  | "signMessage";
+
+export interface PhantomProvider {
+  publicKey: PublicKey | null;
+  isConnected: boolean | null;
+  signAndSendTransaction: (
+    transaction: Transaction,
+    opts?: SendOptions
+  ) => Promise<{ signature: string; publicKey: PublicKey }>;
+  signTransaction: (transaction: Transaction) => Promise<Transaction>;
+  signAllTransactions: (transactions: Transaction[]) => Promise<Transaction[]>;
+  signMessage: (
+    message: Uint8Array | string,
+    display?: DisplayEncoding
+  ) => Promise<any>;
+  connect: (opts?: Partial<ConnectOpts>) => Promise<{ publicKey: PublicKey }>;
+  disconnect: () => Promise<void>;
+  on: (event: PhantomEvent, handler: (args: any) => void) => void;
+  request: (method: PhantomRequestMethod, params: any) => Promise<unknown>;
+}

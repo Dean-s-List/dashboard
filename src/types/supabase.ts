@@ -124,6 +124,7 @@ export interface Database {
           focus: CategoryEnum;
           logo: string | null;
           image: string | null;
+          reviewing: boolean;
         };
         Insert: {
           id?: string | null;
@@ -135,6 +136,7 @@ export interface Database {
           focus?: CategoryEnum;
           logo?: string | null;
           image?: string | null;
+          reviewing?: boolean;
         };
         Update: {
           id?: string;
@@ -146,6 +148,7 @@ export interface Database {
           focus?: CategoryEnum | null;
           logo?: string | null;
           image?: string | null;
+          reviewing?: boolean;
         };
       };
       links: {

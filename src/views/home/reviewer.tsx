@@ -407,7 +407,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
               </div>
 
               <div className="my-4 mx-auto grid w-[100%] grid-cols-2 gap-4">
-                {feedbacks &&
+                {!selectedProject.reviewing &&
                   feedbacks.map((feedback) => (
                     <Feedback
                       feedback={feedback}
