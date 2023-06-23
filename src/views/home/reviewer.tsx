@@ -220,7 +220,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
       )}
 
       <div className="flex w-[100vw] max-w-full">
-        <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col border-r border-t border-l border-primary">
+        <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col overflow-y-scroll border-r border-t border-l border-primary">
           <div className="w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
             Projects
           </div>
