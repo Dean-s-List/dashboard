@@ -61,7 +61,7 @@ const Description: React.FC<Props> = ({
                 image: project.image,
                 owner: project.owner,
                 reviewing: project.reviewing,
-              },
+              } as Projects,
               db
             );
             console.log(data);
