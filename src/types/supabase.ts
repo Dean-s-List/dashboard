@@ -125,6 +125,7 @@ export interface Database {
           logo: string | null;
           image: string | null;
           reviewing: boolean;
+          owner: string | null;
         };
         Insert: {
           id?: string | null;
@@ -137,6 +138,7 @@ export interface Database {
           logo?: string | null;
           image?: string | null;
           reviewing?: boolean;
+          owner?: string | null;
         };
         Update: {
           id?: string;
@@ -149,6 +151,7 @@ export interface Database {
           logo?: string | null;
           image?: string | null;
           reviewing?: boolean;
+          owner?: string | null;
         };
       };
       links: {

@@ -53,11 +53,13 @@ const FeedbackTitle: React.FC<Props> = ({
                 title: editTitle,
                 project: project.id!,
                 created_at: feedback.created_at,
-                published: true,
+                published: feedback.published,
                 category: feedback.category,
                 content: feedback.content,
                 user_agent: feedback.user_agent,
                 avatar_url: feedback.avatar_url,
+                action_taken: feedback.action_taken,
+                owner: project.owner!,
               },
               db
             );
