@@ -208,6 +208,21 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     }
   };
 
+  const today = new Date()
+    .toLocaleString("en-US", { timeZone: "UTC" })
+    .split(",")[0]
+    ?.replace("/", "-")
+    .replace("/", "-");
+  console.log(today);
+
+  const [month, day, year] = today!.split("-");
+
+  const date = [month!, day!, year!];
+
+  console.log(
+    `today's month is ${month!}, day is  ${day!} and year is  ${year!}`
+  );
+
   return (
     <>
       {createProjectPopUp && (
@@ -264,6 +279,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                   projects={projects}
                   setProjects={setProjects}
                   onClick={() => setSelectedProject(project)}
+                  date={date}
                 />
               </li>
             ))}
