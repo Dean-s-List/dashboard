@@ -127,6 +127,8 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
               user_agent: feedback.user_agent,
               avatar_url: feedback.avatar_url,
               created_at: feedback.created_at,
+              owner: project.owner,
+              action_taken: feedback.action_taken,
             },
             db
           ),
