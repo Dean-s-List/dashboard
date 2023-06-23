@@ -43,7 +43,7 @@ const Project: FC<Props> = ({
             active
           </span>
         ) : (
-          <span className="badge badge-md mx-auto flex w-[100%] border border-primary bg-[#fff] font-bold text-success">
+          <span className="badge badge-md mx-auto flex w-[100%] border border-primary bg-[#fff] font-bold text-primary">
             <span className="badge-primary badge badge-xs mr-2"></span>
             ended
           </span>
