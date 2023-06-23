@@ -57,6 +57,8 @@ const AdminProject: FC<Props> = ({ toogleCreateProjectPopUp }) => {
                   focus: category!,
                   image: null,
                   logo: null,
+                  owner: null,
+                  reviewing: false,
                 }).catch((error) => console.log(error));
                 return data;
               })(),
