@@ -73,7 +73,7 @@ const FeedbackView: React.FC<Props> = ({
                 avatar_url: currentUser!.avatar_url,
                 created_at: feedback.created_at,
                 owner: feedback.owner,
-                avg_stars: feedback.avg_stars,
+                avg_stars: feedback?.avg_stars,
                 stars_count: feedback.stars_count,
                 action_taken: feedback.action_taken,
               } as Feedbacks,

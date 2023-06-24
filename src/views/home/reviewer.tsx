@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { UserContext } from "@/contexts/user.context";
 //
 import Project from "@/components/project/project.component";
@@ -17,12 +17,11 @@ import { CategoryEnum } from "@/constants";
 import {
   addFeedback,
   getDeliverables,
-  getProjectFeedbacks,
   getProjectLinks,
   getPublishedFeedbacks,
   getTeamMembers,
 } from "@/tools/supabase";
-import { LinkIcon, PlusIcon, PlusSmallIcon } from "@heroicons/react/24/solid";
+import { PlusIcon, PlusSmallIcon } from "@heroicons/react/24/solid";
 
 import type {
   Projects,
@@ -34,7 +33,6 @@ import type {
 } from "@/types";
 import type { FC, SetStateAction } from "react";
 import { toast } from "react-hot-toast";
-import Link from "next/link";
 
 interface Props {
   projects: Projects[];
@@ -46,7 +44,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
   const [loading, setLoading] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Projects>();
   const [deliverables, setDeliverables] = useState<Deliverables[] | null>(null);
-  const [feedbacks, setFeedbacks] = useState<Feedbacks[]>([]);
+  const [feedbacks, setFeedbacks] = useState<Feedbacks[] | null>(null);
   const [filterCategory, setFilterCategory] = useState<CategoryEnum>();
   const [links, setLinks] = useState<Links[] | null>(null);
   const [documents, setDocuments] = useState<Documents[] | null>(null);
@@ -237,7 +235,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
       )}
 
       <div className="flex w-[100vw] max-w-full">
-        <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col overflow-y-scroll border-r border-t border-l border-primary">
+        <div className="flex h-[calc(100vh-67.5px)] w-[50%] flex-col overflow-y-scroll border-r border-t border-l border-primary">
           <div className="w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
             Projects
           </div>
@@ -425,14 +423,17 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
               </div>
 
               <div className="my-4 mx-auto grid w-[100%] grid-cols-2 gap-4">
-                {!selectedProject.reviewing &&
+                {selectedProject.reviewing && feedbacks ? (
                   feedbacks.map((feedback) => (
                     <Feedback
                       feedback={feedback}
                       project={selectedProject}
                       key={feedback.id}
                     />
-                  ))}
+                  ))
+                ) : (
+                  <div>This session is not finished, come back later !</div>
+                )}
               </div>
             </div>
           ) : (
