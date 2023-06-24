@@ -175,8 +175,10 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
             avatar_url: currentUser.avatar_url,
             created_at: null,
             owner: null,
+            avg_stars: null,
+            stars_count: null,
             action_taken: false,
-          }),
+          } as Feedbacks),
           {
             loading: "Creating draft..",
             success: (res) => {

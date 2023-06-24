@@ -17,8 +17,9 @@ We have 3 service verticals that are a unique amalgamation of our collective ski
 
 - Feedback 
 - Marketing
-- Advisory
+- DAO Consulting
 
+https://coinablepay.com/@deanslist
 
 **Access Requirements For Clients**
 
@@ -32,8 +33,7 @@ For the future, we are working towards having a self hosted platform as part of 
 
 At the moment, The Dean's List Network State operates primarily through our Discord server. You may obtain citizenship & gain access to the server by:
 
-- Purchasing a $DEAN Token by swapping $GRAPE on Strata by visiting
-https://app.strataprotocol.com/swap/6LyW1iUpfTPiMxSLMpKCxeAqXDz7nuWCfCNnEaSmibZ1
-- Purchasing one of our NFTs on the secondary market or try your luck at one of our auctions. 
+- Purchasing a Business Visa: https://coinablepay.com/@deanslist 
+- Purchasing one of our NFTs on the secondary market: https://www.tensor.trade/trade/deanslist
 
 For the future, we are working towards adding in automated and shift workflows to our dashboard utilizing the aforesaid methods of verification. We are also exploring the possibility of non-citizens participating in our GDP as well and other opportunities to improve our state in meaningful ways. 

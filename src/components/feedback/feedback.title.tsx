@@ -49,18 +49,20 @@ const FeedbackTitle: React.FC<Props> = ({
             const data = await updateRecord(
               {
                 id: feedback.id,
-                user_id: currentUser.id,
+                user_id: feedback.user_id,
                 title: editTitle,
-                project: project.id!,
+                project: feedback.project,
                 created_at: feedback.created_at,
                 published: feedback.published,
                 category: feedback.category,
                 content: feedback.content,
                 user_agent: feedback.user_agent,
                 avatar_url: feedback.avatar_url,
+                owner: feedback.owner,
+                stars_count: feedback.stars_count,
+                avg_stars: feedback.avg_stars,
                 action_taken: feedback.action_taken,
-                owner: project.owner!,
-              },
+              } as Feedbacks,
               db
             );
             console.log(data);

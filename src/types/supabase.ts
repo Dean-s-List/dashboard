@@ -82,6 +82,8 @@ export interface Database {
           user_agent: string;
           avatar_url: string;
           owner: string | null;
+          avg_stars: string | null;
+          stars_count: string | null;
           action_taken: boolean;
         };
         Insert: {
@@ -95,7 +97,9 @@ export interface Database {
           content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
-          owner?: string | null;
+          owner: string | null;
+          avg_stars: string | null;
+          stars_count: string | null;
           action_taken?: boolean;
         };
         Update: {
@@ -109,7 +113,9 @@ export interface Database {
           content?: Json | MyValue | string;
           user_agent?: string;
           avatar_url?: string;
-          owner?: string | null;
+          owner: string | null;
+          avg_stars: string | null;
+          stars_count: string | null;
           action_taken?: boolean;
         };
       };
@@ -311,6 +317,8 @@ export interface Database {
           user_agent: string;
           avatar_url: string;
           owner: string | null;
+          avg_stars: string | null;
+          stars_count: string | null;
           action_taken: boolean;
         }[];
       };
