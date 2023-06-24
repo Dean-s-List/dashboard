@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-// import { onAuthStateChangeListener } from "@/tools/supabase";
 import type { Database } from "@/types/supabase";
 import type { Profiles, Admin } from "@/types";
 import type { ReactNode } from "react";
@@ -116,7 +115,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           });
       }
     }
-  }, [user, discord]);
+  }, [user, discord, currentUser]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

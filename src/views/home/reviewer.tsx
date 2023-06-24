@@ -208,6 +208,21 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
     }
   };
 
+  const today = new Date()
+    .toLocaleString("en-US", { timeZone: "UTC" })
+    .split(",")[0]
+    ?.replace("/", "-")
+    .replace("/", "-");
+  console.log(today);
+
+  const [month, day, year] = today!.split("-");
+
+  const date = [month!, day!, year!];
+
+  console.log(
+    `today's month is ${month!}, day is  ${day!} and year is  ${year!}`
+  );
+
   return (
     <>
       {createProjectPopUp && (
@@ -220,7 +235,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
       )}
 
       <div className="flex w-[100vw] max-w-full">
-        <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col border-r border-t border-l border-primary">
+        <div className="flex h-[calc(100vh-67.5px)] w-[25vw] flex-col overflow-y-scroll border-r border-t border-l border-primary">
           <div className="w-full bg-primary-dark py-2 pl-8 text-xl font-bold">
             Projects
           </div>
@@ -264,6 +279,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
                   projects={projects}
                   setProjects={setProjects}
                   onClick={() => setSelectedProject(project)}
+                  date={date}
                 />
               </li>
             ))}
@@ -407,7 +423,7 @@ export const ReviewerView: FC<Props> = ({ projects, setProjects }) => {
               </div>
 
               <div className="my-4 mx-auto grid w-[100%] grid-cols-2 gap-4">
-                {feedbacks &&
+                {!selectedProject.reviewing &&
                   feedbacks.map((feedback) => (
                     <Feedback
                       feedback={feedback}
