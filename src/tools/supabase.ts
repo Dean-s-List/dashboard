@@ -316,9 +316,3 @@ export const checkPriviledges = async (userId: string) => {
     .single();
   if (data) return data;
 };
-
-export const onAuthStateChangeListener = () => {
-  return supabase.auth.onAuthStateChange((event: any, session: any) => {
-    console.log(event, session);
-  });
-};

@@ -130,6 +130,8 @@ export interface Database {
           focus: CategoryEnum;
           logo: string | null;
           image: string | null;
+          reviewing: boolean;
+          owner: string | null;
         };
         Insert: {
           id?: string | null;
@@ -141,6 +143,8 @@ export interface Database {
           focus?: CategoryEnum;
           logo?: string | null;
           image?: string | null;
+          reviewing?: boolean;
+          owner?: string | null;
         };
         Update: {
           id?: string;
@@ -152,6 +156,8 @@ export interface Database {
           focus?: CategoryEnum | null;
           logo?: string | null;
           image?: string | null;
+          reviewing?: boolean;
+          owner?: string | null;
         };
       };
       links: {

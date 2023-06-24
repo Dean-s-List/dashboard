@@ -31,8 +31,10 @@
     "@udecode/plate-test-utils": "^13.4.0",
     "@udecode/plate-ui-toolbar": "^21.0.0",
     "@vercel/analytics": "^1.0.0",
+    "bs58": "^5.0.0",
     "daisyui": "^2.51.1",
     "next": "^13.3.1",
+    "next-auth": "^4.22.1",
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -45,6 +47,7 @@
     "slate-react": "^0.94.0",
     "styled-components": "^5.3.10",
     "superjson": "1.9.1",
+    "tweetnacl": "^1.0.3",
     "ua-parser-js": "^1.0.35",
     "zod": "^3.20.2"
   },

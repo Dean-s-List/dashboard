@@ -10,11 +10,18 @@ interface Props {
   projects: Projects[] | null;
   setProjects: React.Dispatch<React.SetStateAction<Projects[] | null>>;
   onClick: () => void;
+  date: string[];
 }
 
-const Project: FC<Props> = ({ project, projects, setProjects, onClick }) => (
+const Project: FC<Props> = ({
+  project,
+  projects,
+  setProjects,
+  onClick,
+  date,
+}) => (
   <div
-    className="card mx-4 w-96 cursor-pointer border border-primary bg-primary-dark shadow-xl"
+    className="card mx-4 cursor-pointer border border-primary bg-primary-dark shadow-xl"
     onClick={onClick}
   >
     <div className="card-body">
@@ -28,10 +35,19 @@ const Project: FC<Props> = ({ project, projects, setProjects, onClick }) => (
       <hr className="pb-1 text-primary" />
       <div className="mx-auto flex w-[88%] items-center justify-center space-x-8">
         <Badge category={project.focus} />
-        <span className="badge badge-md mx-auto flex w-[100%] border border-primary bg-[#fff] font-bold text-success">
-          <span className="badge-success badge badge-xs mr-2"></span>
-          active
-        </span>
+        {parseInt(project.ends_at.split("-")[0]!) >= parseInt(date[2]!) &&
+        parseInt(project.ends_at.split("-")[1]!) >= parseInt(date[0]!) &&
+        parseInt(project.ends_at.split("-")[2]!) >= parseInt(date[1]!) ? (
+          <span className="badge badge-md mx-auto flex w-[100%] border border-primary bg-[#fff] font-bold text-success">
+            <span className="badge-success badge badge-xs mr-2"></span>
+            active
+          </span>
+        ) : (
+          <span className="badge badge-md mx-auto flex w-[100%] border border-primary bg-[#fff] font-bold text-primary">
+            <span className="badge-primary badge badge-xs mr-2"></span>
+            ended
+          </span>
+        )}
       </div>
       <div className="card-actions justify-end">
         <div className="mx-auto flex w-[95%] space-x-4">

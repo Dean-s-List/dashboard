@@ -51,10 +51,6 @@ const FeedbackView: React.FC<Props> = ({
     setEdit(true);
   };
 
-  //   const handleEditNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setEditData(e.target.value);
-  //   };
-
   const handleEditNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!editData) {
@@ -70,16 +66,16 @@ const FeedbackView: React.FC<Props> = ({
                 user_id: currentUser!.id,
                 title: feedback.title,
                 project: feedback.project,
-                published: true,
+                published: feedback.published,
                 category: feedback.category,
                 content: editData,
                 user_agent: feedback.user_agent,
                 avatar_url: currentUser!.avatar_url,
-                created_at: null,
+                created_at: feedback.created_at,
                 owner: feedback.owner,
                 avg_stars: feedback.avg_stars,
                 stars_count: feedback.stars_count,
-                action_taken: false,
+                action_taken: feedback.action_taken,
               } as Feedbacks,
               db
             );

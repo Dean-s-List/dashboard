@@ -123,14 +123,14 @@ const FeedbackPage: NextPage<Props> = ({ data }) => {
               project: feedback.project,
               content: JSON.stringify(value),
               category: feedback.category,
-              published: true,
+              published: feedback.published,
               user_agent: feedback.user_agent,
               avatar_url: feedback.avatar_url,
               created_at: feedback.created_at,
               owner: feedback.owner,
               avg_stars: feedback.avg_stars,
               stars_count: feedback.stars_count,
-              action_taken: false
+              action_taken: feedback.action_taken
             },
             db
           ),
