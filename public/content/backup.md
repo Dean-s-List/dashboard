@@ -55,11 +55,11 @@ create policy "Anyone can upload an avatar." on storage.objects
 ```sql
 
 create table projects (
-  id uuid default uuid_generate_v4()  primary key unique not null,
+  id uuid default uuid_generate_v4() primary key unique not null,
   name text,
   created_at timestamptz,
   starts_at timestamptz,
-  ends_at timestaptz,
+  ends_at timestamptz,
   description text,
   focus int2,
   logo text,
@@ -76,49 +76,49 @@ create table links (
 
 create table feedbacks (
   id uuid default uuid_generate_v4() primary key not null,
-  created_at timestaptz,
+  created_at timestamptz,
   category int2,
-  user_id uuid default uuid_generate_v4() references public.profiles(id),
+  user_id uuid default uuid_generate_v4() references profiles(id),
   published boolean,
-  project uuid default uuid_generate_v4() references public.projects(id),
+  project uuid default uuid_generate_v4() references projects(id),
   avatar_url text,
   user_agent text,
   title text,
   content jsonb,
   avg_stars int2,
   stars_count int4,
-  action_taken boolean,
+  action_taken boolean
 );
 
-create table documents(
+create table documents (
   id uuid default uuid_generate_v4() primary key not null,
   uploaded_at timestamptz,
-  project uuid default uuid_generate_v4() references public.projects(id),
+  project uuid default uuid_generate_v4() references projects(id),
   name text,
   link text
-
 );
 
 create table deliverables (
   id uuid default uuid_generate_v4() primary key unique not null,
   created_at timestamptz,
   due_date timestamptz,
-  project uuid default uuid_generate_v4() references public.projects(id) on delete cascade,
+  project uuid default uuid_generate_v4() references projects(id) on delete cascade,
   name text,
   value int2,
   category int2
 );
 
 create table comments (
-  id uuid default uuid_generate_v4() primary key references public.feedbacks(id) on delete cascade,
+  id uuid default uuid_generate_v4() primary key references feedbacks(id) on delete cascade,
   content text,
   created_at timestamptz,
-  user_id uuid default uuid_generate_v4() references public.profiles(id) on delete cascade
+  user_id uuid default uuid_generate_v4() references profiles(id) on delete cascade
 );
 
 create table admins (
-  id uuid default uuid_generate_v4() primary key not null references public.profiles(id) on delete cascade
+  id uuid default uuid_generate_v4() primary key not null references profiles(id) on delete cascade
 );
+
 ```
 
 # Hardening
